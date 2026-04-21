@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Capital\u002B\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D884D781-D788-F44D-6DDE-EB372275A2DD}|Presentacion_Capital\u002B_200MI.csproj|c:\\mac\\home\\documents\\facultad\\ing software\\ingsoftwareproyecto\\capital\u002B\\presentacion_capital\u002B_200mi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D884D781-D788-F44D-6DDE-EB372275A2DD}|Presentacion_Capital\u002B_200MI.csproj|solutionrelative:presentacion_capital\u002B_200mi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Presentacion_Capital\u002B_200MI",
+              "DocumentMoniker": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Capital\u002B\\Presentacion_Capital\u002B_200MI.csproj",
+              "RelativeDocumentMoniker": "Presentacion_Capital\u002B_200MI.csproj",
+              "ToolTip": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Capital\u002B\\Presentacion_Capital\u002B_200MI.csproj",
+              "RelativeToolTip": "Presentacion_Capital\u002B_200MI.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-04-21T23:42:54.342Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

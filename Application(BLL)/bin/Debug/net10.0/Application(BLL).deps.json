@@ -1,0 +1,70 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "Application(BLL)/1.0.0": {
+        "dependencies": {
+          "Infraestructure(DAL)": "1.0.0",
+          "Services": "1.0.0"
+        },
+        "runtime": {
+          "Application(BLL).dll": {}
+        }
+      },
+      "Domain(BE)_/1.0.0": {
+        "runtime": {
+          "Domain(BE)_.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Infraestructure(DAL)/1.0.0": {
+        "dependencies": {
+          "Domain(BE)_": "1.0.0",
+          "Services": "1.0.0"
+        },
+        "runtime": {
+          "Infraestructure(DAL).dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Services/1.0.0": {
+        "runtime": {
+          "Services.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Application(BLL)/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Domain(BE)_/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Infraestructure(DAL)/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

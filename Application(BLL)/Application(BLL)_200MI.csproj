@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Application_BLL_</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrossCutting\Services_200MI.csproj" />
+    <ProjectReference Include="..\Infraestructure(DAL)\Infraestructure(DAL)_200MI.csproj" />
+  </ItemGroup>
+
+</Project>

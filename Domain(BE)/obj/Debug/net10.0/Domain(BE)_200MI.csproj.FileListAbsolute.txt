@@ -1,0 +1,12 @@
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\bin\Debug\net10.0\Domain(BE)_200MI.deps.json
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\bin\Debug\net10.0\Domain(BE)_200MI.dll
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\bin\Debug\net10.0\Domain(BE)_200MI.pdb
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\obj\Debug\net10.0\Domain(BE)_200MI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\obj\Debug\net10.0\Domain(BE)_200MI.AssemblyInfoInputs.cache
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\obj\Debug\net10.0\Domain(BE)_200MI.AssemblyInfo.cs
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\obj\Debug\net10.0\Domain(BE)_200MI.csproj.CoreCompileInputs.cache
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\obj\Debug\net10.0\Domain(BE)_200MI.sourcelink.json
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\obj\Debug\net10.0\Domain(BE)_200MI.dll
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\obj\Debug\net10.0\refint\Domain(BE)_200MI.dll
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\obj\Debug\net10.0\Domain(BE)_200MI.pdb
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\Domain(BE)\obj\Debug\net10.0\ref\Domain(BE)_200MI.dll

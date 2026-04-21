@@ -1,0 +1,12 @@
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\bin\Debug\net10.0\Services_200MI.deps.json
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\bin\Debug\net10.0\Services_200MI.dll
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\bin\Debug\net10.0\Services_200MI.pdb
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\obj\Debug\net10.0\Services_200MI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\obj\Debug\net10.0\Services_200MI.AssemblyInfoInputs.cache
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\obj\Debug\net10.0\Services_200MI.AssemblyInfo.cs
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\obj\Debug\net10.0\Services_200MI.csproj.CoreCompileInputs.cache
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\obj\Debug\net10.0\Services_200MI.sourcelink.json
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\obj\Debug\net10.0\Services_200MI.dll
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\obj\Debug\net10.0\refint\Services_200MI.dll
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\obj\Debug\net10.0\Services_200MI.pdb
+C:\Mac\Home\Documents\Facultad\Ing software\IngSoftwareProyecto\CrossCutting\obj\Debug\net10.0\ref\Services_200MI.dll
