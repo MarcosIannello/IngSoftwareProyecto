@@ -14,9 +14,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\Services_200MI.csproj",
-      "projectName": "Services_200MI",
-      "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\Services_200MI.csproj",
+      "projectUniqueName": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\Services.csproj",
+      "projectName": "Services",
+      "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\Services.csproj",
       "packagesPath": "C:\\Users\\marcosiannello\\.nuget\\packages\\",
       "outputPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\obj\\",
       "projectStyle": "PackageReference",

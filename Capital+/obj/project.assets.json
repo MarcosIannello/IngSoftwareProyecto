@@ -2,83 +2,83 @@
   "version": 3,
   "targets": {
     "net10.0-windows7.0": {
-      "Application(BLL)_200MI/1.0.0": {
+      "BE/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/BE.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BE.dll": {}
+        }
+      },
+      "BLL/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "Infraestructure(DAL)_200MI": "1.0.0",
-          "Services_200MI": "1.0.0"
+          "DAL": "1.0.0",
+          "Services": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/Application(BLL)_200MI.dll": {}
+          "bin/placeholder/BLL.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Application(BLL)_200MI.dll": {}
+          "bin/placeholder/BLL.dll": {}
         }
       },
-      "Domain(BE)_200MI/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v10.0",
-        "compile": {
-          "bin/placeholder/Domain(BE)_200MI.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Domain(BE)_200MI.dll": {}
-        }
-      },
-      "Infraestructure(DAL)_200MI/1.0.0": {
+      "DAL/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "Domain(BE)_200MI": "1.0.0",
-          "Services_200MI": "1.0.0"
+          "BE": "1.0.0",
+          "Services": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/Infraestructure(DAL)_200MI.dll": {}
+          "bin/placeholder/DAL.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Infraestructure(DAL)_200MI.dll": {}
+          "bin/placeholder/DAL.dll": {}
         }
       },
-      "Services_200MI/1.0.0": {
+      "Services/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "compile": {
-          "bin/placeholder/Services_200MI.dll": {}
+          "bin/placeholder/Services.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Services_200MI.dll": {}
+          "bin/placeholder/Services.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "Application(BLL)_200MI/1.0.0": {
+    "BE/1.0.0": {
       "type": "project",
-      "path": "../Application(BLL)/Application(BLL)_200MI.csproj",
-      "msbuildProject": "../Application(BLL)/Application(BLL)_200MI.csproj"
+      "path": "../BE/BE.csproj",
+      "msbuildProject": "../BE/BE.csproj"
     },
-    "Domain(BE)_200MI/1.0.0": {
+    "BLL/1.0.0": {
       "type": "project",
-      "path": "../Domain(BE)/Domain(BE)_200MI.csproj",
-      "msbuildProject": "../Domain(BE)/Domain(BE)_200MI.csproj"
+      "path": "../BLL/BLL.csproj",
+      "msbuildProject": "../BLL/BLL.csproj"
     },
-    "Infraestructure(DAL)_200MI/1.0.0": {
+    "DAL/1.0.0": {
       "type": "project",
-      "path": "../Infraestructure(DAL)/Infraestructure(DAL)_200MI.csproj",
-      "msbuildProject": "../Infraestructure(DAL)/Infraestructure(DAL)_200MI.csproj"
+      "path": "../DAL/DAL.csproj",
+      "msbuildProject": "../DAL/DAL.csproj"
     },
-    "Services_200MI/1.0.0": {
+    "Services/1.0.0": {
       "type": "project",
-      "path": "../CrossCutting/Services_200MI.csproj",
-      "msbuildProject": "../CrossCutting/Services_200MI.csproj"
+      "path": "../CrossCutting/Services.csproj",
+      "msbuildProject": "../CrossCutting/Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0-windows7.0": [
-      "Application(BLL)_200MI >= 1.0.0",
-      "Domain(BE)_200MI >= 1.0.0",
-      "Infraestructure(DAL)_200MI >= 1.0.0"
+      "BE >= 1.0.0",
+      "BLL >= 1.0.0",
+      "DAL >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -113,14 +113,14 @@
         "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
           "projectReferences": {
-            "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Application(BLL)\\Application(BLL)_200MI.csproj": {
-              "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Application(BLL)\\Application(BLL)_200MI.csproj"
+            "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\BE\\BE.csproj": {
+              "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\BE\\BE.csproj"
             },
-            "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Domain(BE)\\Domain(BE)_200MI.csproj": {
-              "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Domain(BE)\\Domain(BE)_200MI.csproj"
+            "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\BLL\\BLL.csproj": {
+              "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\BLL\\BLL.csproj"
             },
-            "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Infraestructure(DAL)\\Infraestructure(DAL)_200MI.csproj": {
-              "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Infraestructure(DAL)\\Infraestructure(DAL)_200MI.csproj"
+            "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\DAL\\DAL.csproj": {
+              "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\DAL\\DAL.csproj"
             }
           }
         }

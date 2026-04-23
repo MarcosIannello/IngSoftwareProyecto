@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\CrossCutting\\Services.csproj": {}
+    "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\Services.csproj": {}
   },
   "projects": {
-    "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\CrossCutting\\Services.csproj": {
+    "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\CrossCutting\\Services.csproj",
+        "projectUniqueName": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\Services.csproj",
         "projectName": "Services",
-        "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\CrossCutting\\Services.csproj",
+        "projectPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\Services.csproj",
         "packagesPath": "C:\\Users\\marcosiannello\\.nuget\\packages\\",
-        "outputPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\CrossCutting\\obj\\",
+        "outputPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\CrossCutting\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

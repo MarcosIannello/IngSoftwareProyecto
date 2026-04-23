@@ -1,12 +1,69 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Capital\u002B\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D884D781-D788-F44D-6DDE-EB372275A2DD}|Presentacion_Capital\u002B_200MI.csproj|c:\\mac\\home\\documents\\facultad\\ing software\\ingsoftwareproyecto\\capital\u002B\\login200mi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{D884D781-D788-F44D-6DDE-EB372275A2DD}|Presentacion_Capital\u002B_200MI.csproj|solutionrelative:login200mi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D884D781-D788-F44D-6DDE-EB372275A2DD}|Presentacion_Capital\u002B_200MI.csproj|c:\\mac\\home\\documents\\facultad\\ing software\\ingsoftwareproyecto\\capital\u002B\\menu200mi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D884D781-D788-F44D-6DDE-EB372275A2DD}|Presentacion_Capital\u002B_200MI.csproj|solutionrelative:menu200mi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F7FFD42-0F72-49A7-8D44-97F5A0655525}|..\\Infraestructure(DAL)\\Infraestructure(DAL)_200MI.csproj|c:\\mac\\home\\documents\\facultad\\ing software\\ingsoftwareproyecto\\infraestructure(dal)\\sessionmanager\\sessionmanager200mi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Login200MI.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Capital\u002B\\Login200MI.cs",
+              "RelativeDocumentMoniker": "Login200MI.cs",
+              "ToolTip": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Capital\u002B\\Login200MI.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Login200MI.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T23:33:35.203Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Menu200MI.cs",
+              "DocumentMoniker": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Capital\u002B\\Menu200MI.cs",
+              "RelativeDocumentMoniker": "Menu200MI.cs",
+              "ToolTip": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Capital\u002B\\Menu200MI.cs",
+              "RelativeToolTip": "Menu200MI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T23:43:21.034Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SessionManager200MI.cs",
+              "DocumentMoniker": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Infraestructure(DAL)\\SessionManager\\SessionManager200MI.cs",
+              "RelativeDocumentMoniker": "..\\Infraestructure(DAL)\\SessionManager\\SessionManager200MI.cs",
+              "ToolTip": "C:\\Mac\\Home\\Documents\\Facultad\\Ing software\\IngSoftwareProyecto\\Infraestructure(DAL)\\SessionManager\\SessionManager200MI.cs",
+              "RelativeToolTip": "..\\Infraestructure(DAL)\\SessionManager\\SessionManager200MI.cs",
+              "ViewState": "AgIAABQAAAAAODMzM/MpwCQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T00:09:16.601Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
