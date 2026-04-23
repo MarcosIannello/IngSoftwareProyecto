@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL.SessionManager
+namespace Services.SessionManager
 {
     public sealed class SessionManager200MI
     {

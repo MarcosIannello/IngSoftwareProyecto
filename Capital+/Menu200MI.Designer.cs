@@ -28,45 +28,81 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
-            btn_LogOut = new Button();
+            menuStrip1 = new MenuStrip();
+            loginLogoutToolStripMenuItem = new ToolStripMenuItem();
+            loginToolStripMenuItem = new ToolStripMenuItem();
+            logoutToolStripMenuItem = new ToolStripMenuItem();
+            nuevoPrestamoToolStripMenuItem = new ToolStripMenuItem();
+            pagoPrestamoToolStripMenuItem = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // button1
+            // menuStrip1
             // 
-            button1.Location = new Point(286, 173);
-            button1.Name = "button1";
-            button1.Size = new Size(150, 46);
-            button1.TabIndex = 0;
-            button1.Text = "LOGIN";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            menuStrip1.ImageScalingSize = new Size(32, 32);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { loginLogoutToolStripMenuItem, nuevoPrestamoToolStripMenuItem, pagoPrestamoToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(800, 42);
+            menuStrip1.TabIndex = 0;
+            menuStrip1.Text = "menuStrip1";
             // 
-            // btn_LogOut
+            // loginLogoutToolStripMenuItem
             // 
-            btn_LogOut.Location = new Point(286, 275);
-            btn_LogOut.Name = "btn_LogOut";
-            btn_LogOut.Size = new Size(150, 46);
-            btn_LogOut.TabIndex = 2;
-            btn_LogOut.Text = "LOGOUT";
-            btn_LogOut.UseVisualStyleBackColor = true;
-            btn_LogOut.Click += btn_LogOut_Click;
+            loginLogoutToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { loginToolStripMenuItem, logoutToolStripMenuItem });
+            loginLogoutToolStripMenuItem.Name = "loginLogoutToolStripMenuItem";
+            loginLogoutToolStripMenuItem.Size = new Size(191, 38);
+            loginLogoutToolStripMenuItem.Text = "Login / Logout";
             // 
-            // Menu
+            // loginToolStripMenuItem
+            // 
+            loginToolStripMenuItem.Name = "loginToolStripMenuItem";
+            loginToolStripMenuItem.Size = new Size(359, 44);
+            loginToolStripMenuItem.Text = "Login";
+            loginToolStripMenuItem.Click += loginToolStripMenuItem_Click;
+            // 
+            // logoutToolStripMenuItem
+            // 
+            logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            logoutToolStripMenuItem.Size = new Size(359, 44);
+            logoutToolStripMenuItem.Text = "Logout";
+            logoutToolStripMenuItem.Click += logoutToolStripMenuItem_Click;
+            // 
+            // nuevoPrestamoToolStripMenuItem
+            // 
+            nuevoPrestamoToolStripMenuItem.Name = "nuevoPrestamoToolStripMenuItem";
+            nuevoPrestamoToolStripMenuItem.Size = new Size(211, 38);
+            nuevoPrestamoToolStripMenuItem.Text = "Nuevo Prestamo";
+            // 
+            // pagoPrestamoToolStripMenuItem
+            // 
+            pagoPrestamoToolStripMenuItem.Name = "pagoPrestamoToolStripMenuItem";
+            pagoPrestamoToolStripMenuItem.Size = new Size(192, 38);
+            pagoPrestamoToolStripMenuItem.Text = "Pago Prestamo";
+            // 
+            // Menu200MI
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(btn_LogOut);
-            Controls.Add(button1);
-            Name = "Menu";
-            Text = "Menu";
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
+            Name = "Menu200MI";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Menu200MI";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Button button1;
-        private Button btn_LogOut;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem loginLogoutToolStripMenuItem;
+        private ToolStripMenuItem loginToolStripMenuItem;
+        private ToolStripMenuItem logoutToolStripMenuItem;
+        private ToolStripMenuItem nuevoPrestamoToolStripMenuItem;
+        private ToolStripMenuItem pagoPrestamoToolStripMenuItem;
     }
 }

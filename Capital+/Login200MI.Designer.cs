@@ -35,6 +35,7 @@
             pictureBox1 = new PictureBox();
             label2 = new Label();
             label3 = new Label();
+            btn_CloseApp = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -105,12 +106,23 @@
             label3.TabIndex = 6;
             label3.Text = "Password";
             // 
-            // Login
+            // btn_CloseApp
+            // 
+            btn_CloseApp.Location = new Point(721, 12);
+            btn_CloseApp.Name = "btn_CloseApp";
+            btn_CloseApp.Size = new Size(56, 46);
+            btn_CloseApp.TabIndex = 7;
+            btn_CloseApp.Text = "X";
+            btn_CloseApp.UseVisualStyleBackColor = true;
+            btn_CloseApp.Click += btn_CloseApp_Click;
+            // 
+            // Login200MI
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.AliceBlue;
             ClientSize = new Size(800, 450);
+            Controls.Add(btn_CloseApp);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(pictureBox1);
@@ -119,7 +131,7 @@
             Controls.Add(txt_LoginName);
             Controls.Add(Btn_Login);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Login";
+            Name = "Login200MI";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -136,5 +148,6 @@
         private PictureBox pictureBox1;
         private Label label2;
         private Label label3;
+        private Button btn_CloseApp;
     }
 }
