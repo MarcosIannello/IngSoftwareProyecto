@@ -1,9 +1,11 @@
+using BLL;
 using Services.SessionManager;
 
 namespace Capital_
 {
     public partial class Login200MI : Form
     {
+
         public Login200MI()
         {
             InitializeComponent();
@@ -19,11 +21,9 @@ namespace Capital_
 
                 var rol = "Admin";
 
-                SessionManager200MI.Instancia.IniciarSesion(txt_LoginName.Text, idUsuario, rol);
+                SessionManager200MI.Instancia.IniciarSesion(txt_LoginName.Text);
 
-                MessageBox.Show(message, "Login Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                var menu = new Menu200MI(txt_LoginName.Text, idUsuario, rol);
+                var menu = new Menu200MI();
 
                 menu.Show();
 

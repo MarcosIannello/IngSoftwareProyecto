@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BE;
+using DAL;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +19,8 @@ namespace Services.SessionManager
         public string Rol { get; private set; }
 
         public bool SesionActiva { get; private set; }
+
+        private readonly UsuariosDAL200MI _usuariosDal = new UsuariosDAL200MI();
 
 
         private SessionManager200MI() { }
@@ -39,15 +43,31 @@ namespace Services.SessionManager
             }
         }
 
-        public void IniciarSesion(string userName, string idUsuario, string rol)
+        public bool IniciarSesion(string userName="")
         {
-            if (SesionActiva)
-                throw new InvalidOperationException("Ya hay una sesión activa. Cerrala antes de iniciar otra.");
+            try
+            {
+                if (SesionActiva)
+                    throw new InvalidOperationException("Ya hay una sesión activa. Cerrala antes de iniciar otra.");
 
-            UserName = userName;
-            IdUsuario = idUsuario;
-            Rol = rol;
-            SesionActiva = true;
+                Usuario200MI? user = _usuariosDal.GetUser200MI(userName);
+
+                if (user == null)
+                    throw new InvalidOperationException("El usuario no existe.");
+
+
+                this.UserName = user.NombreUsuario_200MI;
+                this.IdUsuario = user.IdUsuario_200MI.ToString();
+                this.Rol = user.IdPerfil_200MI.ToString();
+                this.SesionActiva = true;
+
+                return true;
+
+            }
+            catch (Exception ex) {
+                return false;
+
+            }
         }
 
         public void CerrarSesion()

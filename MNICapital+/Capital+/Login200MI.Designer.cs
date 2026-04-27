@@ -43,7 +43,7 @@
             // 
             Btn_Login.Cursor = Cursors.Hand;
             Btn_Login.FlatAppearance.BorderColor = Color.White;
-            Btn_Login.Location = new Point(320, 326);
+            Btn_Login.Location = new Point(319, 331);
             Btn_Login.Name = "Btn_Login";
             Btn_Login.Size = new Size(150, 46);
             Btn_Login.TabIndex = 0;
@@ -54,14 +54,14 @@
             // 
             // txt_LoginName
             // 
-            txt_LoginName.Location = new Point(369, 171);
+            txt_LoginName.Location = new Point(368, 176);
             txt_LoginName.Name = "txt_LoginName";
             txt_LoginName.Size = new Size(200, 39);
             txt_LoginName.TabIndex = 1;
             // 
             // txt_loginPass
             // 
-            txt_loginPass.Location = new Point(369, 237);
+            txt_loginPass.Location = new Point(368, 242);
             txt_loginPass.Name = "txt_loginPass";
             txt_loginPass.PasswordChar = '*';
             txt_loginPass.Size = new Size(200, 39);
@@ -72,7 +72,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft YaHei", 25.875F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(265, 32);
+            label1.Location = new Point(277, 42);
             label1.Name = "label1";
             label1.Size = new Size(256, 89);
             label1.TabIndex = 3;
@@ -81,7 +81,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.Gemini_Generated_Image_6gtvvi6gtvvi6gtv;
-            pictureBox1.Location = new Point(577, 326);
+            pictureBox1.Location = new Point(595, 357);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(200, 100);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -91,7 +91,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(225, 174);
+            label2.Location = new Point(224, 179);
             label2.Name = "label2";
             label2.Size = new Size(121, 32);
             label2.TabIndex = 5;
@@ -100,7 +100,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(225, 240);
+            label3.Location = new Point(224, 245);
             label3.Name = "label3";
             label3.Size = new Size(111, 32);
             label3.TabIndex = 6;
@@ -108,12 +108,13 @@
             // 
             // btn_CloseApp
             // 
-            btn_CloseApp.Location = new Point(721, 12);
+            btn_CloseApp.BackColor = Color.LightPink;
+            btn_CloseApp.Location = new Point(739, 12);
             btn_CloseApp.Name = "btn_CloseApp";
             btn_CloseApp.Size = new Size(56, 46);
             btn_CloseApp.TabIndex = 7;
             btn_CloseApp.Text = "X";
-            btn_CloseApp.UseVisualStyleBackColor = true;
+            btn_CloseApp.UseVisualStyleBackColor = false;
             btn_CloseApp.Click += btn_CloseApp_Click;
             // 
             // Login200MI
@@ -121,7 +122,7 @@
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.AliceBlue;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(842, 485);
             Controls.Add(btn_CloseApp);
             Controls.Add(label3);
             Controls.Add(label2);

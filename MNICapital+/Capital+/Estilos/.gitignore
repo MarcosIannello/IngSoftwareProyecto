@@ -1,0 +1,78 @@
+﻿## Visual Studio ##
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docview
+*.userprefs
+
+## Build outputs ##
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+out/
+build/
+publish/
+
+## NuGet ##
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+!packages/repositories.config
+*.nuspec
+
+## Archivos temporales de VS ##
+_ReSharper*/
+*.ReSharper
+*.DotSettings.user
+*.pidb
+*.svd
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+## Instaladores ##
+[Ee]xpress/
+$tf/
+
+## Profiling ##
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+## Windows ##
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
+
+## Coverage ##
+*.coverage
+*.coveragexml
+TestResults/
+*.trx
+
+## SQL Server ##
+*.mdf
+*.ldf
+*.ndf
+
+## Archivos de configuración con datos sensibles ##
+appsettings.Dev

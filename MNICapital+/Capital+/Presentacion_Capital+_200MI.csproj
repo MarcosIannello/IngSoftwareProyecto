@@ -10,10 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj" />
-    <ProjectReference Include="..\BE\BE.csproj" />
-    <ProjectReference Include="..\DAL\DAL.csproj" />
-    <ProjectReference Include="..\Services\Services.csproj" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL_200MI.csproj" />
+    <ProjectReference Include="..\BE\BE_200MI.csproj" />
+    <ProjectReference Include="..\DAL\DAL_200MI.csproj" />
+    <ProjectReference Include="..\Services\Services_90DI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
