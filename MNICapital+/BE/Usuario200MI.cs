@@ -7,8 +7,8 @@
 
         public string NombreUsuario_200MI { get; set; } = "";
 
-        //Descomento cuando tenga Hasheo
-        //public string Clave_200MI { get; set; } = "";
+        
+        public string Clave_200MI { get; set; } = "";
 
         public int IdPerfil_200MI { get; set; } 
         public bool Activo_200MI { get; set; }

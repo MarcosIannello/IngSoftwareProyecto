@@ -15,13 +15,8 @@ namespace Capital_
         {
             try
             {
-                var message = $"Username: {txt_LoginName.Text}\nPassword: {txt_loginPass.Text}";
 
-                var idUsuario = "1";
-
-                var rol = "Admin";
-
-                SessionManager200MI.Instancia.IniciarSesion(txt_LoginName.Text);
+                SessionManager90DI.Instancia.IniciarSesion(txt_LoginName.Text, txt_loginPass.Text);
 
                 var menu = new Menu200MI();
 

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Services\Services_90DI.csproj" />
+    <ProjectReference Include="..\BE\BE_200MI.csproj" />
     <ProjectReference Include="..\DAL\DAL_200MI.csproj" />
   </ItemGroup>
 

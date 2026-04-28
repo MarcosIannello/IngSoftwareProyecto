@@ -24,9 +24,9 @@ namespace DAL
 
                     using (var cmd = con.CreateCommand())
                     {
-                        cmd.CommandText = 
+                        cmd.CommandText =
                             """
-                                SELECT IdUsuario_200MI, NombreUsuario_200MI, IdPerfil_200MI, Activo_200MI, FechaAlta_200MI FROM Usuarios_200MI 
+                                SELECT IdUsuario_200MI, NombreUsuario_200MI, IdPerfil_200MI, Activo_200MI, FechaAlta_200MI, Clave_200MI FROM Usuarios_200MI 
                                 WHERE NombreUsuario_200MI = @Username
                             """;
                         cmd.Parameters.AddWithValue("@Username", Username);
@@ -40,7 +40,8 @@ namespace DAL
                                     NombreUsuario_200MI = reader.GetString(1),
                                     IdPerfil_200MI = reader.GetInt32(2),
                                     Activo_200MI = reader.GetBoolean(3),
-                                    FechaAlta_200MI = reader.GetDateTime(4)
+                                    FechaAlta_200MI = reader.GetDateTime(4),
+                                    Clave_200MI = reader.GetString(5)
                                 };
                             }
                         }
@@ -48,7 +49,8 @@ namespace DAL
                 }
                 return null;
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.Error(ex);
                 return null;
@@ -56,6 +58,40 @@ namespace DAL
         }
 
 
+        public bool UpdatePassword200MI(int idUsuario200MI, string hashPassword)
+        {
+            try
+            {
+                using (var con = _conexion.GetConnection())
+                {
+                    con.Open();
+                    using (var cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText =
+                            """
+                                Update Usuarios_200MI 
+                                set Clave_200MI = @password
+                                where IdUsuario_200MI = @idUsuario                             
+                            """;
+                        cmd.Parameters.AddWithValue("@password", hashPassword);
+                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario200MI);
 
+                        var rows = cmd.ExecuteNonQuery();
+
+                        return rows > 0;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                return false;
+            }
+
+
+
+
+        }
     }
 }
