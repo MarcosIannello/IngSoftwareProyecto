@@ -43,6 +43,7 @@ namespace Capital_
                     menuPadre.Font = new Font("Segoe UI", 11, FontStyle.Bold);
                     menuPadre.Margin = new Padding(4, 0, 4, 0);
 
+
                     foreach (var hijo in seccion.Hijos)
                     {
                         var itemHijo = new ToolStripMenuItem(hijo.Nombre_200MI);
@@ -74,14 +75,14 @@ namespace Capital_
             switch (nombreForm)
             {
                 case "Login":
-                    var sesionActiva = SessionManager200MI.Instancia.IniciarSesion();
+                    var sesionActiva = SessionManager90DI.Instancia.IniciarSesion();
                     if (!sesionActiva)
                     {
                         MessageBox.Show("Ya posee una sesion activa");
                     }
                     break;
                 case "LogOut":
-                    SessionManager200MI.Instancia.CerrarSesion();
+                    SessionManager90DI.Instancia.CerrarSesion();
                     var login = new Login200MI();
                     login.Show();
                     this.Hide();

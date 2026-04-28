@@ -1,18 +1,20 @@
 ﻿using BE;
-using DAL;
+using BLL;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Services.SessionManager
 {
-    public sealed class SessionManager200MI
+    public sealed class SessionManager90DI
     {
-        private static SessionManager200MI? _instancia = null;
+        private static SessionManager90DI? _instancia = null;
 
         private static readonly object _lock = new();
 
         public string UserName { get; private set; } = string.Empty;
+
+        public string Password { get; private set; }
 
         public string IdUsuario { get; private set; }
 
@@ -20,12 +22,12 @@ namespace Services.SessionManager
 
         public bool SesionActiva { get; private set; }
 
-        private readonly UsuariosDAL200MI _usuariosDal = new UsuariosDAL200MI();
+        private readonly UsuariosBll200MI _usuariosBLL = new UsuariosBll200MI();
 
 
-        private SessionManager200MI() { }
+        private SessionManager90DI() { }
 
-        public static SessionManager200MI Instancia
+        public static SessionManager90DI Instancia
         {
             get
             {
@@ -35,7 +37,7 @@ namespace Services.SessionManager
                     {
                         if (_instancia == null)
                         {
-                            _instancia = new SessionManager200MI();
+                            _instancia = new SessionManager90DI();
                         }
                     }
                 }
@@ -43,14 +45,14 @@ namespace Services.SessionManager
             }
         }
 
-        public bool IniciarSesion(string userName="")
+        public bool IniciarSesion(string userName="", string password="")
         {
             try
             {
                 if (SesionActiva)
                     throw new InvalidOperationException("Ya hay una sesión activa. Cerrala antes de iniciar otra.");
 
-                Usuario200MI? user = _usuariosDal.GetUser200MI(userName);
+                Usuario200MI? user = _usuariosBLL.Login(userName, password);
 
                 if (user == null)
                     throw new InvalidOperationException("El usuario no existe.");
