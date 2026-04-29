@@ -1,4 +1,5 @@
 ﻿using BE;
+using Entidades;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -6,49 +7,52 @@ using System.Text;
 
 namespace DAL
 {
-    public class UsuariosDAL200MI
+    public class UsuariosDAL90DI
     {
         private readonly ConexionSql200MI _conexion = new ConexionSql200MI();
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        public UsuariosDAL200MI()
-        {
-        }
 
-        public Usuario200MI? GetUser200MI(string Username)
+        public UsuariosDAL90DI() { }
+
+        public Usuario90DI? getUser90DI(string username)
         {
             try
             {
-                using (var con = _conexion.GetConnection())
+                using var con = _conexion.GetConnection();
+                con.Open();
+
+                using var cmd = con.CreateCommand();
+                cmd.CommandText =
+                    """
+                    SELECT IdUsuario_90DI, NombreUsuario_90DI, Clave_90DI, IdPerfil_90DI, 
+                           Activo_90DI, FechaAlta_90DI, DNI_90DI, Apellidos_90DI, 
+                           Nombre_90DI, Rol_90DI, Email_90DI, Bloquo_90DI
+                    FROM Usuarios_90DI
+                    WHERE NombreUsuario_90DI = @Username
+                    """;
+                cmd.Parameters.AddWithValue("@Username", username);
+
+                using var reader = cmd.ExecuteReader();
+                if (reader.Read())
                 {
-                    con.Open();
-
-                    using (var cmd = con.CreateCommand())
+                    return new Usuario90DI
                     {
-                        cmd.CommandText =
-                            """
-                                SELECT IdUsuario_200MI, NombreUsuario_200MI, IdPerfil_200MI, Activo_200MI, FechaAlta_200MI, Clave_200MI FROM Usuarios_200MI 
-                                WHERE NombreUsuario_200MI = @Username
-                            """;
-                        cmd.Parameters.AddWithValue("@Username", Username);
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                return new Usuario200MI
-                                {
-                                    IdUsuario_200MI = reader.GetInt32(0),
-                                    NombreUsuario_200MI = reader.GetString(1),
-                                    IdPerfil_200MI = reader.GetInt32(2),
-                                    Activo_200MI = reader.GetBoolean(3),
-                                    FechaAlta_200MI = reader.GetDateTime(4),
-                                    Clave_200MI = reader.GetString(5)
-                                };
-                            }
-                        }
-                    }
+                        IdUsuario_90DI = reader.GetInt32(0),
+                        NombreUsuario_90DI = reader.GetString(1),
+                        Clave_90DI = reader.GetString(2),
+                        IdPerfil_90DI = reader.GetInt32(3),
+                        Activo_90DI = reader.GetBoolean(4),
+                        FechaAlta_90DI = reader.GetDateTime(5),
+                        DNI_90DI = reader.GetString(6),
+                        Apellidos_90DI = reader.IsDBNull(7) ? null : reader.GetString(7),
+                        Nombre_90DI = reader.IsDBNull(8) ? null : reader.GetString(8),
+                        Rol_90DI = reader.GetInt32(9),
+                        Email_90DI = reader.IsDBNull(10) ? null : reader.GetString(10),
+                        Bloquo_90DI = reader.IsDBNull(11) ? null : reader.GetBoolean(11)
+                    };
                 }
-                return null;
 
+                return null;
             }
             catch (Exception ex)
             {
@@ -57,41 +61,30 @@ namespace DAL
             }
         }
 
-
-        public bool UpdatePassword200MI(int idUsuario200MI, string hashPassword)
+        public bool updatePassword90DI(int idUsuario, string hashPassword)
         {
             try
             {
-                using (var con = _conexion.GetConnection())
-                {
-                    con.Open();
-                    using (var cmd = con.CreateCommand())
-                    {
-                        cmd.CommandText =
-                            """
-                                Update Usuarios_200MI 
-                                set Clave_200MI = @password
-                                where IdUsuario_200MI = @idUsuario                             
-                            """;
-                        cmd.Parameters.AddWithValue("@password", hashPassword);
-                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario200MI);
+                using var con = _conexion.GetConnection();
+                con.Open();
 
-                        var rows = cmd.ExecuteNonQuery();
+                using var cmd = con.CreateCommand();
+                cmd.CommandText =
+                    """
+                    UPDATE Usuarios_90DI
+                    SET Clave_90DI = @password
+                    WHERE IdUsuario_90DI = @idUsuario
+                    """;
+                cmd.Parameters.AddWithValue("@password", hashPassword);
+                cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
 
-                        return rows > 0;
-                    }
-                }
-
+                return cmd.ExecuteNonQuery() > 0;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
                 return false;
             }
-
-
-
-
         }
     }
 }

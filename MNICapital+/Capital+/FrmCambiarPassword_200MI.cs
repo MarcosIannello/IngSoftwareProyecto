@@ -1,5 +1,6 @@
 ﻿using BE;
 using BLL;
+using Entidades;
 using Services.SessionManager;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Capital_
     {
         
         private UsuariosBll200MI _usuarioDal200MI = new UsuariosBll200MI();
-        private Usuario200MI usuario200MI = new();
+        private Usuario90DI usuario200MI = new();
         public FrmCambiarPassword_200MI()
         {
             InitializeComponent();
@@ -44,7 +45,7 @@ namespace Capital_
                 return;
             }
 
-            var resultado = _usuarioDal200MI.updatePassword(usuario200MI.IdUsuario_200MI, nuevaPassword);
+            var resultado = _usuarioDal200MI.updatePassword(usuario200MI.IdUsuario_90DI, nuevaPassword);
 
             if (resultado)
             {
@@ -59,9 +60,9 @@ namespace Capital_
 
         }
 
-        private void cargarDatos(Usuario200MI usuario)
+        private void cargarDatos(Usuario90DI usuario)
         {
-            textBox1.Text = usuario.NombreUsuario_200MI;
+            textBox1.Text = usuario.NombreUsuario_90DI;
             textBox1.Enabled = false;
         }
     }

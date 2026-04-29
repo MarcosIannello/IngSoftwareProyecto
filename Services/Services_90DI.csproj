@@ -10,7 +10,8 @@
     <ProjectReference Include="..\BE\BE_200MI.csproj" />
     <ProjectReference Include="..\DAL\DAL_200MI.csproj" />
     <ProjectReference Include="..\MNICapital+\BE\BE_200MI.csproj" />
-    <ProjectReference Include="..\MNICapital+\BLL\BLL_200MI.csproj" />
+    <ProjectReference Include="..\MNICapital+\DAL\DAL_200MI.csproj" />
+    <ProjectReference Include="..\MNICapital+\Entidades\Entidades.csproj" />
   </ItemGroup>
 
 </Project>

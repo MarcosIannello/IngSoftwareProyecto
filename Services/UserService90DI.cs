@@ -1,5 +1,4 @@
-﻿using BE;
-using DAL;
+﻿using DAL;
 using Entidades;
 using System;
 using System.Collections.Generic;
@@ -7,11 +6,11 @@ using System.Text;
 
 namespace BLL
 {
-    public class UsuariosBll200MI
+    public class UsuariosService90DI
     {
         private readonly UsuariosDAL90DI _dal = new UsuariosDAL90DI();
         
-        public UsuariosBll200MI() { }
+        public UsuariosService90DI() { }
 
         public Usuario90DI? getUserByUsername(string Username)
         {
@@ -26,9 +25,13 @@ namespace BLL
 
             
 
-            if (user != null) { 
+            if (user != null) {
+
+                if (PasswordHasher90DI.Verify90DI(password, user.Clave_90DI)) {
+                    return user;
                 
-                if(PasswordHasher200MI.Verify(password, user.Clave_90DI)) return user;
+                }
+                
 
             }
 
@@ -44,7 +47,7 @@ namespace BLL
 
         public string getHashPassword(string password)
         {
-            return PasswordHasher200MI.HashPassword(password);
+            return PasswordHasher90DI.HashPassword90DI(password);
         }
 
     }

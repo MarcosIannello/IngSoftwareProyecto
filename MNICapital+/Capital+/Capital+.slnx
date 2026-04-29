@@ -3,5 +3,6 @@
   <Project Path="../BE/BE_200MI.csproj" Id="9307f0bb-30c6-47a5-9b05-8df58e512b5f" />
   <Project Path="../BLL/BLL_200MI.csproj" Id="3dd2b214-8420-4950-ab32-d8c26dc1a8a2" />
   <Project Path="../DAL/DAL_200MI.csproj" Id="2f7ffd42-0f72-49a7-8d44-97f5a0655525" />
+  <Project Path="../Entidades/Entidades.csproj" Id="0a9887cd-6d86-4470-8ced-c03216330a22" />
   <Project Path="Presentacion_Capital+_200MI.csproj" />
 </Solution>
