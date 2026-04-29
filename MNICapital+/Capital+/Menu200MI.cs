@@ -32,7 +32,7 @@ namespace Capital_
             var menus = this.menuBll.GetMenu();
 
             //Estilo
-            
+
 
             foreach (var seccion in menus)
             {
@@ -110,11 +110,16 @@ namespace Capital_
         }
 
         public void AplicarEstilosMenu()
-        { 
+        {
             Menu.BackColor = Colores_200MI.MenuFondo;
             Menu.ForeColor = Colores_200MI.MenuTextoPadre;
             Menu.Font = new Font("Segoe UI", 11, FontStyle.Bold);
             Menu.Padding = new Padding(4);
+        }
+
+        private void Menu200MI_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
