@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BE\BE_200MI.csproj" />
+    <ProjectReference Include="..\Entidades\Entidades.csproj" />
   </ItemGroup>
 
 </Project>
