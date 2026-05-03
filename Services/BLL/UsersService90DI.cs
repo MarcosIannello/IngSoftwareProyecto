@@ -1,9 +1,6 @@
-using BLL;
-using DAL;
-using Entities90MI;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Services_90DI.BLL;
+using Services_90DI.DAL;
+using Services_90DI.Entidades;
 
 namespace Services_90DI
 {
@@ -59,6 +56,5 @@ namespace Services_90DI
         {
             return PasswordHasher90DI.HashPassword90DI(password);
         }
-
     }
 }

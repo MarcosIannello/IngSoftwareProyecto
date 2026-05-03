@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
 
-namespace BLL
+namespace Services_90DI.BLL
 {
-    public static class PasswordHasher90DI
+    internal static class PasswordHasher90DI
     {
         public static string HashPassword90DI(string password)
         {

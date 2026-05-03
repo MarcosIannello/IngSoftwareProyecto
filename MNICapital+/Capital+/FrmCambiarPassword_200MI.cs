@@ -1,14 +1,7 @@
-using BLL;
-using Services.SessionManager;
-using Entities90MI;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+using Services_90DI.SessionManager;
 using Services_90DI;
+using Services_90DI.Entidades;
+using Services_90DI.SessionManager;
 
 namespace Capital_
 {

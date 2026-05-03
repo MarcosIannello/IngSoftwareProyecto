@@ -1,15 +1,10 @@
-using BE;
-using BLL;
+using Services_90DI;
+using Services_90DI.Entidades;
+using Services_90DI.SessionManager;
 using Capital_.Estilos;
-using Services.SessionManager;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
+using BLL;
+using BE;
 
 namespace Capital_
 {
@@ -49,7 +44,7 @@ namespace Capital_
             {
                 if (seccion.IdPadre_200MI == null)
                 {
-                    // Label de sección
+                    // Label de seccion
                     var lblSeccion = new Label
                     {
                         Text = seccion.Nombre_200MI.ToUpper(),
@@ -110,7 +105,7 @@ namespace Capital_
 
             if (tipo == null)
             {
-                MessageBox.Show($"No se encontró el formulario '{nombreForm}'", "Comuniquese con el Admin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"No se encontro el formulario '{nombreForm}'", "Comuniquese con el Admin", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

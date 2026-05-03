@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -10,7 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BE\BE_200MI.csproj" />
     <ProjectReference Include="..\DAL\DAL_200MI.csproj" />
-    <ProjectReference Include="..\Entities\Entities90DI.csproj" />
   </ItemGroup>
 
 </Project>

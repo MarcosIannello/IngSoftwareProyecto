@@ -11,12 +11,10 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
     <PackageReference Include="NLog" Version="6.1.2" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.13" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BE\BE_200MI.csproj" />
-    <ProjectReference Include="..\Entities\Entities90DI.csproj" />
   </ItemGroup>
 
 </Project>
