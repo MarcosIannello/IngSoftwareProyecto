@@ -1,8 +1,8 @@
-﻿using BE;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Entities90MI;
 
 namespace DAL
 {
@@ -14,7 +14,7 @@ namespace DAL
         {
         }
 
-        public Usuario200MI? GetUser200MI(string Username)
+        public User90DI? GetUser90DI(string Username)
         {
             try
             {
@@ -25,30 +25,39 @@ namespace DAL
                     using (var cmd = con.CreateCommand())
                     {
                         cmd.CommandText =
-                            """
-                                SELECT IdUsuario_200MI, NombreUsuario_200MI, IdPerfil_200MI, Activo_200MI, FechaAlta_200MI, Clave_200MI FROM Usuarios_200MI 
-                                WHERE NombreUsuario_200MI = @Username
-                            """;
+                        """
+                            SELECT IdUsuario_90DI, NombreUsuario_90DI, Clave_90DI,
+                                   IdPerfil_90DI, Activo_90DI, FechaAlta_90DI,
+                                   DNI_90DI, Apellidos_90DI, Nombre_90DI,
+                                   Rol_90DI, Email_90DI, Bloqueo_90DI
+                            FROM Usuarios_90DI
+                            WHERE NombreUsuario_90DI = @Username
+                        """;
                         cmd.Parameters.AddWithValue("@Username", Username);
                         using (var reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                return new Usuario200MI
+                                return new User90DI
                                 {
-                                    IdUsuario_200MI = reader.GetInt32(0),
-                                    NombreUsuario_200MI = reader.GetString(1),
-                                    IdPerfil_200MI = reader.GetInt32(2),
-                                    Activo_200MI = reader.GetBoolean(3),
-                                    FechaAlta_200MI = reader.GetDateTime(4),
-                                    Clave_200MI = reader.GetString(5)
+                                    IdUsuario_90DI = reader.GetInt32(0),
+                                    NombreUsuario_90DI = reader.GetString(1),
+                                    Clave_90DI = reader.GetString(2),
+                                    IdPerfil_90DI = reader.GetInt32(3),
+                                    Activo_90DI = reader.GetBoolean(4),
+                                    FechaAlta_90DI = reader.GetDateTime(5),
+                                    DNI_90DI = reader.GetString(6),
+                                    Apellidos_90DI = reader.GetString(7),
+                                    Nombre_90DI = reader.GetString(8),
+                                    Rol_90DI = reader.GetString(9),
+                                    Email_90DI = reader.GetString(10),
+                                    Bloqueo_90DI = reader.GetBoolean(11)
                                 };
                             }
                         }
                     }
                 }
                 return null;
-
             }
             catch (Exception ex)
             {
@@ -58,7 +67,7 @@ namespace DAL
         }
 
 
-        public bool UpdatePassword200MI(int idUsuario200MI, string hashPassword)
+        public bool UpdatePassword90DI(int idUsuario, string hashPassword)
         {
             try
             {
@@ -69,12 +78,12 @@ namespace DAL
                     {
                         cmd.CommandText =
                             """
-                                Update Usuarios_200MI 
-                                set Clave_200MI = @password
-                                where IdUsuario_200MI = @idUsuario                             
+                                Update Usuarios_90DI
+                                set Clave_90DI = @password
+                                where IdUsuario_90DI = @idUsuario
                             """;
                         cmd.Parameters.AddWithValue("@password", hashPassword);
-                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario200MI);
+                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
 
                         var rows = cmd.ExecuteNonQuery();
 
@@ -88,10 +97,34 @@ namespace DAL
                 _logger.Error(ex);
                 return false;
             }
+        }
 
-
-
-
+        public bool blockUser90DI(int idUsuario)
+        {
+            try
+            {
+                using (var con = _conexion.GetConnection())
+                {
+                    con.Open();
+                    using (var cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText =
+                            """
+                                Update Usuarios_90DI
+                                set Bloqueo_90DI = 1
+                                where IdUsuario_90DI = @idUsuario
+                            """;
+                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                        var rows = cmd.ExecuteNonQuery();
+                        return rows > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                return false;
+            }
         }
     }
 }

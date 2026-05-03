@@ -1,5 +1,5 @@
-﻿using BE;
-using BLL;
+using Entities90MI;
+using Services_90DI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,7 +22,7 @@ namespace Services.SessionManager
 
         public bool SesionActiva { get; private set; }
 
-        private readonly UsuariosBll200MI _usuariosBLL = new UsuariosBll200MI();
+        private UsersService90DI _usuariosBLL = new UsersService90DI();
 
 
         private SessionManager90DI() { }
@@ -52,15 +52,21 @@ namespace Services.SessionManager
                 if (SesionActiva)
                     throw new InvalidOperationException("Ya hay una sesión activa. Cerrala antes de iniciar otra.");
 
-                Usuario200MI? user = _usuariosBLL.Login(userName, password);
+                User90DI? user = _usuariosBLL.Login(userName, password);
 
                 if (user == null)
-                    throw new InvalidOperationException("El usuario no existe.");
+                    throw new InvalidOperationException("El usuario no existe , o sus credenciales son incorrectas");
+
+                if(user.Bloqueo_90DI == true)
+                    throw new InvalidOperationException("El usuario está bloqueado, Comuniquese con el Admin.");
+
+                if(user.Activo_90DI == false)
+                    throw new InvalidOperationException("El usuario no está activo, Comuniquese con el Admin.");
 
 
-                this.UserName = user.NombreUsuario_200MI;
-                this.IdUsuario = user.IdUsuario_200MI.ToString();
-                this.Rol = user.IdPerfil_200MI.ToString();
+                this.UserName = user.NombreUsuario_90DI;
+                this.IdUsuario = user.IdUsuario_90DI.ToString();
+                this.Rol = user.IdPerfil_90DI.ToString();
                 this.SesionActiva = true;
 
                 return true;

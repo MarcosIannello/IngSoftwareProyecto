@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\Services\Services_90DI.csproj" />
     <ProjectReference Include="..\BE\BE_200MI.csproj" />
     <ProjectReference Include="..\BLL\BLL_200MI.csproj" />
+    <ProjectReference Include="..\Entities\Entities90DI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

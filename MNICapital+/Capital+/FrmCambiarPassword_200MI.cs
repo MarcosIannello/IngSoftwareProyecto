@@ -1,6 +1,6 @@
-﻿using BE;
 using BLL;
 using Services.SessionManager;
+using Entities90MI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,23 +8,24 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Services_90DI;
 
 namespace Capital_
 {
     public partial class FrmCambiarPassword_200MI : Form
     {
-        
-        private UsuariosBll200MI _usuarioDal200MI = new UsuariosBll200MI();
-        private Usuario200MI usuario200MI = new();
+
+        private UsersService90DI _usuarioService = new UsersService90DI();
+        private User90DI usuario = new();
         public FrmCambiarPassword_200MI()
         {
             InitializeComponent();
 
-            usuario200MI = _usuarioDal200MI.getUserByUsername(SessionManager90DI.Instancia.UserName);
+            usuario = _usuarioService.getUserByUsername(SessionManager90DI.Instancia.UserName);
 
-            if (usuario200MI != null)
+            if (usuario != null)
             {
-                cargarDatos(usuario200MI);
+                cargarDatos(usuario);
             }
             else
             {
@@ -44,7 +45,7 @@ namespace Capital_
                 return;
             }
 
-            var resultado = _usuarioDal200MI.updatePassword(usuario200MI.IdUsuario_200MI, nuevaPassword);
+            var resultado = _usuarioService.updatePassword(usuario.IdUsuario_90DI, nuevaPassword);
 
             if (resultado)
             {
@@ -55,13 +56,13 @@ namespace Capital_
             else
             {
                 MessageBox.Show("Error al actualizar la contraseña. Por favor, intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } 
+            }
 
         }
 
-        private void cargarDatos(Usuario200MI usuario)
+        private void cargarDatos(User90DI usuario)
         {
-            textBox1.Text = usuario.NombreUsuario_200MI;
+            textBox1.Text = usuario.NombreUsuario_90DI;
             textBox1.Enabled = false;
         }
     }
