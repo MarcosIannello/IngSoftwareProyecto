@@ -1,10 +1,7 @@
-using Entities90MI;
 using Services_90DI;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Services_90DI.Entidades;
 
-namespace Services.SessionManager
+namespace Services_90DI.SessionManager
 {
     public sealed class SessionManager90DI
     {
@@ -14,16 +11,15 @@ namespace Services.SessionManager
 
         public string UserName { get; private set; } = string.Empty;
 
-        public string Password { get; private set; }
+        public string Password { get; private set; } = string.Empty;
 
-        public string IdUsuario { get; private set; }
+        public string IdUsuario { get; private set; } = string.Empty;
 
-        public string Rol { get; private set; }
+        public string Rol { get; private set; } = string.Empty;
 
         public bool SesionActiva { get; private set; }
 
         private UsersService90DI _usuariosBLL = new UsersService90DI();
-
 
         private SessionManager90DI() { }
 
@@ -31,7 +27,7 @@ namespace Services.SessionManager
         {
             get
             {
-                if(_instancia == null)
+                if (_instancia == null)
                 {
                     lock (_lock)
                     {
@@ -45,24 +41,23 @@ namespace Services.SessionManager
             }
         }
 
-        public bool IniciarSesion(string userName="", string password="")
+        public bool IniciarSesion(string userName = "", string password = "")
         {
             try
             {
                 if (SesionActiva)
-                    throw new InvalidOperationException("Ya hay una sesión activa. Cerrala antes de iniciar otra.");
+                    throw new InvalidOperationException("Ya hay una sesion activa. Cerrala antes de iniciar otra.");
 
                 User90DI? user = _usuariosBLL.Login(userName, password);
 
                 if (user == null)
                     throw new InvalidOperationException("El usuario no existe , o sus credenciales son incorrectas");
 
-                if(user.Bloqueo_90DI == true)
-                    throw new InvalidOperationException("El usuario está bloqueado, Comuniquese con el Admin.");
+                if (user.Bloqueo_90DI == true)
+                    throw new InvalidOperationException("El usuario esta bloqueado, Comuniquese con el Admin.");
 
-                if(user.Activo_90DI == false)
-                    throw new InvalidOperationException("El usuario no está activo, Comuniquese con el Admin.");
-
+                if (user.Activo_90DI == false)
+                    throw new InvalidOperationException("El usuario no esta activo, Comuniquese con el Admin.");
 
                 this.UserName = user.NombreUsuario_90DI;
                 this.IdUsuario = user.IdUsuario_90DI.ToString();
@@ -70,11 +65,10 @@ namespace Services.SessionManager
                 this.SesionActiva = true;
 
                 return true;
-
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return false;
-
             }
         }
 
@@ -82,6 +76,5 @@ namespace Services.SessionManager
         {
             _instancia = null;
         }
-
     }
 }
