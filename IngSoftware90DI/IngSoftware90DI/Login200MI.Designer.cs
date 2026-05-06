@@ -1,6 +1,6 @@
-﻿namespace Capital_
+﻿namespace UI_90DI
 {
-    partial class Login200MI
+    partial class Login_90DI
     {
         /// <summary>
         ///  Required designer variable.
@@ -77,17 +77,6 @@
             label1.Size = new Size(256, 89);
             label1.TabIndex = 3;
             label1.Text = "LOGIN";
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = Properties.Resources.Gemini_Generated_Image_6gtvvi6gtvvi6gtv;
-            pictureBox1.Location = new Point(615, 363);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(200, 100);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 4;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
             // 
             // label2
             // 

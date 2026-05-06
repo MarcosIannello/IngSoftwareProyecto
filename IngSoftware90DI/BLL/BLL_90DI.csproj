@@ -8,8 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BE\BE_200MI.csproj" />
-    <ProjectReference Include="..\DAL\DAL_200MI.csproj" />
+    <ProjectReference Include="..\Services\Services_90DI.csproj" />
+    <ProjectReference Include="..\DAL\DAL_90DI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BLL\" />
   </ItemGroup>
 
 </Project>

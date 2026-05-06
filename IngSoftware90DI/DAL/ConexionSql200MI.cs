@@ -1,9 +1,9 @@
 using Microsoft.Data.SqlClient;
 using System.Configuration;
 
-namespace Services_90DI.DAL
+namespace DAL
 {
-    internal class ConexionSql200MI
+    public class ConexionSql200MI
     {
         private readonly string _connectionString;
 

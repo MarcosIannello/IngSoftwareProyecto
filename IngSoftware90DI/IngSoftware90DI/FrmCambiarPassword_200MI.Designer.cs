@@ -1,4 +1,4 @@
-﻿namespace Capital_
+﻿namespace UI_90DI
 {
     partial class FrmCambiarPassword_200MI
     {

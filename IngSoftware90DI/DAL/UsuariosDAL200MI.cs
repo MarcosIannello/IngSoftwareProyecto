@@ -1,9 +1,10 @@
 using NLog;
 using Services_90DI.Entidades;
 
-namespace Services_90DI.DAL
+
+namespace DAL
 {
-    internal class UsuariosDAL200MI
+    public class UsuariosDAL200MI
     {
         private readonly ConexionSql200MI _conexion = new ConexionSql200MI();
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();

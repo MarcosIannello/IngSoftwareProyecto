@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace Services_90DI.BLL
+namespace BLL_90DI
 {
     internal static class PasswordHasher90DI
     {

@@ -1,8 +1,8 @@
-using Services_90DI.BLL;
-using Services_90DI.DAL;
+using BLL_90DI;
+using DAL;
 using Services_90DI.Entidades;
 
-namespace Services_90DI
+namespace BLL
 {
     public class UsersService90DI
     {

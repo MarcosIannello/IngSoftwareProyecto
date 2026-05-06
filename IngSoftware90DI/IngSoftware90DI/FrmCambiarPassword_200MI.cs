@@ -1,9 +1,9 @@
-using Services_90DI.SessionManager;
 using Services_90DI;
 using Services_90DI.Entidades;
-using Services_90DI.SessionManager;
+using BLL;
+using BLL_90DI;
 
-namespace Capital_
+namespace UI_90DI
 {
     public partial class FrmCambiarPassword_200MI : Form
     {

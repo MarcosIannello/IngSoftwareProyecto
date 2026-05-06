@@ -1,4 +1,4 @@
-﻿namespace Capital_
+﻿namespace UI_90DI
 {
     partial class Menu200MI
     {
@@ -39,17 +39,7 @@
             panelMenu.Name = "panelMenu";
             panelMenu.Size = new Size(400, 200);
             panelMenu.TabIndex = 0;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = Properties.Resources.Gemini_Generated_Image_6gtvvi6gtvvi6gtv;
-            pictureBox1.Location = new Point(551, -2);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1383, 1395);
-            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-            pictureBox1.TabIndex = 1;
-            pictureBox1.TabStop = false;
-            // 
+            
             // Menu200MI
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
