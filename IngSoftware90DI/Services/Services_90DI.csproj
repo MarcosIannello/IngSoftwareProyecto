@@ -13,4 +13,8 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.13" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BLL_90DI\BLL_90DI.csproj" />
+  </ItemGroup>
+
 </Project>

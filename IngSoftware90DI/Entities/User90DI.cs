@@ -1,4 +1,4 @@
-namespace Services_90DI.Entidades
+namespace Entities90DI
 {
     public class User90DI
     {

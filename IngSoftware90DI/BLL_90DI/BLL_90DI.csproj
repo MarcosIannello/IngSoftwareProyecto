@@ -8,12 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Services\Services_90DI.csproj" />
     <ProjectReference Include="..\DAL\DAL_90DI.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="BLL\" />
+    <ProjectReference Include="..\Entities_90DI\Entities_90DI.csproj" />
   </ItemGroup>
 
 </Project>

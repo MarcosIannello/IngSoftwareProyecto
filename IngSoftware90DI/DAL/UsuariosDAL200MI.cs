@@ -1,6 +1,6 @@
-using NLog;
-using Services_90DI.Entidades;
 
+using NLog;
+using Entities_90DI;
 
 namespace DAL
 {

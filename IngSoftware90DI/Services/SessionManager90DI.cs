@@ -1,8 +1,7 @@
-using BLL;
-using Services_90DI;
-using Services_90DI.Entidades;
+using BLL_90DI;
+using Entities_90DI;
 
-namespace BLL_90DI
+namespace Service_90DI
 {
     public sealed class SessionManager90DI
     {
