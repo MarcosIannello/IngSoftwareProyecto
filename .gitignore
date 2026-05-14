@@ -109,3 +109,7 @@ Desktop.ini
 *.bak
 *.swp
 *~
+
+# Claude Code (worktrees y archivos internos de la herramienta)
+.claude/worktrees/
+**/.claude/worktrees/
