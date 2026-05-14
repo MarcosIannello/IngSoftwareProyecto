@@ -1,0 +1,22 @@
+using DAL;
+using Entities_90DI;
+
+namespace BLL_90DI
+{
+    public class BitacoraBLL_90DI
+    {
+        private readonly BitacoraDAL_90DI _dal = new BitacoraDAL_90DI();
+
+        public BitacoraBLL_90DI() { }
+
+        public bool CreateLogEvent_90DI(LogEvent_90DI logEvent_90DI)
+        {
+            return _dal.CreateLogEvent_90DI(logEvent_90DI);
+        }
+
+        public List<LogEvent_90DI> GetLogEvent_90DI()
+        {
+            return _dal.GetLogEvent_90DI();
+        }
+    }
+}
