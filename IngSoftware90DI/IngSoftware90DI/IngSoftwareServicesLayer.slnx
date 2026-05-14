@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../Entities_90DI/Entities_90DI.csproj" Id="8ebece06-8a3a-46eb-ae28-004e000ee2e7" />
+  <Project Path="../Services/Services_90DI.csproj" />
+  <Project Path="../BLL_90DI/BLL_90DI.csproj" Id="3dd2b214-8420-4950-ab32-d8c26dc1a8a2" />
+  <Project Path="../DAL/DAL_90DI.csproj" Id="2f7ffd42-0f72-49a7-8d44-97f5a0655525" />
+  <Project Path="UI_90DI.csproj" />
+</Solution>
