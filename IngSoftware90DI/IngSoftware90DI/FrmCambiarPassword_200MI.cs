@@ -11,11 +11,14 @@ namespace UI_90DI
 
         private UsersService90DI _usuarioService = new UsersService90DI();
         private User90DI usuario = new();
+        Menu200MI menu = new Menu200MI();
+
         public FrmCambiarPassword_200MI()
         {
             InitializeComponent();
 
             usuario = _usuarioService.getUserByUsername(SessionManager90DI.Instancia.UserName);
+
 
             if (usuario != null)
             {
@@ -45,7 +48,7 @@ namespace UI_90DI
             {
                 MessageBox.Show("Contraseña actualizada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
-
+                menu.Show();
             }
             else
             {
@@ -58,6 +61,11 @@ namespace UI_90DI
         {
             textBox1.Text = usuario.NombreUsuario_90DI;
             textBox1.Enabled = false;
+        }
+
+        private void FrmCambiarPassword_200MI_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            menu.Show();
         }
     }
 }

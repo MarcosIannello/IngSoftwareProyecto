@@ -55,5 +55,37 @@ namespace BLL_90DI
         {
             return PasswordHasher90DI.HashPassword90DI(password);
         }
+
+        public List<User90DI> GetAllUsers()
+        {
+            return _dal.GetAllUsers90DI();
+        }
+
+        public bool CreateUser(User90DI user)
+        {
+            user.Clave_90DI = getHashPassword(user.Clave_90DI);
+            return _dal.CreateUser90DI(user);
+        }
+
+        public bool UnblockUser(int idUsuario)
+        {
+            return _dal.UnblockUser90DI(idUsuario);
+        }
+
+        public bool UpdateUser(User90DI user)
+        {
+            return _dal.EditUser90DI(user);
+        }
+
+        public bool ActivateUser(User90DI user)
+        {
+            if (user.Activo_90DI)
+            {
+                return _dal.DesactivateUser90DI(user.IdUsuario_90DI);
+            }
+            return _dal.ActivateUser90DI(user.IdUsuario_90DI);
+        }
+
+
     }
 }

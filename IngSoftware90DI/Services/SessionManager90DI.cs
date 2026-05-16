@@ -43,8 +43,7 @@ namespace Service_90DI
 
         public bool IniciarSesion(string userName = "", string password = "")
         {
-            try
-            {
+           
                 if (SesionActiva)
                     throw new InvalidOperationException("Ya hay una sesion activa. Cerrala antes de iniciar otra.");
 
@@ -65,11 +64,6 @@ namespace Service_90DI
                 this.SesionActiva = true;
 
                 return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
         }
 
         public void CerrarSesion()
