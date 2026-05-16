@@ -90,6 +90,7 @@
             Name = "FrmCambiarPassword_200MI";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "CambiarPassword";
+            FormClosed += FrmCambiarPassword_200MI_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }

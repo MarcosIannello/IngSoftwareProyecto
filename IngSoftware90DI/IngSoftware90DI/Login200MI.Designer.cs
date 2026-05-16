@@ -32,11 +32,9 @@
             txt_LoginName = new TextBox();
             txt_loginPass = new TextBox();
             label1 = new Label();
-            pictureBox1 = new PictureBox();
             label2 = new Label();
             label3 = new Label();
             btn_CloseApp = new Button();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // Btn_Login
@@ -107,7 +105,7 @@
             btn_CloseApp.UseVisualStyleBackColor = false;
             btn_CloseApp.Click += btn_CloseApp_Click;
             // 
-            // Login200MI
+            // Login_90DI
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -116,16 +114,14 @@
             Controls.Add(btn_CloseApp);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(pictureBox1);
             Controls.Add(label1);
             Controls.Add(txt_loginPass);
             Controls.Add(txt_LoginName);
             Controls.Add(Btn_Login);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Login200MI";
+            Name = "Login_90DI";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -136,7 +132,6 @@
         private TextBox txt_LoginName;
         private TextBox txt_loginPass;
         private Label label1;
-        private PictureBox pictureBox1;
         private Label label2;
         private Label label3;
         private Button btn_CloseApp;
