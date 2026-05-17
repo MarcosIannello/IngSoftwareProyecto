@@ -1,9 +1,16 @@
 using BLL_90DI;
 using Entities_90DI;
+using iText.Kernel.Colors;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -106,8 +113,12 @@ namespace UI_90DI
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-
+            ExportarPDF90DI();
         }
+
+        // ─── Exportar PDF ─────────────────────────────────────────────────────
+
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -164,6 +175,111 @@ namespace UI_90DI
 
             txtName.Text = user.Nombre_90DI;
             txtLastName.Text = user.Apellidos_90DI;
+        }
+
+        private void ExportarPDF90DI()
+        {
+            // Obtener datos actuales del grid
+            var eventos = dataGridEvents.DataSource as List<LogEvent_90DI>;
+            if (eventos == null || eventos.Count == 0)
+            {
+                MessageBox.Show("No hay datos para exportar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            using var dlg = new SaveFileDialog
+            {
+                Title = "Guardar Bitacora",
+                Filter = "PDF (*.pdf)|*.pdf",
+                FileName = $"Bitacora_{DateTime.Now:yyyyMMdd_HHmm}.pdf",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
+
+            if (dlg.ShowDialog() != DialogResult.OK) return;
+
+            try
+            {
+                using var writer = new PdfWriter(dlg.FileName);
+                using var pdf = new PdfDocument(writer);
+                using var doc = new Document(pdf, PageSize.A4.Rotate());
+
+                doc.SetMargins(20, 20, 20, 20);
+
+                // ── Título ──
+                doc.Add(new Paragraph("Bitacora de Eventos")
+                    .SetFontSize(16)
+                    .SetBold()
+                    .SetTextAlignment(TextAlignment.CENTER));
+
+                // ── Subtítulo con filtros aplicados ──
+                var filtros = $"Periodo: {dtpInitialDate.Value:dd/MM/yyyy} - {dtpEndDate.Value:dd/MM/yyyy}" +
+                              $"   |   Registros: {eventos.Count}" +
+                              $"   |   Generado: {DateTime.Now:dd/MM/yyyy HH:mm}";
+                doc.Add(new Paragraph(filtros)
+                    .SetFontSize(9)
+                    .SetTextAlignment(TextAlignment.CENTER));
+
+                doc.Add(new Paragraph("\n").SetFontSize(4));
+
+                // ── Tabla ──
+                string[] headers = { "ID", "Login", "Fecha", "Hora", "Modulo", "Evento", "Criticidad" };
+                float[] widths = { 1f, 2f, 2f, 1.5f, 2f, 4f, 1.5f };
+
+                var table = new Table(UnitValue.CreatePercentArray(widths)).UseAllAvailableWidth();
+
+                // Cabeceras
+                var headerBg = new DeviceRgb(52, 73, 94);
+                foreach (var h in headers)
+                {
+                    table.AddHeaderCell(new Cell()
+                        .Add(new Paragraph(h).SetBold().SetFontSize(9).SetFontColor(ColorConstants.WHITE))
+                        .SetBackgroundColor(headerBg)
+                        .SetTextAlignment(TextAlignment.CENTER));
+                }
+
+                // Filas
+                var rowAlt = new DeviceRgb(235, 240, 245);
+                for (int i = 0; i < eventos.Count; i++)
+                {
+                    var ev = eventos[i];
+                    var bg = i % 2 == 0 ? ColorConstants.WHITE : rowAlt;
+
+                    var values = new[]
+                    {
+                        ev.IdEvento_90DI.ToString(),
+                        ev.Login_90DI,
+                        ev.Fecha_90DI.ToString("dd/MM/yyyy"),
+                        ev.Hora_90DI.ToString(@"hh\:mm\:ss"),
+                        ev.Modulo_90DI,
+                        ev.Evento_90DI,
+                        ev.Criticidad_90DI.ToString()
+                    };
+
+                    foreach (var v in values)
+                    {
+                        table.AddCell(new Cell()
+                            .Add(new Paragraph(v ?? "").SetFontSize(8))
+                            .SetBackgroundColor(bg));
+                    }
+                }
+
+                doc.Add(table);
+
+                MessageBox.Show($"PDF exportado correctamente.", "Listo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Abrir el archivo automáticamente
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = dlg.FileName,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }
