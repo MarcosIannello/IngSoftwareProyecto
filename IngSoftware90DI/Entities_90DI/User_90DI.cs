@@ -1,6 +1,6 @@
 namespace Entities_90DI
 {
-    public class User90DI
+    public class User_90DI
     {
         public int IdUsuario_90DI { get; set; }
         public string NombreUsuario_90DI { get; set; } = "";

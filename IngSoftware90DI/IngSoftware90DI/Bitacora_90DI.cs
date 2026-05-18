@@ -16,13 +16,13 @@ using System.Windows.Forms;
 
 namespace UI_90DI
 {
-    public partial class Bitacora : Form
+    public partial class Bitacora_90DI : Form
     {
-        private readonly UsersService90DI _usersService = new UsersService90DI();
+        private readonly UsersBLL_90DI _usersService = new UsersBLL_90DI();
         private readonly BitacoraBLL_90DI _bll = new BitacoraBLL_90DI();
         private List<LogEvent_90DI> _eventosList = new List<LogEvent_90DI>();
 
-        public Bitacora()
+        public Bitacora_90DI()
         {
             InitializeComponent();
             ConfigurarCombos();
@@ -122,14 +122,14 @@ namespace UI_90DI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var menu = new Menu200MI();
+            var menu = new Menu_90DI();
             this.Close();
             menu.Show();
         }
 
         private void CrudUsers_FormClosed(object sender, FormClosedEventArgs e)
         {
-            var menu = new Menu200MI();
+            var menu = new Menu_90DI();
             this.Hide();
             menu.Show();
         }

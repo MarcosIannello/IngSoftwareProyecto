@@ -19,7 +19,7 @@ namespace UI_90DI
             try
             {
 
-                var login = SessionManager90DI.Instancia.IniciarSesion(txt_LoginName.Text, txt_loginPass.Text);
+                var login = SessionManager_90DI.Instancia.IniciarSesion(txt_LoginName.Text, txt_loginPass.Text);
 
                 if (login)
                 {
@@ -33,7 +33,7 @@ namespace UI_90DI
                         Criticidad_90DI = 1
                     });
 
-                    var menu = new Menu200MI();
+                    var menu = new  Menu_90DI();
 
                     menu.Show();
 

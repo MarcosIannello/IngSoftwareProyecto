@@ -3,13 +3,13 @@ using System.Configuration;
 
 namespace DAL
 {
-    public class ConexionSql200MI
+    public class ConexionSql_90DI
     {
         private readonly string _connectionString;
 
-        public ConexionSql200MI()
+        public ConexionSql_90DI()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["CapitalPlus"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["IngSoftware90DI"].ConnectionString;
         }
 
         public SqlConnection GetConnection()
