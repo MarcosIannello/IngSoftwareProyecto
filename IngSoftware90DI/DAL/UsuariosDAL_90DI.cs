@@ -4,16 +4,16 @@ using Entities_90DI;
 
 namespace DAL
 {
-    public class UsuariosDAL200MI
+    public class UsuariosDAL_90DI
     {
-        private readonly ConexionSql200MI _conexion = new ConexionSql200MI();
+        private readonly ConexionSql_90DI _conexion = new ConexionSql_90DI();
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public UsuariosDAL200MI() { }
+        public UsuariosDAL_90DI() { }
 
-        public List<User90DI> SearchUsers90DI(string? dni = null, string? apellidos = null, string? nombre = null, string? email = null, string? rol = null, string? login = null)
+        public List<User_90DI> SearchUsers90DI(string? dni = null, string? apellidos = null, string? nombre = null, string? email = null, string? rol = null, string? login = null)
         {
-            var result = new List<User90DI>();
+            var result = new List<User_90DI>();
             try
             {
                 using (var con = _conexion.GetConnection())
@@ -46,7 +46,7 @@ namespace DAL
                         {
                             while (reader.Read())
                             {
-                                result.Add(new User90DI
+                                result.Add(new User_90DI
                                 {
                                     IdUsuario_90DI     = reader.GetInt32(0),
                                     NombreUsuario_90DI = reader.IsDBNull(1) ? "" : reader.GetString(1),
@@ -73,7 +73,7 @@ namespace DAL
             return result;
         }
 
-        public User90DI? GetUser90DI(string Username)
+        public User_90DI? GetUser90DI(string Username)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace DAL
                         {
                             if (reader.Read())
                             {
-                                return new User90DI
+                                return new User_90DI
                                 {
                                     IdUsuario_90DI = reader.GetInt32(0),
                                     NombreUsuario_90DI = reader.IsDBNull(1) ? "" : reader.GetString(1),
@@ -268,7 +268,7 @@ namespace DAL
             }
         }
 
-        public bool EditUser90DI(User90DI usuario)
+        public bool EditUser90DI(User_90DI usuario)
         {
             try
             {
@@ -307,7 +307,7 @@ namespace DAL
             }
         }
 
-        public bool CreateUser90DI(User90DI usuario)
+        public bool CreateUser90DI(User_90DI usuario)
         {
             if (string.IsNullOrWhiteSpace(usuario.NombreUsuario_90DI))
                 throw new ArgumentException("El nombre de usuario no puede estar vacío.");
@@ -353,9 +353,9 @@ namespace DAL
             }
         }
 
-        public List<User90DI> GetAllUsers90DI()
+        public List<User_90DI> GetAllUsers90DI()
         {
-            var result = new List<User90DI>();
+            var result = new List<User_90DI>();
             try
             {
                 using (var con = _conexion.GetConnection())
@@ -375,7 +375,7 @@ namespace DAL
                         {
                             while (reader.Read())
                             {
-                                result.Add(new User90DI
+                                result.Add(new User_90DI
                                 {
                                     IdUsuario_90DI    = reader.GetInt32(0),
                                     NombreUsuario_90DI = reader.IsDBNull(1) ? "" : reader.GetString(1),

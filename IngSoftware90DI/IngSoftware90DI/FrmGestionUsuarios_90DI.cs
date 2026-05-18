@@ -14,18 +14,18 @@ using UI_90DI;
 
 namespace UI_90DI
 {
-    public partial class CrudUsers : Form
+    public partial class FrmGestionUsuarios : Form
     {
-        UsersService90DI _users      = new UsersService90DI();
+        UsersBLL_90DI _users      = new UsersBLL_90DI();
         BitacoraBLL_90DI _bitacora   = new BitacoraBLL_90DI();
-        List<User90DI> usersList     = new List<User90DI>();
-        User90DI newUser             = new User90DI();
+        List<User_90DI> usersList     = new List<User_90DI>();
+        User_90DI newUser             = new User_90DI();
 
         private void RegistrarEvento(string evento, byte criticidad = 3)
         {
             _bitacora.CreateLogEvent_90DI(new LogEvent_90DI
             {
-                Login_90DI      = SessionManager90DI.Instancia.UserName,
+                Login_90DI      = SessionManager_90DI.Instancia.UserName,
                 Fecha_90DI      = DateTime.Now,
                 Hora_90DI       = DateTime.Now.TimeOfDay,
                 Modulo_90DI     = "Usuarios",
@@ -33,14 +33,14 @@ namespace UI_90DI
                 Criticidad_90DI = criticidad
             });
         }
-        User90DI temp;
+        User_90DI temp;
         bool createMode = false;
         bool editMode = false;
         bool viewMode = true;
         bool unblockMode = false;
         bool activateMode = false;
 
-        public CrudUsers()
+        public FrmGestionUsuarios()
         {
             InitializeComponent();
             GetUsers();
@@ -185,11 +185,11 @@ namespace UI_90DI
 
         public void GetUsers()
         {
-            usersList = _users.GetAllUsers();
+            usersList = _users.GetAllUsers_90DI();
             RefreshGrid(usersList);
         }
 
-        private void RefreshGrid(List<User90DI> list)
+        private void RefreshGrid(List<User_90DI> list)
         {
             dataGridUsers.DataSource = list;
             lblCantUsers.Text = "Numero Usuarios: " + list.Count;
@@ -197,7 +197,7 @@ namespace UI_90DI
             // Pintar inactivos de rojo
             foreach (DataGridViewRow row in dataGridUsers.Rows)
             {
-                var user = row.DataBoundItem as User90DI;
+                var user = row.DataBoundItem as User_90DI;
                 if (user != null && !user.Activo_90DI)
                     row.DefaultCellStyle.BackColor = Color.LightCoral;
                 else
@@ -208,11 +208,11 @@ namespace UI_90DI
         private void dataGridUsers_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            temp = (User90DI)dataGridUsers.CurrentRow.DataBoundItem;
+            temp = (User_90DI)dataGridUsers.CurrentRow.DataBoundItem;
             CompleteForm(temp);
         }
 
-        private void CompleteForm(User90DI user)
+        private void CompleteForm(User_90DI user)
         {
             txtApellido.Text      = user.Apellidos_90DI;
             txtDni.Text           = user.DNI_90DI;
@@ -287,7 +287,7 @@ namespace UI_90DI
         {
             if (!ValidateForm()) return;
 
-            newUser = new User90DI
+            newUser = new User_90DI
             {
                 IdUsuario_90DI     = 0,
                 NombreUsuario_90DI = txtLogin.Text,
@@ -302,7 +302,7 @@ namespace UI_90DI
                 Email_90DI         = txtEmail.Text
             };
 
-            _users.CreateUser(newUser);
+            _users.CreateUser_90DI(newUser);
             GetUsers();
         }
 
@@ -337,19 +337,19 @@ namespace UI_90DI
                     temp.Activo_90DI        = chkActiveUSer.Checked;
                     temp.Bloqueo_90DI       = chkBlock.Checked;
                     temp.Email_90DI         = txtEmail.Text;
-                    response = _users.UpdateUser(temp);
+                    response = _users.UpdateUser_90DI(temp);
                     if (response) RegistrarEvento($"Modificar Usuario: {temp.NombreUsuario_90DI}", 2);
                     GetUsers();
                 }
                 else if (unblockMode)
                 {
-                    response = _users.UnblockUser(temp.IdUsuario_90DI);
+                    response = _users.UnblockUser_90DI(temp.IdUsuario_90DI);
                     if (response) RegistrarEvento($"Desbloquear Usuario: {temp.NombreUsuario_90DI}", 1);
                     GetUsers();
                 }
                 else if (activateMode)
                 {
-                    response = _users.ActivateUser(temp);
+                    response = _users.ActivateUser_90DI(temp);
                     var accion = temp.Activo_90DI ? "Desactivar Usuario" : "Activar Usuario";
                     if (response) RegistrarEvento($"{accion}: {temp.NombreUsuario_90DI}", 1);
                     GetUsers();
@@ -376,14 +376,14 @@ namespace UI_90DI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var formMenu = new Menu200MI();
+            var formMenu = new Menu_90DI();
             this.Close();
             formMenu.Show();
         }
 
         private void CrudUsers_FormClosed(object sender, FormClosedEventArgs e)
         {
-            var menu = new Menu200MI();
+            var menu = new Menu_90DI();
             this.Hide();
             menu.Show();
         }

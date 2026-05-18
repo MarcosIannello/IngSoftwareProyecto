@@ -3,9 +3,9 @@ using Entities_90DI;
 
 namespace Service_90DI
 {
-    public sealed class SessionManager90DI
+    public sealed class SessionManager_90DI
     {
-        private static SessionManager90DI? _instancia = null;
+        private static SessionManager_90DI? _instancia = null;
 
         private static readonly object _lock = new();
 
@@ -19,11 +19,11 @@ namespace Service_90DI
 
         public bool SesionActiva { get; private set; }
 
-        private UsersService90DI _usuariosBLL = new UsersService90DI();
+        private UsersBLL_90DI _usuariosBLL = new UsersBLL_90DI();
 
-        private SessionManager90DI() { }
+        private SessionManager_90DI() { }
 
-        public static SessionManager90DI Instancia
+        public static SessionManager_90DI Instancia
         {
             get
             {
@@ -33,7 +33,7 @@ namespace Service_90DI
                     {
                         if (_instancia == null)
                         {
-                            _instancia = new SessionManager90DI();
+                            _instancia = new SessionManager_90DI();
                         }
                     }
                 }
@@ -47,7 +47,7 @@ namespace Service_90DI
                 if (SesionActiva)
                     throw new InvalidOperationException("Ya hay una sesion activa. Cerrala antes de iniciar otra.");
 
-                User90DI? user = _usuariosBLL.Login(userName, password);
+                User_90DI? user = _usuariosBLL.Login_90DI(userName, password);
 
                 if (user == null)
                     throw new InvalidOperationException("El usuario no existe , o sus credenciales son incorrectas");

@@ -1,6 +1,6 @@
 ﻿namespace UI_90DI
 {
-    partial class FrmCambiarPassword_200MI
+    partial class FrmCambiarPassword_90DI
     {
         /// <summary>
         /// Required designer variable.

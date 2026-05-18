@@ -1,6 +1,6 @@
 ﻿namespace UI_90DI
 {
-    partial class CrudUsers
+    partial class FrmGestionUsuarios
     {
         /// <summary>
         /// Required designer variable.

@@ -16,12 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Services\Services_90DI.csproj" />
     <ProjectReference Include="..\BLL_90DI\BLL_90DI.csproj" />
+    <ProjectReference Include="..\Entities_90DI\Entities_90DI.csproj" />
+    <ProjectReference Include="..\Services\Services_90DI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Bitacora.cs">
+    <Compile Update="Bitacora_90DI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Properties\Resources.Designer.cs">

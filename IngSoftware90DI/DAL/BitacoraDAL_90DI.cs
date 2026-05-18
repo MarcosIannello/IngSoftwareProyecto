@@ -5,7 +5,7 @@ namespace DAL
 {
     public class BitacoraDAL_90DI
     {
-        private readonly ConexionSql200MI _conexion = new ConexionSql200MI();
+        private readonly ConexionSql_90DI _conexion = new ConexionSql_90DI();
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public BitacoraDAL_90DI() { }
