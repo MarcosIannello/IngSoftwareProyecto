@@ -21,9 +21,11 @@ namespace UI_90DI
         private readonly UsersBLL_90DI _usersService = new UsersBLL_90DI();
         private readonly BitacoraBLL_90DI _bll = new BitacoraBLL_90DI();
         private List<Event_90DI> _eventosList = new List<Event_90DI>();
+        private readonly FrmMenu_90DI _menu;
 
-        public FrmBitacora_90DI()
+        public FrmBitacora_90DI(FrmMenu_90DI menu)
         {
+            _menu = menu;
             InitializeComponent();
             ConfigurarCombos();
             CargarEventos();
@@ -122,16 +124,13 @@ namespace UI_90DI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var menu = new FrmMenu_90DI();
+            _menu.Show();
             this.Close();
-            menu.Show();
         }
 
         private void CrudUsers_FormClosed(object sender, FormClosedEventArgs e)
         {
-            var menu = new FrmMenu_90DI();
-            this.Hide();
-            menu.Show();
+            _menu.Show();
         }
 
         private void btnClean_Click(object sender, EventArgs e)

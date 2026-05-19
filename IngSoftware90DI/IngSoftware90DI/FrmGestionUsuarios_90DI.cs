@@ -20,6 +20,7 @@ namespace UI_90DI
         BitacoraBLL_90DI _bitacora   = new BitacoraBLL_90DI();
         List<User_90DI> usersList     = new List<User_90DI>();
         User_90DI newUser             = new User_90DI();
+        private readonly FrmMenu_90DI _menu;
 
         private void RegistrarEvento(string evento, byte criticidad = 3)
         {
@@ -40,8 +41,9 @@ namespace UI_90DI
         bool unblockMode = false;
         bool activateMode = false;
 
-        public FrmGestionUsuarios()
+        public FrmGestionUsuarios(FrmMenu_90DI menu)
         {
+            _menu = menu;
             InitializeComponent();
             GetUsers();
             EnableQueryFields();
@@ -389,16 +391,13 @@ namespace UI_90DI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var formMenu = new FrmMenu_90DI();
+            _menu.Show();
             this.Close();
-            formMenu.Show();
         }
 
         private void CrudUsers_FormClosed(object sender, FormClosedEventArgs e)
         {
-            var menu = new FrmMenu_90DI();
-            this.Hide();
-            menu.Show();
+            _menu.Show();
         }
 
         // ─── Búsqueda LINQ ───────────────────────────────────────────────────

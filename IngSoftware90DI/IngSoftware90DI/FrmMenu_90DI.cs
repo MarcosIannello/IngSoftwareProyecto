@@ -78,14 +78,14 @@ namespace UI_90DI
 
         private void aBMUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var abmUsers = new FrmGestionUsuarios();
-            abmUsers.Show();
+            var abmUsers = new FrmGestionUsuarios(this);
             this.Hide();
+            abmUsers.Show();
         }
 
         private void bitacoraToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var Bitacora = new FrmBitacora_90DI();
+            var Bitacora = new FrmBitacora_90DI(this);
             this.Hide();
             Bitacora.Show();
         }
