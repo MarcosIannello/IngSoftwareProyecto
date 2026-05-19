@@ -16,13 +16,13 @@ using System.Windows.Forms;
 
 namespace UI_90DI
 {
-    public partial class Bitacora_90DI : Form
+    public partial class FrmBitacora_90DI : Form
     {
         private readonly UsersBLL_90DI _usersService = new UsersBLL_90DI();
         private readonly BitacoraBLL_90DI _bll = new BitacoraBLL_90DI();
-        private List<LogEvent_90DI> _eventosList = new List<LogEvent_90DI>();
+        private List<Event_90DI> _eventosList = new List<Event_90DI>();
 
-        public Bitacora_90DI()
+        public FrmBitacora_90DI()
         {
             InitializeComponent();
             ConfigurarCombos();
@@ -75,7 +75,7 @@ namespace UI_90DI
             RefreshGrid(ultimos3dias);
         }
 
-        private void RefreshGrid(List<LogEvent_90DI> list)
+        private void RefreshGrid(List<Event_90DI> list)
         {
             dataGridEvents.DataSource = list;
             lblCantUsers.Text = "BITACORA EVENTOS  |  Registros: " + list.Count;
@@ -122,14 +122,14 @@ namespace UI_90DI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var menu = new Menu_90DI();
+            var menu = new FrmMenu_90DI();
             this.Close();
             menu.Show();
         }
 
         private void CrudUsers_FormClosed(object sender, FormClosedEventArgs e)
         {
-            var menu = new Menu_90DI();
+            var menu = new FrmMenu_90DI();
             this.Hide();
             menu.Show();
         }
@@ -164,11 +164,11 @@ namespace UI_90DI
 
         }
 
-        LogEvent_90DI selectedItem;
+        Event_90DI selectedItem;
         private void dataGridEvents_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            selectedItem = (LogEvent_90DI)dataGridEvents.CurrentRow.DataBoundItem;
+            selectedItem = (Event_90DI)dataGridEvents.CurrentRow.DataBoundItem;
             var user = _usersService.getUserByUsername(selectedItem.Login_90DI);
 
             if (user == null) return;
@@ -180,7 +180,7 @@ namespace UI_90DI
         private void ExportarPDF90DI()
         {
             // Obtener datos actuales del grid
-            var eventos = dataGridEvents.DataSource as List<LogEvent_90DI>;
+            var eventos = dataGridEvents.DataSource as List<Event_90DI>;
             if (eventos == null || eventos.Count == 0)
             {
                 MessageBox.Show("No hay datos para exportar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);

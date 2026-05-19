@@ -7,16 +7,14 @@ using Capital_;
 
 namespace UI_90DI
 {
-    public partial class Menu_90DI : Form
+    public partial class FrmMenu_90DI : Form
     {
         private readonly BitacoraBLL_90DI _bitacora = new BitacoraBLL_90DI();
 
-        public Menu_90DI()
+        public FrmMenu_90DI()
         {
             InitializeComponent();
         }
-
-
 
 
         private void Menu200MI_FormClosed(object sender, FormClosedEventArgs e)
@@ -28,7 +26,7 @@ namespace UI_90DI
         {
             try
             {
-                SessionManager_90DI.Instancia.IniciarSesion();
+                SessionManager_90DI.Instancia.Login_90DI(null);
 
             }
             catch (Exception ex)
@@ -41,9 +39,16 @@ namespace UI_90DI
         {
             try
             {
+                var confirm = MessageBox.Show(
+                    "¿Desea cerrar sesión?",
+                    "Cerrar sesión",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+                if (confirm != DialogResult.Yes) return;
+
                 var userName = SessionManager_90DI.Instancia.UserName;
 
-                _bitacora.CreateLogEvent_90DI(new LogEvent_90DI
+                _bitacora.CreateLogEvent_90DI(new Event_90DI
                 {
                     Login_90DI      = userName,
                     Fecha_90DI      = DateTime.Now,
@@ -54,7 +59,7 @@ namespace UI_90DI
                 });
 
                 SessionManager_90DI.Instancia.CerrarSesion();
-                var login = new Login_90DI();
+                var login = new FrmLogin_90DI();
                 this.Hide();
                 login.Show();
             }
@@ -80,7 +85,7 @@ namespace UI_90DI
 
         private void bitacoraToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var Bitacora = new Bitacora_90DI();
+            var Bitacora = new FrmBitacora_90DI();
             this.Hide();
             Bitacora.Show();
         }

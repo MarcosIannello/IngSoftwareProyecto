@@ -11,7 +11,7 @@ namespace UI_90DI
 
         private UsersBLL_90DI _usuarioService = new UsersBLL_90DI();
         private User_90DI usuario = new();
-        Menu_90DI menu = new Menu_90DI();
+        FrmMenu_90DI menu = new FrmMenu_90DI();
 
         public FrmCambiarPassword_90DI()
         {
@@ -34,15 +34,36 @@ namespace UI_90DI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var nuevaPassword = textBox2.Text;
-
-            if (nuevaPassword == "")
+            if (string.IsNullOrWhiteSpace(txtPassActual.Text) ||
+                string.IsNullOrWhiteSpace(txtNewPass.Text) ||
+                string.IsNullOrWhiteSpace(txtConfirmNewPass.Text))
             {
-                MessageBox.Show("La contraseña no puede estar vacía.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Todos los campos son obligatorios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var resultado = _usuarioService.updatePassword_90DI(usuario.IdUsuario_90DI, nuevaPassword);
+            if (!_usuarioService.VerifyPassword_90DI(txtPassActual.Text, usuario.Password_90DI))
+            {
+                MessageBox.Show("La contraseña actual es incorrecta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPassActual.Focus();
+                return;
+            }
+
+            if (txtNewPass.Text.Length < 8)
+            {
+                MessageBox.Show("La nueva contraseña debe tener al menos 8 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNewPass.Focus();
+                return;
+            }
+
+            if (txtNewPass.Text != txtConfirmNewPass.Text)
+            {
+                MessageBox.Show("La nueva contraseña y su confirmación no coinciden.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtConfirmNewPass.Focus();
+                return;
+            }
+
+            var resultado = _usuarioService.updatePassword_90DI(usuario.IdUsuario_90DI, txtNewPass.Text);
 
             if (resultado)
             {
@@ -54,7 +75,6 @@ namespace UI_90DI
             {
                 MessageBox.Show("Error al actualizar la contraseña. Por favor, intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void cargarDatos(User_90DI usuario)
@@ -66,6 +86,11 @@ namespace UI_90DI
         private void FrmCambiarPassword_200MI_FormClosed(object sender, FormClosedEventArgs e)
         {
             menu.Show();
+        }
+
+        private void FrmCambiarPassword_90DI_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

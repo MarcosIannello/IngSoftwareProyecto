@@ -1,4 +1,4 @@
-using BLL_90DI;
+using DAL;
 using Entities_90DI;
 
 namespace Service_90DI
@@ -19,7 +19,7 @@ namespace Service_90DI
 
         public bool SesionActiva { get; private set; }
 
-        private UsersBLL_90DI _usuariosBLL = new UsersBLL_90DI();
+        private UserDAL_90DI _usuariosBLL = new UserDAL_90DI();
 
         private SessionManager_90DI() { }
 
@@ -41,13 +41,11 @@ namespace Service_90DI
             }
         }
 
-        public bool IniciarSesion(string userName = "", string password = "")
+        public bool Login_90DI(User_90DI? user = null)
         {
            
                 if (SesionActiva)
                     throw new InvalidOperationException("Ya hay una sesion activa. Cerrala antes de iniciar otra.");
-
-                User_90DI? user = _usuariosBLL.Login_90DI(userName, password);
 
                 if (user == null)
                     throw new InvalidOperationException("El usuario no existe , o sus credenciales son incorrectas");
@@ -60,7 +58,7 @@ namespace Service_90DI
 
                 this.UserName = user.NombreUsuario_90DI;
                 this.IdUsuario = user.IdUsuario_90DI.ToString();
-                this.Rol = user.IdPerfil_90DI.ToString();
+                this.Rol = user.Rol_90DI.ToString();
                 this.SesionActiva = true;
 
                 return true;

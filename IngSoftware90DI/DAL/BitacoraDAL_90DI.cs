@@ -10,7 +10,7 @@ namespace DAL
 
         public BitacoraDAL_90DI() { }
 
-        public bool CreateLogEvent_90DI(LogEvent_90DI logEvent_90DI)
+        public bool CreateLogEvent_90DI(Event_90DI logEvent_90DI)
         {
             try
             {
@@ -45,9 +45,9 @@ namespace DAL
             }
         }
 
-        public List<LogEvent_90DI> GetLogEvent_90DI()
+        public List<Event_90DI> GetLogEvent_90DI()
         {
-            var eventos = new List<LogEvent_90DI>();
+            var eventos = new List<Event_90DI>();
 
             try
             {
@@ -68,7 +68,7 @@ namespace DAL
                         {
                             while (reader.Read())
                             {
-                                eventos.Add(new LogEvent_90DI
+                                eventos.Add(new Event_90DI
                                 {
                                     IdEvento_90DI   = reader.GetInt32(0),
                                     Login_90DI      = reader.IsDBNull(1) ? "" : reader.GetString(1),

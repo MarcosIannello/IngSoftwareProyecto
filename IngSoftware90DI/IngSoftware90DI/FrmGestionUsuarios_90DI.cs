@@ -23,7 +23,7 @@ namespace UI_90DI
 
         private void RegistrarEvento(string evento, byte criticidad = 3)
         {
-            _bitacora.CreateLogEvent_90DI(new LogEvent_90DI
+            _bitacora.CreateLogEvent_90DI(new Event_90DI
             {
                 Login_90DI      = SessionManager_90DI.Instancia.UserName,
                 Fecha_90DI      = DateTime.Now,
@@ -296,9 +296,9 @@ namespace UI_90DI
                 Nombre_90DI        = txtNombre.Text,
                 Activo_90DI        = chkActiveUSer.Checked,
                 FechaAlta_90DI     = DateTime.Now,
-                IdPerfil_90DI      = 1, //CAMBIAR!!!
+                Rol_90DI      = "Admin", //CAMBIAR cuando este desarrollado roles!!!
                 Bloqueo_90DI       = chkBlock.Checked,
-                Clave_90DI         = txtDni.Text + txtApellido.Text,  // DNI + Apellido
+                Password_90DI         = txtDni.Text + txtApellido.Text,  // DNI + Apellido
                 Email_90DI         = txtEmail.Text
             };
 
@@ -343,15 +343,28 @@ namespace UI_90DI
                 }
                 else if (unblockMode)
                 {
+                    var confirm = MessageBox.Show(
+                        $"¿Desea desbloquear al usuario '{temp.NombreUsuario_90DI}'?",
+                        "Confirmar desbloqueo",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+                    if (confirm != DialogResult.Yes) return;
                     response = _users.UnblockUser_90DI(temp.IdUsuario_90DI);
                     if (response) RegistrarEvento($"Desbloquear Usuario: {temp.NombreUsuario_90DI}", 1);
                     GetUsers();
                 }
                 else if (activateMode)
                 {
+                    var accion = temp.Activo_90DI ? "desactivar" : "activar";
+                    var confirm = MessageBox.Show(
+                        $"¿Desea {accion} al usuario '{temp.NombreUsuario_90DI}'?",
+                        "Confirmar acción",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+                    if (confirm != DialogResult.Yes) return;
                     response = _users.ActivateUser_90DI(temp);
-                    var accion = temp.Activo_90DI ? "Desactivar Usuario" : "Activar Usuario";
-                    if (response) RegistrarEvento($"{accion}: {temp.NombreUsuario_90DI}", 1);
+                    var accionLog = temp.Activo_90DI ? "Desactivar Usuario" : "Activar Usuario";
+                    if (response) RegistrarEvento($"{accionLog}: {temp.NombreUsuario_90DI}", 1);
                     GetUsers();
                 }
 
@@ -376,14 +389,14 @@ namespace UI_90DI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var formMenu = new Menu_90DI();
+            var formMenu = new FrmMenu_90DI();
             this.Close();
             formMenu.Show();
         }
 
         private void CrudUsers_FormClosed(object sender, FormClosedEventArgs e)
         {
-            var menu = new Menu_90DI();
+            var menu = new FrmMenu_90DI();
             this.Hide();
             menu.Show();
         }

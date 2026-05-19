@@ -1,6 +1,6 @@
 namespace Entities_90DI
 {
-    public class LogEvent_90DI
+    public class Event_90DI
     {
         public int IdEvento_90DI { get; set; }
 

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BLL_90DI\BLL_90DI.csproj" />
+    <ProjectReference Include="..\DAL\DAL_90DI.csproj" />
   </ItemGroup>
 
 </Project>
