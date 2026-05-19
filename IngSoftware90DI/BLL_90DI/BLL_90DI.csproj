@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL_90DI.csproj" />
     <ProjectReference Include="..\Entities_90DI\Entities_90DI.csproj" />
+    <ProjectReference Include="..\Services\Services_90DI.csproj" />
   </ItemGroup>
 
 </Project>

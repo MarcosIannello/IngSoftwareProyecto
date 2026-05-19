@@ -1,6 +1,6 @@
 ﻿namespace UI_90DI
 {
-    partial class Bitacora_90DI
+    partial class FrmBitacora_90DI
     {
         /// <summary>
         /// Required designer variable.

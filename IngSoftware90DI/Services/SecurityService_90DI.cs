@@ -7,12 +7,12 @@ namespace Services_90DI
     {
         private static byte[] _key;
 
-        public static void Initialize(string base64Key)
+        public static void Initialize_90DI(string base64Key)
         {
             _key = Convert.FromBase64String(base64Key);
         }
 
-        public static string Encrypt(string plainText)
+        public static string ReversibleEncrypt_90DI(string plainText)
         {
             var nonce = RandomNumberGenerator.GetBytes(12);
             var tag = new byte[16];
@@ -24,7 +24,7 @@ namespace Services_90DI
             return $"{Convert.ToBase64String(nonce)}.{Convert.ToBase64String(cipherText)}.{Convert.ToBase64String(tag)}";
         }
 
-        public static string Decrypt(string encryptedText)
+        public static string ReversibleDecrypt_90DI(string encryptedText)
         {
             var parts = encryptedText.Split('.');
             var nonce = Convert.FromBase64String(parts[0]);

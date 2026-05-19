@@ -1,6 +1,6 @@
 ﻿namespace UI_90DI
 {
-    partial class Login_90DI
+    partial class FrmLogin_90DI
     {
         /// <summary>
         ///  Required designer variable.
@@ -105,7 +105,7 @@
             btn_CloseApp.UseVisualStyleBackColor = false;
             btn_CloseApp.Click += btn_CloseApp_Click;
             // 
-            // Login_90DI
+            // FrmLogin_90DI
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -119,9 +119,10 @@
             Controls.Add(txt_LoginName);
             Controls.Add(Btn_Login);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Login_90DI";
+            Name = "FrmLogin_90DI";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
+            Load += FrmLogin_90DI_Load;
             ResumeLayout(false);
             PerformLayout();
         }

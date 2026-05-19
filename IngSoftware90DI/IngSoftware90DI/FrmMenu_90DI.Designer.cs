@@ -1,6 +1,6 @@
 ﻿namespace UI_90DI
 {
-    partial class Menu_90DI
+    partial class FrmMenu_90DI
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu_90DI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMenu_90DI));
             menuStrip1 = new MenuStrip();
             usuariosToolStripMenuItem = new ToolStripMenuItem();
             loginToolStripMenuItem = new ToolStripMenuItem();

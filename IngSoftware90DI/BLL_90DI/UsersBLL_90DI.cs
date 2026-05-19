@@ -7,7 +7,7 @@ namespace BLL_90DI
 {
     public class UsersBLL_90DI
     {
-        private readonly UsuariosDAL_90DI _dal = new UsuariosDAL_90DI();
+        private readonly UserDAL_90DI _dal = new UserDAL_90DI();
 
         private const int MAX_INTENTOS = 3;
 
@@ -15,23 +15,39 @@ namespace BLL_90DI
 
         public UsersBLL_90DI() { }
 
+        // Si el email ya está en texto plano (usuarios migrados), lo deja como está
+        private static string TryDecryptEmail(string email)
+        {
+            try { return SecurityService_90DI.ReversibleDecrypt_90DI(email); }
+            catch { return email; }
+        }
+
         public User_90DI? getUserByUsername(string Username)
         {
-            return _dal.GetUser90DI(Username);
+            var user = _dal.GetUserByUsername_90DI(Username);
+            if (user != null && !string.IsNullOrEmpty(user.Email_90DI))
+                user.Email_90DI = TryDecryptEmail(user.Email_90DI);
+            return user;
         }
 
         public User_90DI? Login_90DI(string username, string password)
         {
             var user = getUserByUsername(username);
 
+            if(user != null && user.Bloqueo_90DI)
+            {
+                return new User_90DI { Bloqueo_90DI = true };
+            }
+
             if (user != null)
             {
-                if (SecurityService_90DI.Verify90DI(password, user.Clave_90DI))
+                if (SecurityService_90DI.Verify90DI(password, user.Password_90DI))
                 {
                     return user;
                 }
                 else
                 {
+                    //ValidateBlock
                     _intentos++;
 
                     if (_intentos >= MAX_INTENTOS)
@@ -58,14 +74,25 @@ namespace BLL_90DI
             return SecurityService_90DI.HashPassword90DI(password);
         }
 
+        public bool VerifyPassword_90DI(string password, string storedHash)
+        {
+            return SecurityService_90DI.Verify90DI(password, storedHash);
+        }
+
         public List<User_90DI> GetAllUsers_90DI()
         {
-            return _dal.GetAllUsers90DI();
+            var users = _dal.GetAllUsers90DI();
+            foreach (var u in users)
+                if (!string.IsNullOrEmpty(u.Email_90DI))
+                    u.Email_90DI = TryDecryptEmail(u.Email_90DI);
+            return users;
         }
 
         public bool CreateUser_90DI(User_90DI user)
         {
-            user.Clave_90DI = getHashPassword_90DI(user.Clave_90DI);
+            user.Password_90DI = getHashPassword_90DI(user.Password_90DI);
+            if (!string.IsNullOrEmpty(user.Email_90DI))
+                user.Email_90DI = SecurityService_90DI.ReversibleEncrypt_90DI(user.Email_90DI);
             return _dal.CreateUser90DI(user);
         }
 
@@ -76,7 +103,9 @@ namespace BLL_90DI
 
         public bool UpdateUser_90DI(User_90DI user)
         {
-            return _dal.EditUser90DI(user);
+            if (!string.IsNullOrEmpty(user.Email_90DI))
+                user.Email_90DI = SecurityService_90DI.ReversibleEncrypt_90DI(user.Email_90DI);
+            return _dal.UpdateUser90DI(user);
         }
 
         public bool ActivateUser_90DI(User_90DI user)
