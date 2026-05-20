@@ -1,9 +1,6 @@
 using Services_90DI;
-using System.Reflection;
 using BLL_90DI;
-using Entities_90DI;
 using Service_90DI;
-using Capital_;
 
 namespace UI_90DI
 {
@@ -60,8 +57,8 @@ namespace UI_90DI
 
                 SessionManager_90DI.Instancia.CerrarSesion();
                 var login = new FrmLogin_90DI();
-                this.Hide();
                 login.Show();
+                this.Hide();
             }
             catch (Exception ex)
             {

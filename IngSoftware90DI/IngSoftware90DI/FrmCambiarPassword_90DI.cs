@@ -1,7 +1,7 @@
 
 
 using BLL_90DI;
-using Entities_90DI;
+using Services_90DI;
 using Service_90DI;
 
 namespace UI_90DI

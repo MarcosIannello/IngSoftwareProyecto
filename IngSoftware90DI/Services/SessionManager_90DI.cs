@@ -1,5 +1,4 @@
-using DAL;
-using Entities_90DI;
+using Services_90DI;
 
 namespace Service_90DI
 {
@@ -18,8 +17,6 @@ namespace Service_90DI
         public string Rol { get; private set; } = string.Empty;
 
         public bool SesionActiva { get; private set; }
-
-        private UserDAL_90DI _usuariosBLL = new UserDAL_90DI();
 
         private SessionManager_90DI() { }
 

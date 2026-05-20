@@ -1,5 +1,5 @@
 using NLog;
-using Entities_90DI;
+using Services_90DI;
 
 namespace DAL
 {
@@ -184,16 +184,19 @@ namespace DAL
                         cmd.CommandText =
                             """
                                 INSERT INTO User_90DI
-                                    (NombreUsuario_90DI, Password_90DI, Activo_90DI,
-                                     FechaAlta_90DI, DNI_90DI, Apellidos_90DI,
-                                     Nombre_90DI, Rol_90DI, Email_90DI, Bloqueo_90DI)
+                                    (NombreUsuario_90DI, Password_90DI, IdPerfil_90DI,
+                                     Activo_90DI, FechaAlta_90DI, DNI_90DI,
+                                     Apellidos_90DI, Nombre_90DI, Rol_90DI,
+                                     Email_90DI, Bloqueo_90DI)
                                 VALUES
-                                    (@nombreUsuario, @password, @activo,
-                                     @fechaAlta, @dni, @apellidos,
-                                     @nombre, @rol, @email, @bloqueado)
+                                    (@nombreUsuario, @password, @idPerfil,
+                                     @activo, @fechaAlta, @dni,
+                                     @apellidos, @nombre, @rol,
+                                     @email, @bloqueado)
                             """;
                         cmd.Parameters.AddWithValue("@nombreUsuario", usuario.NombreUsuario_90DI);
                         cmd.Parameters.AddWithValue("@password",      usuario.Password_90DI);
+                        cmd.Parameters.AddWithValue("@idPerfil",      usuario.IdPerfil_90DI);
                         cmd.Parameters.AddWithValue("@activo",        usuario.Activo_90DI);
                         cmd.Parameters.AddWithValue("@fechaAlta",     DateTime.Now);
                         cmd.Parameters.AddWithValue("@dni",           usuario.DNI_90DI);

@@ -1,6 +1,6 @@
 using BLL_90DI;
 using DAL;
-using Entities_90DI;
+using Services_90DI;
 using Service_90DI;
 using System;
 using System.Collections.Generic;
@@ -298,9 +298,10 @@ namespace UI_90DI
                 Nombre_90DI        = txtNombre.Text,
                 Activo_90DI        = chkActiveUSer.Checked,
                 FechaAlta_90DI     = DateTime.Now,
-                Rol_90DI      = "Admin", //CAMBIAR cuando este desarrollado roles!!!
+                IdPerfil_90DI      = 1, // TODO: reemplazar cuando estén desarrollados los perfiles
+                Rol_90DI           = "Admin", //CAMBIAR cuando este desarrollado roles!!!
                 Bloqueo_90DI       = chkBlock.Checked,
-                Password_90DI         = txtDni.Text + txtApellido.Text,  // DNI + Apellido
+                Password_90DI      = txtDni.Text + txtApellido.Text,  // DNI + Apellido
                 Email_90DI         = txtEmail.Text
             };
 
