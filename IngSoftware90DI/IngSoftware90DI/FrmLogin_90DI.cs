@@ -1,7 +1,7 @@
 using BLL_90DI;
 using Capital_;
-using Services_90DI;
 using Service_90DI;
+using Services_90DI.entities;
 
 
 namespace UI_90DI
@@ -38,15 +38,7 @@ namespace UI_90DI
 
                 if (login)
                 {
-                    _bitacora.CreateLogEvent_90DI(new Event_90DI
-                    {
-                        Login_90DI = txt_LoginName.Text,
-                        Fecha_90DI = DateTime.Now,
-                        Hora_90DI = DateTime.Now.TimeOfDay,
-                        Modulo_90DI = "Login",
-                        Evento_90DI = "Inicio de sesion exitoso",
-                        Criticidad_90DI = 1
-                    });
+                  
 
                     var menu = new FrmMenu_90DI();
 

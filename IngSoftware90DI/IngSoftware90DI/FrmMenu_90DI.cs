@@ -1,12 +1,14 @@
 using Services_90DI;
 using BLL_90DI;
 using Service_90DI;
+using Capital_;
 
 namespace UI_90DI
 {
     public partial class FrmMenu_90DI : Form
     {
         private readonly BitacoraBLL_90DI _bitacora = new BitacoraBLL_90DI();
+        public UsersBLL_90DI _userBll = new UsersBLL_90DI();
 
         public FrmMenu_90DI()
         {
@@ -23,7 +25,10 @@ namespace UI_90DI
         {
             try
             {
-                SessionManager_90DI.Instancia.Login_90DI(null);
+                var frmLogin = new FrmLogin_90DI();
+
+                this.Show();
+                frmLogin.Show();
 
             }
             catch (Exception ex)
@@ -41,21 +46,10 @@ namespace UI_90DI
                     "Cerrar sesión",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
+
                 if (confirm != DialogResult.Yes) return;
 
-                var userName = SessionManager_90DI.Instancia.UserName;
-
-                _bitacora.CreateLogEvent_90DI(new Event_90DI
-                {
-                    Login_90DI      = userName,
-                    Fecha_90DI      = DateTime.Now,
-                    Hora_90DI       = DateTime.Now.TimeOfDay,
-                    Modulo_90DI     = "Usuarios",
-                    Evento_90DI     = "Logout",
-                    Criticidad_90DI = 1
-                });
-
-                SessionManager_90DI.Instancia.CerrarSesion();
+                _userBll.Logout_90DI();
                 var login = new FrmLogin_90DI();
                 login.Show();
                 this.Hide();
@@ -85,6 +79,12 @@ namespace UI_90DI
             var Bitacora = new FrmBitacora_90DI(this);
             this.Hide();
             Bitacora.Show();
+        }
+
+        private void adminFamiliaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmAdminFamilias = new FrmAdminFamilias();
+            frmAdminFamilias.Show();
         }
     }
 }

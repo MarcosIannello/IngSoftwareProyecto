@@ -1,4 +1,4 @@
-using Services_90DI;
+using Services_90DI.entities;
 
 namespace Service_90DI
 {
@@ -8,13 +8,7 @@ namespace Service_90DI
 
         private static readonly object _lock = new();
 
-        public string UserName { get; private set; } = string.Empty;
-
-        public string Password { get; private set; } = string.Empty;
-
-        public string IdUsuario { get; private set; } = string.Empty;
-
-        public string Rol { get; private set; } = string.Empty;
+        public User_90DI userActual = new User_90DI();
 
         public bool SesionActiva { get; private set; }
 
@@ -53,9 +47,7 @@ namespace Service_90DI
                 if (user.Activo_90DI == false)
                     throw new InvalidOperationException("El usuario no esta activo, Comuniquese con el Admin.");
 
-                this.UserName = user.NombreUsuario_90DI;
-                this.IdUsuario = user.IdUsuario_90DI.ToString();
-                this.Rol = user.Rol_90DI.ToString();
+                this.userActual = user;
                 this.SesionActiva = true;
 
                 return true;

@@ -1,4 +1,4 @@
-namespace Services_90DI
+namespace Services_90DI.entities
 {
     public class Event_90DI
     {

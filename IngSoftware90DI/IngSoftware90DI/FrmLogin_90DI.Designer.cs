@@ -47,7 +47,6 @@
             Btn_Login.TabIndex = 0;
             Btn_Login.Text = "Ingresar";
             Btn_Login.UseVisualStyleBackColor = true;
-            Btn_Login.UseWaitCursor = true;
             Btn_Login.Click += Btn_Login_Click;
             // 
             // txt_LoginName

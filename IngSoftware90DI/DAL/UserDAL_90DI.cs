@@ -1,5 +1,5 @@
 using NLog;
-using Services_90DI;
+using Services_90DI.entities;
 
 namespace DAL
 {
@@ -202,7 +202,7 @@ namespace DAL
                         cmd.Parameters.AddWithValue("@dni",           usuario.DNI_90DI);
                         cmd.Parameters.AddWithValue("@apellidos",     usuario.Apellidos_90DI);
                         cmd.Parameters.AddWithValue("@nombre",        usuario.Nombre_90DI);
-                        cmd.Parameters.AddWithValue("@rol",           usuario.Rol_90DI);
+                        cmd.Parameters.AddWithValue("@rol",           0); //Ignora lo que carguemos default 0 x ahora cuando quede todo seteado armar Combo con roles
                         cmd.Parameters.AddWithValue("@email",         usuario.Email_90DI);
                         cmd.Parameters.AddWithValue("@bloqueado",     usuario.Bloqueo_90DI);
 

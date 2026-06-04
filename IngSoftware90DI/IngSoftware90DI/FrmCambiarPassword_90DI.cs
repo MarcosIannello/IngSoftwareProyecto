@@ -1,8 +1,8 @@
 
 
 using BLL_90DI;
-using Services_90DI;
 using Service_90DI;
+using Services_90DI.entities;
 
 namespace UI_90DI
 {
@@ -17,7 +17,7 @@ namespace UI_90DI
         {
             InitializeComponent();
 
-            usuario = _usuarioService.getUserByUsername(SessionManager_90DI.Instancia.UserName);
+            usuario = _usuarioService.getUserByUsername(SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI);
 
 
             if (usuario != null)

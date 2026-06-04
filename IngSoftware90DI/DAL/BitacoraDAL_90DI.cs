@@ -1,5 +1,5 @@
-using Services_90DI;
 using NLog;
+using Services_90DI.entities;
 
 namespace DAL
 {

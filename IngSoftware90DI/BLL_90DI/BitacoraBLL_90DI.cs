@@ -1,5 +1,5 @@
 using DAL;
-using Services_90DI;
+using Services_90DI.entities;
 
 namespace BLL_90DI
 {

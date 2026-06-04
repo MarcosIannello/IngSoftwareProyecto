@@ -1,6 +1,5 @@
 using BLL_90DI;
 using DAL;
-using Services_90DI;
 using Service_90DI;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using UI_90DI;
+using Services_90DI.entities;
 
 namespace UI_90DI
 {
@@ -22,18 +22,8 @@ namespace UI_90DI
         User_90DI newUser             = new User_90DI();
         private readonly FrmMenu_90DI _menu;
 
-        private void RegistrarEvento(string evento, byte criticidad = 3)
-        {
-            _bitacora.CreateLogEvent_90DI(new Event_90DI
-            {
-                Login_90DI      = SessionManager_90DI.Instancia.UserName,
-                Fecha_90DI      = DateTime.Now,
-                Hora_90DI       = DateTime.Now.TimeOfDay,
-                Modulo_90DI     = "Usuarios",
-                Evento_90DI     = evento,
-                Criticidad_90DI = criticidad
-            });
-        }
+      
+
         User_90DI temp;
         bool createMode = false;
         bool editMode = false;
@@ -285,9 +275,9 @@ namespace UI_90DI
 
         // ─── Aplicar ─────────────────────────────────────────────────────────
 
-        public void createUser()
+        public bool createUser()
         {
-            if (!ValidateForm()) return;
+            if (!ValidateForm()) return false;
 
             newUser = new User_90DI
             {
@@ -305,8 +295,14 @@ namespace UI_90DI
                 Email_90DI         = txtEmail.Text
             };
 
-            _users.CreateUser_90DI(newUser);
-            GetUsers();
+            var response = _users.CreateUser_90DI(newUser);
+
+            if (response)
+            {
+                GetUsers();
+                return response;
+            }
+            return false;
         }
 
         private void btnAplicar_Click(object sender, EventArgs e)
@@ -326,9 +322,9 @@ namespace UI_90DI
 
                 if (createMode)
                 {
-                    createUser();
-                    response = true;
-                    if (response) RegistrarEvento("Crear Usuario", 2);
+                    response = createUser();
+                    
+                    
                 }
                 else if (editMode)
                 {
@@ -341,7 +337,7 @@ namespace UI_90DI
                     temp.Bloqueo_90DI       = chkBlock.Checked;
                     temp.Email_90DI         = txtEmail.Text;
                     response = _users.UpdateUser_90DI(temp);
-                    if (response) RegistrarEvento($"Modificar Usuario: {temp.NombreUsuario_90DI}", 2);
+                    
                     GetUsers();
                 }
                 else if (unblockMode)
@@ -353,7 +349,7 @@ namespace UI_90DI
                         MessageBoxIcon.Question);
                     if (confirm != DialogResult.Yes) return;
                     response = _users.UnblockUser_90DI(temp.IdUsuario_90DI);
-                    if (response) RegistrarEvento($"Desbloquear Usuario: {temp.NombreUsuario_90DI}", 1);
+                    
                     GetUsers();
                 }
                 else if (activateMode)
@@ -367,7 +363,7 @@ namespace UI_90DI
                     if (confirm != DialogResult.Yes) return;
                     response = _users.ActivateUser_90DI(temp);
                     var accionLog = temp.Activo_90DI ? "Desactivar Usuario" : "Activar Usuario";
-                    if (response) RegistrarEvento($"{accionLog}: {temp.NombreUsuario_90DI}", 1);
+                   
                     GetUsers();
                 }
 
