@@ -39,6 +39,8 @@
             gestionUsuariosToolStripMenuItem = new ToolStripMenuItem();
             aBMUsuariosToolStripMenuItem = new ToolStripMenuItem();
             bitacoraToolStripMenuItem = new ToolStripMenuItem();
+            adminFamiliaToolStripMenuItem = new ToolStripMenuItem();
+            adminRolesToolStripMenuItem = new ToolStripMenuItem();
             maestroToolStripMenuItem = new ToolStripMenuItem();
             clientesToolStripMenuItem = new ToolStripMenuItem();
             prestamosToolStripMenuItem = new ToolStripMenuItem();
@@ -48,8 +50,6 @@
             historialClienteToolStripMenuItem = new ToolStripMenuItem();
             simulacionPrestamoToolStripMenuItem = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
-            adminFamiliaToolStripMenuItem = new ToolStripMenuItem();
-            adminRolesToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -79,7 +79,7 @@
             loginToolStripMenuItem.BackColor = Color.Maroon;
             loginToolStripMenuItem.ForeColor = SystemColors.Control;
             loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            loginToolStripMenuItem.Size = new Size(359, 46);
+            loginToolStripMenuItem.Size = new Size(281, 46);
             loginToolStripMenuItem.Text = "Login";
             loginToolStripMenuItem.Click += loginToolStripMenuItem_Click;
             // 
@@ -88,7 +88,7 @@
             logoutToolStripMenuItem.BackColor = Color.Maroon;
             logoutToolStripMenuItem.ForeColor = SystemColors.Control;
             logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            logoutToolStripMenuItem.Size = new Size(359, 46);
+            logoutToolStripMenuItem.Size = new Size(281, 46);
             logoutToolStripMenuItem.Text = "Logout";
             logoutToolStripMenuItem.Click += logoutToolStripMenuItem_Click;
             // 
@@ -97,7 +97,7 @@
             passwordToolStripMenuItem.BackColor = Color.Maroon;
             passwordToolStripMenuItem.ForeColor = SystemColors.Control;
             passwordToolStripMenuItem.Name = "passwordToolStripMenuItem";
-            passwordToolStripMenuItem.Size = new Size(359, 46);
+            passwordToolStripMenuItem.Size = new Size(281, 46);
             passwordToolStripMenuItem.Text = "Password";
             passwordToolStripMenuItem.Click += passwordToolStripMenuItem_Click;
             // 
@@ -106,7 +106,7 @@
             idiomaToolStripMenuItem.BackColor = Color.Maroon;
             idiomaToolStripMenuItem.ForeColor = SystemColors.Control;
             idiomaToolStripMenuItem.Name = "idiomaToolStripMenuItem";
-            idiomaToolStripMenuItem.Size = new Size(359, 46);
+            idiomaToolStripMenuItem.Size = new Size(281, 46);
             idiomaToolStripMenuItem.Text = "Idioma";
             // 
             // adminToolStripMenuItem
@@ -144,6 +144,24 @@
             bitacoraToolStripMenuItem.Text = "Bitacora";
             bitacoraToolStripMenuItem.Click += bitacoraToolStripMenuItem_Click;
             // 
+            // adminFamiliaToolStripMenuItem
+            // 
+            adminFamiliaToolStripMenuItem.BackColor = Color.Maroon;
+            adminFamiliaToolStripMenuItem.ForeColor = SystemColors.ButtonFace;
+            adminFamiliaToolStripMenuItem.Name = "adminFamiliaToolStripMenuItem";
+            adminFamiliaToolStripMenuItem.Size = new Size(377, 46);
+            adminFamiliaToolStripMenuItem.Text = "Admin Familia";
+            adminFamiliaToolStripMenuItem.Click += adminFamiliaToolStripMenuItem_Click;
+            // 
+            // adminRolesToolStripMenuItem
+            // 
+            adminRolesToolStripMenuItem.BackColor = Color.Maroon;
+            adminRolesToolStripMenuItem.ForeColor = SystemColors.ButtonFace;
+            adminRolesToolStripMenuItem.Name = "adminRolesToolStripMenuItem";
+            adminRolesToolStripMenuItem.Size = new Size(377, 46);
+            adminRolesToolStripMenuItem.Text = "Admin Roles";
+            adminRolesToolStripMenuItem.Click += adminRolesToolStripMenuItem_Click;
+            // 
             // maestroToolStripMenuItem
             // 
             maestroToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { clientesToolStripMenuItem, prestamosToolStripMenuItem, medicosToolStripMenuItem, pacientesToolStripMenuItem });
@@ -157,7 +175,7 @@
             clientesToolStripMenuItem.BackColor = Color.Maroon;
             clientesToolStripMenuItem.ForeColor = SystemColors.Control;
             clientesToolStripMenuItem.Name = "clientesToolStripMenuItem";
-            clientesToolStripMenuItem.Size = new Size(359, 46);
+            clientesToolStripMenuItem.Size = new Size(293, 46);
             clientesToolStripMenuItem.Text = "Clientes";
             // 
             // prestamosToolStripMenuItem
@@ -165,7 +183,7 @@
             prestamosToolStripMenuItem.BackColor = Color.Maroon;
             prestamosToolStripMenuItem.ForeColor = SystemColors.Control;
             prestamosToolStripMenuItem.Name = "prestamosToolStripMenuItem";
-            prestamosToolStripMenuItem.Size = new Size(359, 46);
+            prestamosToolStripMenuItem.Size = new Size(293, 46);
             prestamosToolStripMenuItem.Text = "Prestamos";
             // 
             // medicosToolStripMenuItem
@@ -173,7 +191,7 @@
             medicosToolStripMenuItem.BackColor = Color.Maroon;
             medicosToolStripMenuItem.ForeColor = SystemColors.Control;
             medicosToolStripMenuItem.Name = "medicosToolStripMenuItem";
-            medicosToolStripMenuItem.Size = new Size(359, 46);
+            medicosToolStripMenuItem.Size = new Size(293, 46);
             medicosToolStripMenuItem.Text = "Medicos";
             // 
             // pacientesToolStripMenuItem
@@ -181,7 +199,7 @@
             pacientesToolStripMenuItem.BackColor = Color.Maroon;
             pacientesToolStripMenuItem.ForeColor = SystemColors.Control;
             pacientesToolStripMenuItem.Name = "pacientesToolStripMenuItem";
-            pacientesToolStripMenuItem.Size = new Size(359, 46);
+            pacientesToolStripMenuItem.Size = new Size(293, 46);
             pacientesToolStripMenuItem.Text = "Pacientes";
             // 
             // reportesToolStripMenuItem
@@ -218,23 +236,6 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
-            // 
-            // adminFamiliaToolStripMenuItem
-            // 
-            adminFamiliaToolStripMenuItem.BackColor = Color.Maroon;
-            adminFamiliaToolStripMenuItem.ForeColor = SystemColors.ButtonFace;
-            adminFamiliaToolStripMenuItem.Name = "adminFamiliaToolStripMenuItem";
-            adminFamiliaToolStripMenuItem.Size = new Size(377, 46);
-            adminFamiliaToolStripMenuItem.Text = "Admin Familia";
-            adminFamiliaToolStripMenuItem.Click += adminFamiliaToolStripMenuItem_Click;
-            // 
-            // adminRolesToolStripMenuItem
-            // 
-            adminRolesToolStripMenuItem.BackColor = Color.Maroon;
-            adminRolesToolStripMenuItem.ForeColor = SystemColors.ButtonFace;
-            adminRolesToolStripMenuItem.Name = "adminRolesToolStripMenuItem";
-            adminRolesToolStripMenuItem.Size = new Size(377, 46);
-            adminRolesToolStripMenuItem.Text = "Admin Roles";
             // 
             // FrmMenu_90DI
             // 
