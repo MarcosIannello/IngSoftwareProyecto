@@ -12,7 +12,7 @@ namespace Capital_
         private readonly RolBLL_90DI _rolBLL = new RolBLL_90DI();
         private readonly string _dm = "Nombre_90DI";
 
-        private Rol_90DI     tempRol     = new Rol_90DI();
+        private Rol_90DI tempRol = new Rol_90DI();
         private Patente_90DI tempPatente = new Patente_90DI();
         private Familia_90DI tempFamilia = new Familia_90DI();
 
@@ -29,7 +29,8 @@ namespace Capital_
             EstadoInicial();
             SetBotonesAsignacion(false);
             btnAplicarCambios.Enabled = false;
-            pnlFamiliaNombre.Visible  = false;
+            pnlFamiliaNombre.Visible = false;
+            btnEliminarRol.Visible = false;
 
             CargarCmbRoles();
         }
@@ -39,9 +40,10 @@ namespace Capital_
             EstadoInicial();
             SetBotonesAsignacion(true);
             btnAplicarCambios.Enabled = true;
-            pnlFamiliaNombre.Visible  = true;
-            txtNombreRol.Enabled      = true;
-            txtNombreRol.Text         = "";
+            pnlFamiliaNombre.Visible = true;
+            txtNombreRol.Enabled = true;
+            txtNombreRol.Text = "";
+            btnEliminarRol.Visible = false;
 
             CargarCmbPatentes();
             CargarCmbFamilias();
@@ -53,10 +55,10 @@ namespace Capital_
             EstadoInicial();
             SetBotonesAsignacion(true);
             btnAplicarCambios.Enabled = true;
-            pnlFamiliaNombre.Visible  = true;
-            txtNombreRol.Enabled      = false;
-            cmbRolActual.Enabled      = true;
-
+            pnlFamiliaNombre.Visible = true;
+            txtNombreRol.Enabled = false;
+            cmbRolActual.Enabled = true;
+            btnEliminarRol.Visible = true;
             CargarCmbRoles();
         }
 
@@ -64,16 +66,16 @@ namespace Capital_
 
         private void CargarCmbRoles()
         {
-            cmbRolActual.DataSource    = null;
-            cmbRolActual.DataSource    = _rolBLL.GetAllRoles_90DI();
+            cmbRolActual.DataSource = null;
+            cmbRolActual.DataSource = _rolBLL.GetAllRoles_90DI();
             cmbRolActual.DisplayMember = _dm;
         }
 
         private void CargarCmbPatentes()
         {
             var idsAsignados = tempRol.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
-            cmbPatentesDisponibles.DataSource    = null;
-            cmbPatentesDisponibles.DataSource    = _rolBLL.GetAllPatentes_90DI()
+            cmbPatentesDisponibles.DataSource = null;
+            cmbPatentesDisponibles.DataSource = _rolBLL.GetAllPatentes_90DI()
                                                           .Where(p => !idsAsignados.Contains(p.IdPatente_90DI))
                                                           .ToList();
             cmbPatentesDisponibles.DisplayMember = _dm;
@@ -82,8 +84,8 @@ namespace Capital_
         private void CargarCmbFamilias()
         {
             var idsAsignados = tempRol.Familias.Select(f => f.IdFamilia_90DI).ToHashSet();
-            cmbFamiliasDisponibles.DataSource    = null;
-            cmbFamiliasDisponibles.DataSource    = _rolBLL.GetAllFamilias_90DI()
+            cmbFamiliasDisponibles.DataSource = null;
+            cmbFamiliasDisponibles.DataSource = _rolBLL.GetAllFamilias_90DI()
                                                           .Where(f => !idsAsignados.Contains(f.IdFamilia_90DI))
                                                           .ToList();
             cmbFamiliasDisponibles.DisplayMember = _dm;
@@ -91,12 +93,12 @@ namespace Capital_
 
         private void RefrescarListasAsignadas()
         {
-            LstPatentesAsignadas.DataSource    = null;
-            LstPatentesAsignadas.DataSource    = tempRol.Patentes;
+            LstPatentesAsignadas.DataSource = null;
+            LstPatentesAsignadas.DataSource = tempRol.Patentes;
             LstPatentesAsignadas.DisplayMember = _dm;
 
-            LstFamiliasAsignadas.DataSource    = null;
-            LstFamiliasAsignadas.DataSource    = tempRol.Familias;
+            LstFamiliasAsignadas.DataSource = null;
+            LstFamiliasAsignadas.DataSource = tempRol.Familias;
             LstFamiliasAsignadas.DisplayMember = _dm;
 
             CargarCmbPatentes();
@@ -106,28 +108,28 @@ namespace Capital_
         private void SetBotonesAsignacion(bool enabled)
         {
             btnAgregarPatente.Enabled = enabled;
-            btnQuitarPatente.Enabled  = enabled;
+            btnQuitarPatente.Enabled = enabled;
             btnAgregarFamilia.Enabled = enabled;
-            btnQuitarFamilia.Enabled  = enabled;
+            btnQuitarFamilia.Enabled = enabled;
         }
 
         private void EstadoInicial()
         {
-            tempRol     = new Rol_90DI();
+            tempRol = new Rol_90DI();
             tempPatente = new Patente_90DI();
             tempFamilia = new Familia_90DI();
 
             LstPatentesAsignadas.DataSource = null;
             LstFamiliasAsignadas.DataSource = null;
-            txtNombreRol.Text               = "";
-            cmbRolActual.Enabled            = true;
+            txtNombreRol.Text = "";
+            cmbRolActual.Enabled = true;
         }
 
         // ── Eventos radio buttons ─────────────────────────────────────────────
 
-        private void rdbModoConsulta_CheckedChanged(object sender, EventArgs e)  { if (rdbModoConsulta.Checked)    LoadModoConsulta(); }
-        private void rdbCrearRol_CheckedChanged(object sender, EventArgs e)       { if (rdbCrearFamilia.Checked)    LoadModoCreacion(); }
-        private void rdbModificarRol_CheckedChanged(object sender, EventArgs e)   { if (rdbModificarFamilia.Checked) LoadModoEdicion(); }
+        private void rdbModoConsulta_CheckedChanged(object sender, EventArgs e) { if (rdbModoConsulta.Checked) LoadModoConsulta(); }
+        private void rdbCrearRol_CheckedChanged(object sender, EventArgs e) { if (rdbCrearFamilia.Checked) LoadModoCreacion(); }
+        private void rdbModificarRol_CheckedChanged(object sender, EventArgs e) { if (rdbModificarFamilia.Checked) LoadModoEdicion(); }
 
         // ── Selección de rol ──────────────────────────────────────────────────
 
@@ -138,15 +140,15 @@ namespace Capital_
             var rolCompleto = _rolBLL.GetRolCompleto_90DI(rol.IdRol_90DI);
             if (rolCompleto == null) return;
 
-            tempRol          = rolCompleto;
+            tempRol = rolCompleto;
             txtNombreRol.Text = tempRol.Nombre_90DI;
 
-            LstPatentesAsignadas.DataSource    = null;
-            LstPatentesAsignadas.DataSource    = tempRol.Patentes;
+            LstPatentesAsignadas.DataSource = null;
+            LstPatentesAsignadas.DataSource = tempRol.Patentes;
             LstPatentesAsignadas.DisplayMember = _dm;
 
-            LstFamiliasAsignadas.DataSource    = null;
-            LstFamiliasAsignadas.DataSource    = tempRol.Familias;
+            LstFamiliasAsignadas.DataSource = null;
+            LstFamiliasAsignadas.DataSource = tempRol.Familias;
             LstFamiliasAsignadas.DisplayMember = _dm;
 
             if (rdbModificarFamilia.Checked)
@@ -243,5 +245,27 @@ namespace Capital_
 
         private void label2_Click(object sender, EventArgs e) { }
         private void FrmAdminROLES_90DI_Load(object sender, EventArgs e) { }
+
+        private void btnEliminarRol_Click(object sender, EventArgs e)
+        {
+            if (cmbRolActual.SelectedItem is not Rol_90DI rol) return;
+
+            var confirm = MessageBox.Show(
+                $"¿Estás seguro de que querés eliminar el rol \"{rol.Nombre_90DI}\"?\nEsta acción eliminará todas sus relaciones y no se puede deshacer.",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes) return;
+
+            bool response = _rolBLL.DeleteRol_90DI(rol.IdRol_90DI, rol.Nombre_90DI);
+            MessageBox.Show(
+                response ? "Rol eliminado con éxito." : "Error al eliminar el rol.",
+                response ? "Éxito" : "Error",
+                MessageBoxButtons.OK,
+                response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+
+            rdbModoConsulta.Checked = true;
+        }
     }
 }

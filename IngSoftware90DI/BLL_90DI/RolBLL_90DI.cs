@@ -77,9 +77,17 @@ namespace BLL
             return result;
         }
 
+        public bool FamiliaEstaEnRol_90DI(int idFamilia) => _dal.FamiliaEstaEnRol_90DI(idFamilia);
+
         public bool DeleteFamilia_90DI(int idFamilia, string nombreFamilia)
         {
-            var result = _dal.DeleteFamilia_90DI(idFamilia);
+            var familia = _dal.GetFamiliaCompleta_90DI(idFamilia);
+            bool tienePatentes   = familia?.Patentes.Count > 0;
+            bool tieneSubFamilias = familia?.SubFamilias.Count > 0;
+            bool tieneRoles      = _dal.GetAllRoles_90DI()
+                                       .Any(r => r.Familias.Any(f => f.IdFamilia_90DI == idFamilia));
+
+            var result = _dal.DeleteFamilia_90DI(idFamilia, tienePatentes, tieneSubFamilias, tieneRoles);
             if (result)
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
                 {
@@ -88,6 +96,22 @@ namespace BLL
                     Hora_90DI       = DateTime.Now.TimeOfDay,
                     Modulo_90DI     = "Familias",
                     Evento_90DI     = $"Baja familia ID {idFamilia}: {nombreFamilia}",
+                    Criticidad_90DI = 2
+                });
+            return result;
+        }
+
+        public bool DeleteRol_90DI(int idRol, string nombreRol)
+        {
+            var result = _dal.DeleteRol_90DI(idRol);
+            if (result)
+                _bitacora.CreateLogEvent_90DI(new Event_90DI
+                {
+                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Fecha_90DI      = DateTime.Now,
+                    Hora_90DI       = DateTime.Now.TimeOfDay,
+                    Modulo_90DI     = "Roles",
+                    Evento_90DI     = $"Baja rol ID {idRol}: {nombreRol}",
                     Criticidad_90DI = 2
                 });
             return result;

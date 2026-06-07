@@ -107,10 +107,8 @@ namespace DAL
                 using var cmd = con.CreateCommand();
                 cmd.CommandText =
                     """
-                    SELECT IdFamilia_90DI, Nombre_90DI, Descripcion_90DI,
-                           Activo_90DI, FechaAlta_90DI
+                    SELECT IdFamilia_90DI, Nombre_90DI, Descripcion_90DI, FechaAlta_90DI
                     FROM Familia_90DI
-                    WHERE Activo_90DI = 1
                     ORDER BY Nombre_90DI
                     """;
                 using var reader = cmd.ExecuteReader();
@@ -171,8 +169,8 @@ namespace DAL
                 // 1 — insertar rol y obtener ID generado
                 cmd.CommandText =
                     """
-                    INSERT INTO Rol_90DI (Nombre_90DI, Descripcion_90DI, Activo_90DI, FechaAlta_90DI)
-                    VALUES (@nombre, @descripcion, 1, GETDATE());
+                    INSERT INTO Rol_90DI (Nombre_90DI, Descripcion_90DI, FechaAlta_90DI)
+                    VALUES (@nombre, @descripcion, GETDATE());
                     SELECT SCOPE_IDENTITY();
                     """;
                 cmd.Parameters.AddWithValue("@nombre",      rol.Nombre_90DI);
@@ -224,8 +222,8 @@ namespace DAL
                 using var cmd = con.CreateCommand();
                 cmd.CommandText =
                     """
-                    INSERT INTO Patente_90DI (Nombre_90DI, Descripcion_90DI, Activo_90DI, FechaAlta_90DI)
-                    VALUES (@nombre, @descripcion, 1, GETDATE())
+                    INSERT INTO Patente_90DI (Nombre_90DI, Descripcion_90DI, FechaAlta_90DI)
+                    VALUES (@nombre, @descripcion, GETDATE())
                     """;
                 cmd.Parameters.AddWithValue("@nombre",      patente.Nombre_90DI);
                 cmd.Parameters.AddWithValue("@descripcion", patente.Descripcion_90DI);
@@ -244,8 +242,8 @@ namespace DAL
 
                 cmd.CommandText =
                     """
-                    INSERT INTO Familia_90DI (Nombre_90DI, Descripcion_90DI, Activo_90DI, FechaAlta_90DI)
-                    VALUES (@nombre, @descripcion, 1, GETDATE());
+                    INSERT INTO Familia_90DI (Nombre_90DI, Descripcion_90DI, FechaAlta_90DI)
+                    VALUES (@nombre, @descripcion, GETDATE());
                     SELECT SCOPE_IDENTITY();
                     """;
                 cmd.Parameters.AddWithValue("@nombre",      familia.Nombre_90DI);
@@ -286,20 +284,63 @@ namespace DAL
             catch (Exception ex) { LogError(nameof(InsertFamilia_90DI), ex); return false; }
         }
 
-        public bool DeleteFamilia_90DI(int idFamilia)
+        public bool FamiliaEstaEnRol_90DI(int idFamilia)
         {
             try
             {
                 using var con = _conexion.GetConnection();
                 con.Open();
                 using var cmd = con.CreateCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "sp_DeleteFamilia_90DI";
-                cmd.Parameters.AddWithValue("@IdFamilia", idFamilia);
+                cmd.CommandText = "SELECT COUNT(1) FROM Rol_Familia_90DI WHERE IdFamilia_90DI = @id";
+                cmd.Parameters.AddWithValue("@id", idFamilia);
+                return (int)cmd.ExecuteScalar() > 0;
+            }
+            catch (Exception ex) { LogError(nameof(FamiliaEstaEnRol_90DI), ex); return false; }
+        }
+
+        public bool DeleteFamilia_90DI(int idFamilia, bool tienePatentes, bool tieneSubFamilias, bool tieneRoles)
+        {
+            try
+            {
+                using var con = _conexion.GetConnection();
+                con.Open();
+                using var cmd = con.CreateCommand();
+
+                var sql = new System.Text.StringBuilder();
+                if (tienePatentes)
+                    sql.AppendLine("DELETE FROM Familia_Patente_90DI WHERE IdFamilia_90DI = @id;");
+                if (tieneSubFamilias)
+                    sql.AppendLine("DELETE FROM Familia_Familia_90DI WHERE IdFamiliaPadre_90DI = @id OR IdFamiliaHija_90DI = @id;");
+                if (tieneRoles)
+                    sql.AppendLine("DELETE FROM Rol_Familia_90DI WHERE IdFamilia_90DI = @id;");
+                sql.AppendLine("DELETE FROM Familia_90DI WHERE IdFamilia_90DI = @id;");
+
+                cmd.CommandText = sql.ToString();
+                cmd.Parameters.AddWithValue("@id", idFamilia);
                 cmd.ExecuteNonQuery();
                 return true;
             }
             catch (Exception ex) { LogError(nameof(DeleteFamilia_90DI), ex); return false; }
+        }
+
+        public bool DeleteRol_90DI(int idRol)
+        {
+            try
+            {
+                using var con = _conexion.GetConnection();
+                con.Open();
+                using var cmd = con.CreateCommand();
+                cmd.CommandText =
+                    """
+                    DELETE FROM Rol_Patente_90DI WHERE IdRol_90DI = @idRol;
+                    DELETE FROM Rol_Familia_90DI WHERE IdRol_90DI = @idRol;
+                    DELETE FROM Rol_90DI         WHERE IdRol_90DI = @idRol;
+                    """;
+                cmd.Parameters.AddWithValue("@idRol", idRol);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex) { LogError(nameof(DeleteRol_90DI), ex); return false; }
         }
 
 
@@ -514,8 +555,7 @@ namespace DAL
             IdRol_90DI       = r.GetInt32(0),
             Nombre_90DI      = r.IsDBNull(1) ? "" : r.GetString(1),
             Descripcion_90DI = r.IsDBNull(2) ? "" : r.GetString(2),
-            Activo_90DI      = !r.IsDBNull(3) && r.GetBoolean(3),
-            FechaAlta_90DI   = r.IsDBNull(4) ? DateTime.MinValue : r.GetDateTime(4)
+            FechaAlta_90DI   = r.IsDBNull(3) ? DateTime.MinValue : r.GetDateTime(3)
         };
 
         private static Familia_90DI MapFamilia(SqlDataReader r) => new()
@@ -523,8 +563,7 @@ namespace DAL
             IdFamilia_90DI   = r.GetInt32(0),
             Nombre_90DI      = r.IsDBNull(1) ? "" : r.GetString(1),
             Descripcion_90DI = r.IsDBNull(2) ? "" : r.GetString(2),
-            Activo_90DI      = !r.IsDBNull(3) && r.GetBoolean(3),
-            FechaAlta_90DI   = r.IsDBNull(4) ? DateTime.MinValue : r.GetDateTime(4)
+            FechaAlta_90DI   = r.IsDBNull(3) ? DateTime.MinValue : r.GetDateTime(3)
         };
 
         private static Patente_90DI MapPatente(SqlDataReader r) => new()
@@ -532,8 +571,7 @@ namespace DAL
             IdPatente_90DI   = r.GetInt32(0),
             Nombre_90DI      = r.IsDBNull(1) ? "" : r.GetString(1),
             Descripcion_90DI = r.IsDBNull(2) ? "" : r.GetString(2),
-            Activo_90DI      = !r.IsDBNull(3) && r.GetBoolean(3),
-            FechaAlta_90DI   = r.IsDBNull(4) ? DateTime.MinValue : r.GetDateTime(4)
+            FechaAlta_90DI   = r.IsDBNull(3) ? DateTime.MinValue : r.GetDateTime(3)
         };
     }
 }

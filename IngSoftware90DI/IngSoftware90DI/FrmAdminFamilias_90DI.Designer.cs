@@ -50,6 +50,7 @@
             label5 = new Label();
             cmbFamiliasDisponibles = new ComboBox();
             lstFamiliasFamilia = new ListBox();
+            btnEliminarFamilia = new Button();
             pnlFamiliaNombre.SuspendLayout();
             pnlAgregarQuitarFamilias.SuspendLayout();
             SuspendLayout();
@@ -65,7 +66,7 @@
             // 
             // btnAgregarPatente
             // 
-            btnAgregarPatente.Location = new Point(793, 434);
+            btnAgregarPatente.Location = new Point(890, 435);
             btnAgregarPatente.Name = "btnAgregarPatente";
             btnAgregarPatente.Size = new Size(202, 74);
             btnAgregarPatente.TabIndex = 3;
@@ -75,7 +76,7 @@
             // 
             // btnQuitarPatente
             // 
-            btnQuitarPatente.Location = new Point(793, 541);
+            btnQuitarPatente.Location = new Point(890, 542);
             btnQuitarPatente.Name = "btnQuitarPatente";
             btnQuitarPatente.Size = new Size(202, 74);
             btnQuitarPatente.TabIndex = 4;
@@ -95,7 +96,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(1204, 1002);
+            button5.Location = new Point(1301, 1003);
             button5.Name = "button5";
             button5.Size = new Size(465, 74);
             button5.TabIndex = 7;
@@ -115,7 +116,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(1383, 254);
+            label3.Location = new Point(1480, 255);
             label3.Name = "label3";
             label3.Size = new Size(104, 32);
             label3.TabIndex = 9;
@@ -133,7 +134,7 @@
             // lstPatentes
             // 
             lstPatentes.FormattingEnabled = true;
-            lstPatentes.Location = new Point(1204, 299);
+            lstPatentes.Location = new Point(1301, 300);
             lstPatentes.Name = "lstPatentes";
             lstPatentes.Size = new Size(465, 644);
             lstPatentes.TabIndex = 11;
@@ -178,7 +179,7 @@
             // lstFamilias
             // 
             lstFamilias.FormattingEnabled = true;
-            lstFamilias.Location = new Point(678, 159);
+            lstFamilias.Location = new Point(775, 160);
             lstFamilias.Name = "lstFamilias";
             lstFamilias.Size = new Size(428, 228);
             lstFamilias.TabIndex = 15;
@@ -190,7 +191,7 @@
             // 
             pnlFamiliaNombre.Controls.Add(label4);
             pnlFamiliaNombre.Controls.Add(txtNombreFamilia);
-            pnlFamiliaNombre.Location = new Point(46, 183);
+            pnlFamiliaNombre.Location = new Point(29, 184);
             pnlFamiliaNombre.Name = "pnlFamiliaNombre";
             pnlFamiliaNombre.Size = new Size(557, 53);
             pnlFamiliaNombre.TabIndex = 16;
@@ -238,7 +239,7 @@
             pnlAgregarQuitarFamilias.Controls.Add(cmbFamiliasDisponibles);
             pnlAgregarQuitarFamilias.Controls.Add(button1);
             pnlAgregarQuitarFamilias.Controls.Add(button2);
-            pnlAgregarQuitarFamilias.Location = new Point(643, 641);
+            pnlAgregarQuitarFamilias.Location = new Point(740, 642);
             pnlAgregarQuitarFamilias.Name = "pnlAgregarQuitarFamilias";
             pnlAgregarQuitarFamilias.Size = new Size(493, 302);
             pnlAgregarQuitarFamilias.TabIndex = 19;
@@ -270,11 +271,27 @@
             lstFamiliasFamilia.TabIndex = 20;
             lstFamiliasFamilia.SelectedIndexChanged += lstFamiliasFamilia_SelectedIndexChanged;
             // 
+            // btnEliminarFamilia
+            // 
+            btnEliminarFamilia.BackColor = Color.Red;
+            btnEliminarFamilia.Cursor = Cursors.Hand;
+            btnEliminarFamilia.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminarFamilia.ForeColor = SystemColors.Control;
+            btnEliminarFamilia.Location = new Point(603, 183);
+            btnEliminarFamilia.Name = "btnEliminarFamilia";
+            btnEliminarFamilia.Size = new Size(70, 54);
+            btnEliminarFamilia.TabIndex = 39;
+            btnEliminarFamilia.Text = "x";
+            btnEliminarFamilia.UseVisualStyleBackColor = false;
+            btnEliminarFamilia.Visible = false;
+            btnEliminarFamilia.Click += btnEliminarFamilia_Click;
+            // 
             // FrmAdminFamilias
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1774, 1185);
+            ClientSize = new Size(1948, 1292);
+            Controls.Add(btnEliminarFamilia);
             Controls.Add(lstFamiliasFamilia);
             Controls.Add(pnlFamiliaNombre);
             Controls.Add(lstFamilias);
@@ -320,12 +337,13 @@
         private ListBox lstFamilias;
         private FlowLayoutPanel pnlFamiliaNombre;
         private Label label4;
-        private TextBox txtNombreFamilia;
         private Button button1;
         private Button button2;
         private Panel pnlAgregarQuitarFamilias;
         private ListBox lstFamiliasFamilia;
         private ComboBox cmbFamiliasDisponibles;
         private Label label5;
+        private TextBox txtNombreFamilia;
+        private Button btnEliminarFamilia;
     }
 }
