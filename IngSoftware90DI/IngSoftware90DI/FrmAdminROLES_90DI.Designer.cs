@@ -32,6 +32,7 @@
             pnlFamiliaNombre = new FlowLayoutPanel();
             label4 = new Label();
             txtNombreRol = new TextBox();
+            label2 = new Label();
             rdbModoConsulta = new RadioButton();
             rdbCrearFamilia = new RadioButton();
             rdbModificarFamilia = new RadioButton();
@@ -50,8 +51,8 @@
             btnQuitarFamilia = new Button();
             btnAgregarFamilia = new Button();
             cmbRolActual = new ComboBox();
-            label2 = new Label();
             label3 = new Label();
+            btnEliminarRol = new Button();
             pnlFamiliaNombre.SuspendLayout();
             pnlAgregarQuitarFamilias.SuspendLayout();
             panel1.SuspendLayout();
@@ -92,6 +93,15 @@
             txtNombreRol.Size = new Size(524, 39);
             txtNombreRol.TabIndex = 1;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 45);
+            label2.Name = "label2";
+            label2.Size = new Size(142, 32);
+            label2.TabIndex = 2;
+            label2.Text = "Nombre Rol";
+            // 
             // rdbModoConsulta
             // 
             rdbModoConsulta.AutoSize = true;
@@ -103,9 +113,9 @@
             rdbModoConsulta.Text = "Modo Consulta";
             rdbModoConsulta.UseVisualStyleBackColor = true;
             rdbModoConsulta.CheckedChanged += rdbModoConsulta_CheckedChanged;
-            //
+            // 
             // rdbCrearFamilia
-            //
+            // 
             rdbCrearFamilia.AutoSize = true;
             rdbCrearFamilia.Location = new Point(1117, 70);
             rdbCrearFamilia.Name = "rdbCrearFamilia";
@@ -115,9 +125,9 @@
             rdbCrearFamilia.Text = "Crear Rol";
             rdbCrearFamilia.UseVisualStyleBackColor = true;
             rdbCrearFamilia.CheckedChanged += rdbCrearRol_CheckedChanged;
-            //
+            // 
             // rdbModificarFamilia
-            //
+            // 
             rdbModificarFamilia.AutoSize = true;
             rdbModificarFamilia.Location = new Point(800, 70);
             rdbModificarFamilia.Name = "rdbModificarFamilia";
@@ -127,7 +137,7 @@
             rdbModificarFamilia.Text = "Modificar Rol";
             rdbModificarFamilia.UseVisualStyleBackColor = true;
             rdbModificarFamilia.CheckedChanged += rdbModificarRol_CheckedChanged;
-            //
+            // 
             // LstPatentesAsignadas
             // 
             LstPatentesAsignadas.FormattingEnabled = true;
@@ -193,7 +203,7 @@
             cmbPatentesDisponibles.Size = new Size(375, 40);
             cmbPatentesDisponibles.TabIndex = 19;
             cmbPatentesDisponibles.SelectedIndexChanged += cmbPatentesDisponibles_SelectedIndexChanged;
-            //
+            // 
             // btnQuitarPatente
             // 
             btnQuitarPatente.Location = new Point(262, 172);
@@ -272,15 +282,6 @@
             cmbRolActual.TabIndex = 21;
             cmbRolActual.SelectedIndexChanged += cmbRolActual_SelectedIndexChanged;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(3, 45);
-            label2.Name = "label2";
-            label2.Size = new Size(142, 32);
-            label2.TabIndex = 2;
-            label2.Text = "Nombre Rol";
-            // 
             // label3
             // 
             label3.AutoSize = true;
@@ -290,11 +291,27 @@
             label3.TabIndex = 37;
             label3.Text = "Rol Seleccionado";
             // 
+            // btnEliminarRol
+            // 
+            btnEliminarRol.BackColor = Color.Red;
+            btnEliminarRol.Cursor = Cursors.Hand;
+            btnEliminarRol.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminarRol.ForeColor = SystemColors.Control;
+            btnEliminarRol.Location = new Point(820, 268);
+            btnEliminarRol.Name = "btnEliminarRol";
+            btnEliminarRol.Size = new Size(70, 54);
+            btnEliminarRol.TabIndex = 38;
+            btnEliminarRol.Text = "x";
+            btnEliminarRol.UseVisualStyleBackColor = false;
+            btnEliminarRol.Visible = false;
+            btnEliminarRol.Click += btnEliminarRol_Click;
+            // 
             // FrmAdminROLES_90DI
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1796, 1269);
+            Controls.Add(btnEliminarRol);
             Controls.Add(label3);
             Controls.Add(cmbRolActual);
             Controls.Add(panel1);
@@ -309,7 +326,8 @@
             Controls.Add(label1);
             Controls.Add(pnlAgregarQuitarFamilias);
             Name = "FrmAdminROLES_90DI";
-            Text = "FrmAdminFamilias_90DI";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "FrmAdminRoles_90DI";
             Load += FrmAdminROLES_90DI_Load;
             pnlFamiliaNombre.ResumeLayout(false);
             pnlFamiliaNombre.PerformLayout();
@@ -347,5 +365,6 @@
         private Label label2;
         private ComboBox cmbRolActual;
         private Label label3;
+        private Button btnEliminarRol;
     }
 }

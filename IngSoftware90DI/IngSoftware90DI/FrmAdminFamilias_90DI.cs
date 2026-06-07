@@ -61,6 +61,7 @@ namespace Capital_
             btnAgregarPatente.Enabled = false;
             btnQuitarPatente.Enabled = false;
             btnAplicarCambios.Enabled = false;
+            btnEliminarFamilia.Visible = false;
             lstFamilias.Visible = true;
             // seleccionar la primera familia y mostrar sus patentes
             if (lstFamilias.Items.Count > 0)
@@ -80,6 +81,7 @@ namespace Capital_
             EstadoInicial();
             LoadPatentesLst();
             EnableComponents();
+            btnEliminarFamilia.Visible = false;
 
             var familias = _rolBLL.GetAllFamilias_90DI();
             lstFamilias.Visible = false;
@@ -96,6 +98,7 @@ namespace Capital_
             EstadoInicial();
             LoadFamiliaLst();
             EnableComponents();
+            btnEliminarFamilia.Visible = true;
 
             cmbFamiliasDisponibles.DataSource = _rolBLL.GetAllFamilias_90DI().Where(f => f != tempFamilia).ToList();
             cmbFamiliasDisponibles.DisplayMember = displayMember;
@@ -129,20 +132,13 @@ namespace Capital_
             LoadModoConsulta();
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            var frmMenu = new FrmMenu_90DI();
-            frmMenu.Show();
-            this.Close();
-
-        }
+        private void button5_Click(object sender, EventArgs e) => this.Hide();
 
 
         private void lstPatentes_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             tempPatente = (Patente_90DI)lstPatentes.SelectedItem ?? new Patente_90DI();
-            Console.WriteLine(tempPatente);
         }
 
         private void btnAgregarPatente_Click(object sender, EventArgs e)
@@ -168,7 +164,12 @@ namespace Capital_
             bool response = false;
             if (rdbCrearFamilia.Checked)
             {
-                tempFamilia.Nombre_90DI = txtNombreFamilia.Text;
+                if (string.IsNullOrWhiteSpace(txtNombreFamilia.Text))
+                {
+                    MessageBox.Show("Ingresá un nombre para la familia.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                tempFamilia.Nombre_90DI = txtNombreFamilia.Text.Trim();
                 tempFamilia.SubFamilias = FamiliasHijas;
                 response = _rolBLL.CreateFamilia_90DI(tempFamilia);
 
@@ -254,9 +255,15 @@ namespace Capital_
         //Agregar / Quitar Familias Hijas En moficacion y creacion
         private void button2_Click(object sender, EventArgs e)
         {
-            if (ComboFamilia == null || FamiliasHijas.Any(f => f.IdFamilia_90DI == ComboFamilia.IdFamilia_90DI)) return;
+            if (ComboFamilia == null || ComboFamilia.IdFamilia_90DI == 0) return;
+            if (FamiliasHijas.Any(f => f.IdFamilia_90DI == ComboFamilia.IdFamilia_90DI)) return;
 
-            FamiliasHijas.Add(ComboFamilia);
+            // Necesitamos la familia completa para que Patentes esté cargado
+            // y RefrescarPatentesDisponibles pueda excluirlas correctamente
+            var familiaCompleta = _rolBLL.GetFamiliaCompleta_90DI(ComboFamilia.IdFamilia_90DI);
+            if (familiaCompleta == null) return;
+
+            FamiliasHijas.Add(familiaCompleta);
             lstFamiliasFamilia.DataSource = null;
             lstFamiliasFamilia.DataSource = FamiliasHijas;
             lstFamiliasFamilia.DisplayMember = displayMember;
@@ -331,6 +338,38 @@ namespace Capital_
         private void lstFamilias_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnEliminarFamilia_Click(object sender, EventArgs e)
+        {
+            if (tempFamilia == null || tempFamilia.IdFamilia_90DI == 0) return;
+
+            if (_rolBLL.FamiliaEstaEnRol_90DI(tempFamilia.IdFamilia_90DI))
+            {
+                MessageBox.Show(
+                    $"La familia \"{tempFamilia.Nombre_90DI}\" está asignada a uno o más roles.\nPrimero modificá los roles correspondientes para quitarla, y luego intentá eliminarla.",
+                    "No se puede eliminar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"¿Estás seguro de que querés eliminar la familia \"{tempFamilia.Nombre_90DI}\"?\nEsta acción eliminará todas sus relaciones y no se puede deshacer.",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes) return;
+
+            bool response = _rolBLL.DeleteFamilia_90DI(tempFamilia.IdFamilia_90DI, tempFamilia.Nombre_90DI);
+            MessageBox.Show(
+                response ? "Familia eliminada con éxito." : "Error al eliminar la familia.",
+                response ? "Éxito" : "Error",
+                MessageBoxButtons.OK,
+                response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+
+            rdbModoConsulta.Checked = true;
         }
     }
 }

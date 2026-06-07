@@ -81,16 +81,56 @@ namespace UI_90DI
             Bitacora.Show();
         }
 
-        private void adminFamiliaToolStripMenuItem_Click(object sender, EventArgs e)
+        // Instancias reutilizables: evitan crear un form nuevo cada vez que el usuario
+        // abre el mismo módulo desde el menú
+        private FrmAdminFamilias? _frmFamilias;
+        private FrmAdminROLES_90DI? _frmRoles;
+
+        // Si ambos forms están abiertos y visibles al mismo tiempo, los posiciona
+        // automáticamente: Familias a la izquierda y Roles a la derecha,
+        // cada uno ocupando la mitad del área de trabajo (respeta la barra de tareas)
+        private void TileFormsHalfScreen()
         {
-            var frmAdminFamilias = new FrmAdminFamilias();
-            frmAdminFamilias.Show();
+            var screen = Screen.PrimaryScreen!.WorkingArea;
+            int halfW = screen.Width / 2;
+
+            // Solo aplica el tile si los dos forms están activos simultáneamente
+            if (_frmFamilias != null && !_frmFamilias.IsDisposed && _frmFamilias.Visible &&
+                _frmRoles   != null && !_frmRoles.IsDisposed   && _frmRoles.Visible)
+            {
+                // Forzar Normal para que Bounds tenga efecto (Maximized lo ignora)
+                _frmFamilias.WindowState = FormWindowState.Normal;
+                _frmFamilias.StartPosition = FormStartPosition.Manual;
+                _frmFamilias.Bounds = new Rectangle(screen.Left, screen.Top, halfW, screen.Height);
+
+                _frmRoles.WindowState = FormWindowState.Normal;
+                _frmRoles.StartPosition = FormStartPosition.Manual;
+                _frmRoles.Bounds = new Rectangle(screen.Left + halfW, screen.Top, halfW, screen.Height);
+            }
         }
 
+        // Abre el ABM de Familias. Si ya fue abierto antes y no fue cerrado,
+        // reutiliza la instancia existente en lugar de crear una nueva
+        private void adminFamiliaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_frmFamilias == null || _frmFamilias.IsDisposed)
+                _frmFamilias = new FrmAdminFamilias();
+
+            _frmFamilias.Show();
+            _frmFamilias.BringToFront();
+            TileFormsHalfScreen();
+        }
+
+        // Abre el ABM de Roles. Si ya fue abierto antes y no fue cerrado,
+        // reutiliza la instancia existente en lugar de crear una nueva
         private void adminRolesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frmAdminRoles = new FrmAdminROLES_90DI();
-            frmAdminRoles.Show();
+            if (_frmRoles == null || _frmRoles.IsDisposed)
+                _frmRoles = new FrmAdminROLES_90DI();
+
+            _frmRoles.Show();
+            _frmRoles.BringToFront();
+            TileFormsHalfScreen();
         }
     }
 }
