@@ -1,17 +1,14 @@
-﻿using DAL;
+﻿using BLL_90DI;
+using DAL;
+using Service_90DI;
 using Services_90DI.entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL
 {
     public class RolBLL_90DI
     {
         public RolesDAL_90DI _dal = new RolesDAL_90DI();
+        private readonly BitacoraBLL_90DI _bitacora = new BitacoraBLL_90DI();
         public RolBLL_90DI() { }
 
         public List<Patente_90DI> GetAllPatentes_90DI()
@@ -31,9 +28,85 @@ namespace BLL
 
         public bool CreateFamilia_90DI(Familia_90DI familia)
         {
-            return _dal.InsertFamilia_90DI(familia);
+            var result = _dal.InsertFamilia_90DI(familia);
+            if (result)
+                _bitacora.CreateLogEvent_90DI(new Event_90DI
+                {
+                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Fecha_90DI      = DateTime.Now,
+                    Hora_90DI       = DateTime.Now.TimeOfDay,
+                    Modulo_90DI     = "Familias",
+                    Evento_90DI     = $"Alta familia: {familia.Nombre_90DI}",
+                    Criticidad_90DI = 1
+                });
+            return result;
         }
 
-        //!TODO: Generar Evengto de bitacora 
+        public List<Rol_90DI> GetAllRoles_90DI()         => _dal.GetAllRoles_90DI();
+        public Rol_90DI? GetRolCompleto_90DI(int idRol)  => _dal.GetRolCompleto_90DI(idRol);
+
+        public bool CreateRol_90DI(Rol_90DI rol)
+        {
+            var result = _dal.InsertRol_90DI(rol);
+            if (result)
+                _bitacora.CreateLogEvent_90DI(new Event_90DI
+                {
+                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Fecha_90DI      = DateTime.Now,
+                    Hora_90DI       = DateTime.Now.TimeOfDay,
+                    Modulo_90DI     = "Roles",
+                    Evento_90DI     = $"Alta rol: {rol.Nombre_90DI}",
+                    Criticidad_90DI = 1
+                });
+            return result;
+        }
+
+        public bool UpdateRol_90DI(Rol_90DI rol)
+        {
+            var result = _dal.UpdateRol_90DI(rol);
+            if (result)
+                _bitacora.CreateLogEvent_90DI(new Event_90DI
+                {
+                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Fecha_90DI      = DateTime.Now,
+                    Hora_90DI       = DateTime.Now.TimeOfDay,
+                    Modulo_90DI     = "Roles",
+                    Evento_90DI     = $"Modificación rol ID {rol.IdRol_90DI}: {rol.Nombre_90DI}",
+                    Criticidad_90DI = 1
+                });
+            return result;
+        }
+
+        public bool DeleteFamilia_90DI(int idFamilia, string nombreFamilia)
+        {
+            var result = _dal.DeleteFamilia_90DI(idFamilia);
+            if (result)
+                _bitacora.CreateLogEvent_90DI(new Event_90DI
+                {
+                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Fecha_90DI      = DateTime.Now,
+                    Hora_90DI       = DateTime.Now.TimeOfDay,
+                    Modulo_90DI     = "Familias",
+                    Evento_90DI     = $"Baja familia ID {idFamilia}: {nombreFamilia}",
+                    Criticidad_90DI = 2
+                });
+            return result;
+        }
+
+        public bool UpdateFamilia_90DI(Familia_90DI familia)
+        {
+            var result = _dal.UpdateFamilia_90DI(familia);
+            if (result)
+                _bitacora.CreateLogEvent_90DI(new Event_90DI
+                {
+                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Fecha_90DI      = DateTime.Now,
+                    Hora_90DI       = DateTime.Now.TimeOfDay,
+                    Modulo_90DI     = "Familias",
+                    Evento_90DI     = $"Modificación familia ID {familia.IdFamilia_90DI}: {familia.Nombre_90DI}",
+                    Criticidad_90DI = 1
+                });
+            return result;
+        }
     }
 }

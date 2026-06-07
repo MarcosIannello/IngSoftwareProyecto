@@ -183,6 +183,7 @@
             lstFamilias.Size = new Size(428, 228);
             lstFamilias.TabIndex = 15;
             lstFamilias.Visible = false;
+            lstFamilias.SelectedIndexChanged += lstFamilias_SelectedIndexChanged;
             lstFamilias.SelectedValueChanged += lstFamilias_SelectedValueChanged;
             // 
             // pnlFamiliaNombre
@@ -267,6 +268,7 @@
             lstFamiliasFamilia.Name = "lstFamiliasFamilia";
             lstFamiliasFamilia.Size = new Size(465, 324);
             lstFamiliasFamilia.TabIndex = 20;
+            lstFamiliasFamilia.SelectedIndexChanged += lstFamiliasFamilia_SelectedIndexChanged;
             // 
             // FrmAdminFamilias
             // 

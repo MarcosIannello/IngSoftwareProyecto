@@ -86,5 +86,11 @@ namespace UI_90DI
             var frmAdminFamilias = new FrmAdminFamilias();
             frmAdminFamilias.Show();
         }
+
+        private void adminRolesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmAdminRoles = new FrmAdminROLES_90DI();
+            frmAdminRoles.Show();
+        }
     }
 }
