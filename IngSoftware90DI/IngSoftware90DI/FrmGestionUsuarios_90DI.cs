@@ -35,6 +35,16 @@ namespace UI_90DI
         {
             _menu = menu;
             InitializeComponent();
+
+            // Grid de solo lectura — no permite edición directa ni agregar/quitar filas
+            dataGridUsers.ReadOnly              = true;
+            dataGridUsers.AllowUserToAddRows    = false;
+            dataGridUsers.AllowUserToDeleteRows = false;
+            dataGridUsers.SelectionMode         = DataGridViewSelectionMode.CellSelect;
+            dataGridUsers.MultiSelect           = false;
+            // Permite copiar (Ctrl+C) el valor de la celda seleccionada
+            dataGridUsers.ClipboardCopyMode     = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+
             GetUsers();
             EnableQueryFields();
             CleanForm();
@@ -132,7 +142,7 @@ namespace UI_90DI
 
         // ─── Validación ──────────────────────────────────────────────────────
 
-        private bool ValidateForm()
+        private bool ValidateForm(int excluirId = 0)
         {
             if (string.IsNullOrWhiteSpace(txtLogin.Text))
             {
@@ -143,6 +153,13 @@ namespace UI_90DI
             if (!Regex.IsMatch(txtDni.Text.Trim(), @"^\d+$"))
             {
                 MessageBox.Show("El DNI solo puede contener números.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDni.Focus();
+                return false;
+            }
+            bool dniDuplicado = usersList.Any(u => u.DNI_90DI == txtDni.Text.Trim() && u.IdUsuario_90DI != excluirId);
+            if (dniDuplicado)
+            {
+                MessageBox.Show("El DNI ingresado ya pertenece a otro usuario registrado.", "DNI duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDni.Focus();
                 return false;
             }
@@ -328,7 +345,7 @@ namespace UI_90DI
                 }
                 else if (editMode)
                 {
-                    if (!ValidateForm()) return;
+                    if (!ValidateForm(temp.IdUsuario_90DI)) return;
                     temp.NombreUsuario_90DI = txtLogin.Text;
                     temp.DNI_90DI           = txtDni.Text;
                     temp.Nombre_90DI        = txtNombre.Text;
@@ -373,9 +390,14 @@ namespace UI_90DI
                     GoToConsultaMode();
                 }
             }
+            catch (InvalidOperationException ex)
+            {
+                // Errores de negocio (ej: DNI duplicado desde BLL)
+                MessageBox.Show(ex.Message, "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al realizar la operacion: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -221,7 +221,20 @@ namespace Capital_
                     MessageBox.Show("Ingresá un nombre para el rol.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                tempRol.Nombre_90DI = txtNombreRol.Text.Trim();
+                if (tempRol.Patentes.Count == 0 && tempRol.Familias.Count == 0)
+                {
+                    MessageBox.Show("El rol debe tener al menos una patente o familia asignada.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                string nombreTrim = txtNombreRol.Text.Trim();
+                bool nombreDuplicado = _rolBLL.GetAllRoles_90DI()
+                    .Any(r => r.Nombre_90DI.Equals(nombreTrim, StringComparison.OrdinalIgnoreCase));
+                if (nombreDuplicado)
+                {
+                    MessageBox.Show($"Ya existe un rol con el nombre \"{nombreTrim}\".", "Nombre duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                tempRol.Nombre_90DI = nombreTrim;
                 response = _rolBLL.CreateRol_90DI(tempRol);
                 MessageBox.Show(response ? "Rol creado con éxito." : "Error al crear el rol.",
                                 response ? "Éxito" : "Error", MessageBoxButtons.OK,
@@ -230,6 +243,11 @@ namespace Capital_
 
             if (rdbModificarFamilia.Checked)
             {
+                if (tempRol.Patentes.Count == 0 && tempRol.Familias.Count == 0)
+                {
+                    MessageBox.Show("El rol debe tener al menos una patente o familia asignada.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 response = _rolBLL.UpdateRol_90DI(tempRol);
                 MessageBox.Show(response ? "Rol modificado con éxito." : "Error al modificar el rol.",
                                 response ? "Éxito" : "Error", MessageBoxButtons.OK,

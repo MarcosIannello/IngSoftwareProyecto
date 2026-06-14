@@ -169,7 +169,20 @@ namespace Capital_
                     MessageBox.Show("Ingresá un nombre para la familia.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                tempFamilia.Nombre_90DI = txtNombreFamilia.Text.Trim();
+                if (tempFamilia.Patentes.Count == 0 && FamiliasHijas.Count == 0)
+                {
+                    MessageBox.Show("La familia debe tener al menos una patente o subfamilia asignada.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                string nombreTrim = txtNombreFamilia.Text.Trim();
+                bool nombreDuplicado = _rolBLL.GetAllFamilias_90DI()
+                    .Any(f => f.Nombre_90DI.Equals(nombreTrim, StringComparison.OrdinalIgnoreCase));
+                if (nombreDuplicado)
+                {
+                    MessageBox.Show($"Ya existe una familia con el nombre \"{nombreTrim}\".", "Nombre duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                tempFamilia.Nombre_90DI = nombreTrim;
                 tempFamilia.SubFamilias = FamiliasHijas;
                 response = _rolBLL.CreateFamilia_90DI(tempFamilia);
 
@@ -181,6 +194,26 @@ namespace Capital_
 
             if (rdbModificarFamilia.Checked)
             {
+                if (string.IsNullOrWhiteSpace(txtNombreFamilia.Text))
+                {
+                    MessageBox.Show("Ingresá un nombre para la familia.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (tempFamilia.Patentes.Count == 0 && FamiliasHijas.Count == 0)
+                {
+                    MessageBox.Show("La familia debe tener al menos una patente o subfamilia asignada.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                string nombreTrim = txtNombreFamilia.Text.Trim();
+                bool nombreDuplicado = _rolBLL.GetAllFamilias_90DI()
+                    .Any(f => f.Nombre_90DI.Equals(nombreTrim, StringComparison.OrdinalIgnoreCase)
+                           && f.IdFamilia_90DI != tempFamilia.IdFamilia_90DI);
+                if (nombreDuplicado)
+                {
+                    MessageBox.Show($"Ya existe otra familia con el nombre \"{nombreTrim}\".", "Nombre duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                tempFamilia.Nombre_90DI = nombreTrim;
                 tempFamilia.SubFamilias = FamiliasHijas;
                 response = _rolBLL.UpdateFamilia_90DI(tempFamilia);
                 if (response)
