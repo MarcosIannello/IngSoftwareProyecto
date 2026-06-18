@@ -5,7 +5,7 @@ using Capital_;
 
 namespace UI_90DI
 {
-    public partial class FrmMenu_90DI : Form
+    public partial class FrmMenu_90DI : Form, IObserver_90DI
     {
         private readonly BitacoraBLL_90DI _bitacora = new BitacoraBLL_90DI();
         public UsersBLL_90DI _userBll = new UsersBLL_90DI();
@@ -13,6 +13,41 @@ namespace UI_90DI
         public FrmMenu_90DI()
         {
             InitializeComponent();
+            LanguageManager_90DI.AddObserver_90DI(this);
+
+            // Aplicar el idioma actual al abrir (por si ya se eligió uno en el Login).
+            var traducciones = LanguageManager_90DI.TraduccionesActuales_90DI;
+            if (traducciones.Count > 0)
+                UpdateLanguage_90DI(traducciones);
+        }
+
+        public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
+        {
+            if (traducciones.TryGetValue("menu_usuarios",           out var v)) usuariosToolStripMenuItem.Text          = v;
+            if (traducciones.TryGetValue("menu_login",              out v))     loginToolStripMenuItem.Text              = v;
+            if (traducciones.TryGetValue("menu_logout",             out v))     logoutToolStripMenuItem.Text             = v;
+            if (traducciones.TryGetValue("menu_password",           out v))     passwordToolStripMenuItem.Text           = v;
+            if (traducciones.TryGetValue("menu_idioma",             out v))     idiomaToolStripMenuItem.Text             = v;
+            if (traducciones.TryGetValue("menu_admin",              out v))     adminToolStripMenuItem.Text              = v;
+            if (traducciones.TryGetValue("menu_gestion_usuarios",   out v))     gestionUsuariosToolStripMenuItem.Text    = v;
+            if (traducciones.TryGetValue("menu_abm_usuarios",       out v))     aBMUsuariosToolStripMenuItem.Text        = v;
+            if (traducciones.TryGetValue("menu_bitacora",           out v))     bitacoraToolStripMenuItem.Text           = v;
+            if (traducciones.TryGetValue("menu_admin_familia",      out v))     adminFamiliaToolStripMenuItem.Text       = v;
+            if (traducciones.TryGetValue("menu_admin_roles",        out v))     adminRolesToolStripMenuItem.Text         = v;
+            if (traducciones.TryGetValue("menu_maestro",            out v))     maestroToolStripMenuItem.Text            = v;
+            if (traducciones.TryGetValue("menu_clientes",           out v))     clientesToolStripMenuItem.Text           = v;
+            if (traducciones.TryGetValue("menu_prestamos",          out v))     prestamosToolStripMenuItem.Text          = v;
+            if (traducciones.TryGetValue("menu_medicos",            out v))     medicosToolStripMenuItem.Text            = v;
+            if (traducciones.TryGetValue("menu_pacientes",          out v))     pacientesToolStripMenuItem.Text          = v;
+            if (traducciones.TryGetValue("menu_reportes",           out v))     reportesToolStripMenuItem.Text           = v;
+            if (traducciones.TryGetValue("menu_historial_cliente",  out v))     historialClienteToolStripMenuItem.Text   = v;
+            if (traducciones.TryGetValue("menu_simulacion_prestamo",out v))     simulacionPrestamoToolStripMenuItem.Text = v;
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            LanguageManager_90DI.Unsubscribe_90DI(this);
+            base.OnFormClosed(e);
         }
 
 
@@ -42,8 +77,8 @@ namespace UI_90DI
             try
             {
                 var confirm = MessageBox.Show(
-                    "¿Desea cerrar sesión?",
-                    "Cerrar sesión",
+                    LanguageManager_90DI.T("menu_msg_logout_text"),
+                    LanguageManager_90DI.T("menu_msg_logout_title"),
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
@@ -65,6 +100,12 @@ namespace UI_90DI
             var form = new FrmCambiarPassword_90DI();
             form.Show();
             this.Hide();
+        }
+
+        private void idiomaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var form = new FrmCambiarIdioma_90DI();
+            form.ShowDialog(this);
         }
 
         private void aBMUsuariosToolStripMenuItem_Click(object sender, EventArgs e)

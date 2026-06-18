@@ -1,4 +1,5 @@
 using BLL_90DI;
+using Services_90DI;
 using iText.Kernel.Colors;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
@@ -16,7 +17,7 @@ using Services_90DI.entities;
 
 namespace UI_90DI
 {
-    public partial class FrmBitacora_90DI : Form
+    public partial class FrmBitacora_90DI : Form, IObserver_90DI
     {
         private readonly UsersBLL_90DI _usersService = new UsersBLL_90DI();
         private readonly BitacoraBLL_90DI _bll = new BitacoraBLL_90DI();
@@ -29,6 +30,33 @@ namespace UI_90DI
             InitializeComponent();
             ConfigurarCombos();
             CargarEventos();
+
+            LanguageManager_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.TraduccionesActuales_90DI;
+            if (t.Count > 0) UpdateLanguage_90DI(t);
+        }
+
+        public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
+        {
+            if (traducciones.TryGetValue("bitacora_lbl_login",       out var v)) label2.Text    = v;
+            if (traducciones.TryGetValue("bitacora_lbl_fecha_fin",   out v))     label3.Text    = v;
+            if (traducciones.TryGetValue("bitacora_lbl_fecha_inicio",out v))     label4.Text    = v;
+            if (traducciones.TryGetValue("bitacora_lbl_modulo",      out v))     label5.Text    = v;
+            if (traducciones.TryGetValue("bitacora_lbl_evento",      out v))     label6.Text    = v;
+            if (traducciones.TryGetValue("bitacora_lbl_criticidad",  out v))     label7.Text    = v;
+            if (traducciones.TryGetValue("bitacora_lbl_apellido",    out v))     label10.Text   = v;
+            if (traducciones.TryGetValue("bitacora_lbl_nombre",      out v))     label1.Text    = v;
+            if (traducciones.TryGetValue("bitacora_btn_aplicar",     out v))     btnApply.Text  = v;
+            if (traducciones.TryGetValue("bitacora_btn_imprimir",    out v))     btnPrint.Text  = v;
+            if (traducciones.TryGetValue("bitacora_btn_salir",       out v))     btnSalir.Text  = v;
+            if (traducciones.TryGetValue("bitacora_btn_limpiar",     out v))     btnClean.Text  = v;
+            if (traducciones.TryGetValue("bitacora_lbl_header",      out v))     lblCantUsers.Text = v + (_eventosList?.Count ?? 0);
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            LanguageManager_90DI.Unsubscribe_90DI(this);
+            base.OnFormClosed(e);
         }
 
         // ─── Configuración ────────────────────────────────────────────────────
@@ -80,7 +108,7 @@ namespace UI_90DI
         private void RefreshGrid(List<Event_90DI> list)
         {
             dataGridEvents.DataSource = list;
-            lblCantUsers.Text = "BITACORA EVENTOS  |  Registros: " + list.Count;
+            lblCantUsers.Text = LanguageManager_90DI.T("bitacora_lbl_header") + list.Count;
         }
 
         // ─── Filtro ───────────────────────────────────────────────────────────

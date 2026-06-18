@@ -14,5 +14,6 @@ namespace Services_90DI.entities
         public string Rol_90DI { get; set; } = "";
         public string Email_90DI { get; set; } = "";
         public bool Bloqueo_90DI { get; set; }
+        public string Idioma_90DI { get; set; } = "es";
     }
 }

@@ -35,6 +35,7 @@
             label2 = new Label();
             label3 = new Label();
             btn_CloseApp = new Button();
+            cmbIdioma = new ComboBox();
             SuspendLayout();
             // 
             // Btn_Login
@@ -103,13 +104,23 @@
             btn_CloseApp.Text = "X";
             btn_CloseApp.UseVisualStyleBackColor = false;
             btn_CloseApp.Click += btn_CloseApp_Click;
-            // 
+            //
+            // cmbIdioma
+            //
+            cmbIdioma.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbIdioma.Location = new Point(12, 12);
+            cmbIdioma.Name = "cmbIdioma";
+            cmbIdioma.Size = new Size(180, 40);
+            cmbIdioma.TabIndex = 8;
+            cmbIdioma.SelectedIndexChanged += cmbIdioma_SelectedIndexChanged;
+            //
             // FrmLogin_90DI
-            // 
+            //
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.AliceBlue;
             ClientSize = new Size(842, 485);
+            Controls.Add(cmbIdioma);
             Controls.Add(btn_CloseApp);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -135,5 +146,6 @@
         private Label label2;
         private Label label3;
         private Button btn_CloseApp;
+        private ComboBox cmbIdioma;
     }
 }

@@ -2,11 +2,12 @@
 
 using BLL_90DI;
 using Service_90DI;
+using Services_90DI;
 using Services_90DI.entities;
 
 namespace UI_90DI
 {
-    public partial class FrmCambiarPassword_90DI : Form
+    public partial class FrmCambiarPassword_90DI : Form, IObserver_90DI
     {
 
         private UsersBLL_90DI _usuarioService = new UsersBLL_90DI();
@@ -19,17 +20,34 @@ namespace UI_90DI
 
             usuario = _usuarioService.getUserByUsername(SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI);
 
-
             if (usuario != null)
             {
                 cargarDatos(usuario);
             }
             else
             {
-                MessageBox.Show("Error al cargar el usuario. Por favor, intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(LanguageManager_90DI.T("pass_msg_error_actualizar"), LanguageManager_90DI.T("pass_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
-
             }
+
+            LanguageManager_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.TraduccionesActuales_90DI;
+            if (t.Count > 0) UpdateLanguage_90DI(t);
+        }
+
+        public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
+        {
+            if (traducciones.TryGetValue("pass_lbl_nombre_usuario", out var v)) label1.Text   = v;
+            if (traducciones.TryGetValue("pass_lbl_pass_actual",    out v))     label2.Text   = v;
+            if (traducciones.TryGetValue("pass_lbl_nueva_pass",     out v))     label3.Text   = v;
+            if (traducciones.TryGetValue("pass_lbl_confirmar",      out v))     label4.Text   = v;
+            if (traducciones.TryGetValue("pass_btn_cambiar",        out v))     button1.Text  = v;
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            LanguageManager_90DI.Unsubscribe_90DI(this);
+            base.OnFormClosed(e);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -38,27 +56,27 @@ namespace UI_90DI
                 string.IsNullOrWhiteSpace(txtNewPass.Text) ||
                 string.IsNullOrWhiteSpace(txtConfirmNewPass.Text))
             {
-                MessageBox.Show("Todos los campos son obligatorios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T("pass_msg_campos_obligatorios"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!_usuarioService.VerifyPassword_90DI(txtPassActual.Text, usuario.Password_90DI))
             {
-                MessageBox.Show("La contraseña actual es incorrecta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T("pass_msg_pass_incorrecta"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPassActual.Focus();
                 return;
             }
 
             if (txtNewPass.Text.Length < 8)
             {
-                MessageBox.Show("La nueva contraseña debe tener al menos 8 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T("pass_msg_pass_corta"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNewPass.Focus();
                 return;
             }
 
             if (txtNewPass.Text != txtConfirmNewPass.Text)
             {
-                MessageBox.Show("La nueva contraseña y su confirmación no coinciden.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T("pass_msg_pass_no_coincide"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtConfirmNewPass.Focus();
                 return;
             }
@@ -67,13 +85,13 @@ namespace UI_90DI
 
             if (resultado)
             {
-                MessageBox.Show("Contraseña actualizada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(LanguageManager_90DI.T("pass_msg_actualizada"), LanguageManager_90DI.T("pass_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
                 menu.Show();
             }
             else
             {
-                MessageBox.Show("Error al actualizar la contraseña. Por favor, intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(LanguageManager_90DI.T("pass_msg_error_actualizar"), LanguageManager_90DI.T("pass_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
