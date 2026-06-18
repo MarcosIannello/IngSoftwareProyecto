@@ -96,7 +96,7 @@ namespace UI_90DI
 
             // Solo aplica el tile si los dos forms están activos simultáneamente
             if (_frmFamilias != null && !_frmFamilias.IsDisposed && _frmFamilias.Visible &&
-                _frmRoles   != null && !_frmRoles.IsDisposed   && _frmRoles.Visible)
+                _frmRoles != null && !_frmRoles.IsDisposed && _frmRoles.Visible)
             {
                 // Forzar Normal para que Bounds tenga efecto (Maximized lo ignora)
                 _frmFamilias.WindowState = FormWindowState.Normal;
@@ -131,6 +131,11 @@ namespace UI_90DI
             _frmRoles.Show();
             _frmRoles.BringToFront();
             TileFormsHalfScreen();
+        }
+
+        private void FrmMenu_90DI_Load(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
         }
     }
 }

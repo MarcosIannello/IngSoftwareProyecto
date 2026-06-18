@@ -120,7 +120,7 @@ namespace UI_90DI
 
         // ─── Exportar PDF ─────────────────────────────────────────────────────
 
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -156,10 +156,10 @@ namespace UI_90DI
             RefreshGrid(ultimos3dias);
         }
 
-        
+
         private void dataGridEvents_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
 
         }
 
@@ -278,6 +278,11 @@ namespace UI_90DI
                 MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+        }
+
+        private void FrmBitacora_90DI_Load(object sender, EventArgs e)
+        {
 
         }
     }

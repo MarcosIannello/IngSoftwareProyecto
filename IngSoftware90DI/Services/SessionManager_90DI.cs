@@ -35,22 +35,22 @@ namespace Service_90DI
         public bool Login_90DI(User_90DI? user = null)
         {
            
-                if (SesionActiva)
-                    throw new InvalidOperationException("Ya hay una sesion activa. Cerrala antes de iniciar otra.");
+            if (SesionActiva)
+                throw new InvalidOperationException("Ya hay una sesion activa. Cerrala antes de iniciar otra.");
 
-                if (user == null)
-                    throw new InvalidOperationException("El usuario no existe , o sus credenciales son incorrectas");
+            if (user == null)
+                throw new InvalidOperationException("El usuario no existe , o sus credenciales son incorrectas");
 
-                if (user.Bloqueo_90DI == true)
-                    throw new InvalidOperationException("El usuario esta bloqueado, Comuniquese con el Admin.");
+            if (user.Bloqueo_90DI == true)
+                throw new InvalidOperationException("El usuario esta bloqueado, Comuniquese con el Admin.");
 
-                if (user.Activo_90DI == false)
-                    throw new InvalidOperationException("El usuario no esta activo, Comuniquese con el Admin.");
+            if (user.Activo_90DI == false)
+                throw new InvalidOperationException("El usuario no esta activo, Comuniquese con el Admin.");
 
-                this.userActual = user;
-                this.SesionActiva = true;
+            this.userActual = user;
+            this.SesionActiva = true;
 
-                return true;
+            return true;
         }
 
         public void CerrarSesion()

@@ -371,5 +371,18 @@ namespace Capital_
 
             rdbModoConsulta.Checked = true;
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            var frmMenu = new FrmMenu_90DI();
+            frmMenu.Show();
+            this.Close();
+            
+        }
     }
 }
