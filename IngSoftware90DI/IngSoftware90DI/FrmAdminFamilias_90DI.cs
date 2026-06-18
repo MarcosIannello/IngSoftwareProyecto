@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Services_90DI;
 using Services_90DI.entities;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UI_90DI;
 
 namespace Capital_
 {
-    public partial class FrmAdminFamilias : Form
+    public partial class FrmAdminFamilias : Form, IObserver_90DI
     {
         public List<Patente_90DI> PatentesBd = new List<Patente_90DI>();
         public RolBLL_90DI _rolBLL = new RolBLL_90DI();
@@ -30,7 +30,35 @@ namespace Capital_
         {
             InitializeComponent();
             PatentesBd = _rolBLL.GetAllPatentes_90DI();
-            rdbModoConsulta.Checked = true; // dispara CheckedChanged → LoadModoConsulta
+            rdbModoConsulta.Checked = true;
+
+            LanguageManager_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.TraduccionesActuales_90DI;
+            if (t.Count > 0) UpdateLanguage_90DI(t);
+        }
+
+        public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
+        {
+            if (traducciones.TryGetValue("familias_title",                out var v)) label1.Text             = v;
+            if (traducciones.TryGetValue("familias_lbl_patentes_familia", out v))     label2.Text             = v;
+            if (traducciones.TryGetValue("familias_lbl_patentes",         out v))     label3.Text             = v;
+            if (traducciones.TryGetValue("familias_lbl_nombre",           out v))     label4.Text             = v;
+            if (traducciones.TryGetValue("familias_lbl_familias_disponibles", out v)) label5.Text             = v;
+            if (traducciones.TryGetValue("familias_btn_agregar_patente",  out v))     btnAgregarPatente.Text  = v;
+            if (traducciones.TryGetValue("familias_btn_quitar_patente",   out v))     btnQuitarPatente.Text   = v;
+            if (traducciones.TryGetValue("familias_btn_aplicar",          out v))     btnAplicarCambios.Text  = v;
+            if (traducciones.TryGetValue("familias_btn_salir",            out v))     button5.Text            = v;
+            if (traducciones.TryGetValue("familias_btn_agregar_familia",  out v))     button2.Text            = v;
+            if (traducciones.TryGetValue("familias_btn_quitar_familia",   out v))     button1.Text            = v;
+            if (traducciones.TryGetValue("familias_rdb_consulta",         out v))     rdbModoConsulta.Text    = v;
+            if (traducciones.TryGetValue("familias_rdb_modificar",        out v))     rdbModificarFamilia.Text= v;
+            if (traducciones.TryGetValue("familias_rdb_crear",            out v))     rdbCrearFamilia.Text    = v;
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            LanguageManager_90DI.Unsubscribe_90DI(this);
+            base.OnFormClosed(e);
         }
 
         private void FrmAdminRoles_90DI_Load(object sender, EventArgs e)
@@ -166,12 +194,12 @@ namespace Capital_
             {
                 if (string.IsNullOrWhiteSpace(txtNombreFamilia.Text))
                 {
-                    MessageBox.Show("Ingresá un nombre para la familia.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_nombre_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (tempFamilia.Patentes.Count == 0 && FamiliasHijas.Count == 0)
                 {
-                    MessageBox.Show("La familia debe tener al menos una patente o subfamilia asignada.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_contenido_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 string nombreTrim = txtNombreFamilia.Text.Trim();
@@ -179,7 +207,7 @@ namespace Capital_
                     .Any(f => f.Nombre_90DI.Equals(nombreTrim, StringComparison.OrdinalIgnoreCase));
                 if (nombreDuplicado)
                 {
-                    MessageBox.Show($"Ya existe una familia con el nombre \"{nombreTrim}\".", "Nombre duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format(LanguageManager_90DI.T("familias_msg_nombre_dup"), nombreTrim), LanguageManager_90DI.T("familias_msg_nombre_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 tempFamilia.Nombre_90DI = nombreTrim;
@@ -187,21 +215,21 @@ namespace Capital_
                 response = _rolBLL.CreateFamilia_90DI(tempFamilia);
 
                 if (response)
-                    MessageBox.Show("Familia creada con éxito");
+                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_creada"), LanguageManager_90DI.T("familias_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    MessageBox.Show("Error al crear la familia.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_error_crear"), LanguageManager_90DI.T("familias_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             if (rdbModificarFamilia.Checked)
             {
                 if (string.IsNullOrWhiteSpace(txtNombreFamilia.Text))
                 {
-                    MessageBox.Show("Ingresá un nombre para la familia.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_nombre_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (tempFamilia.Patentes.Count == 0 && FamiliasHijas.Count == 0)
                 {
-                    MessageBox.Show("La familia debe tener al menos una patente o subfamilia asignada.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_contenido_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 string nombreTrim = txtNombreFamilia.Text.Trim();
@@ -210,16 +238,16 @@ namespace Capital_
                            && f.IdFamilia_90DI != tempFamilia.IdFamilia_90DI);
                 if (nombreDuplicado)
                 {
-                    MessageBox.Show($"Ya existe otra familia con el nombre \"{nombreTrim}\".", "Nombre duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format(LanguageManager_90DI.T("familias_msg_nombre_dup2"), nombreTrim), LanguageManager_90DI.T("familias_msg_nombre_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 tempFamilia.Nombre_90DI = nombreTrim;
                 tempFamilia.SubFamilias = FamiliasHijas;
                 response = _rolBLL.UpdateFamilia_90DI(tempFamilia);
                 if (response)
-                    MessageBox.Show("Familia modificada con éxito");
+                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_modificada"), LanguageManager_90DI.T("familias_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    MessageBox.Show("Error al modificar la familia.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_error_modificar"), LanguageManager_90DI.T("familias_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             rdbModoConsulta.Checked = true;
@@ -380,16 +408,16 @@ namespace Capital_
             if (_rolBLL.FamiliaEstaEnRol_90DI(tempFamilia.IdFamilia_90DI))
             {
                 MessageBox.Show(
-                    $"La familia \"{tempFamilia.Nombre_90DI}\" está asignada a uno o más roles.\nPrimero modificá los roles correspondientes para quitarla, y luego intentá eliminarla.",
-                    "No se puede eliminar",
+                    string.Format(LanguageManager_90DI.T("familias_msg_en_rol"), tempFamilia.Nombre_90DI),
+                    LanguageManager_90DI.T("familias_msg_en_rol_title"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 return;
             }
 
             var confirm = MessageBox.Show(
-                $"¿Estás seguro de que querés eliminar la familia \"{tempFamilia.Nombre_90DI}\"?\nEsta acción eliminará todas sus relaciones y no se puede deshacer.",
-                "Confirmar eliminación",
+                string.Format(LanguageManager_90DI.T("familias_msg_confirm_eliminar"), tempFamilia.Nombre_90DI),
+                LanguageManager_90DI.T("familias_msg_confirm_eliminar_title"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
 
@@ -397,8 +425,8 @@ namespace Capital_
 
             bool response = _rolBLL.DeleteFamilia_90DI(tempFamilia.IdFamilia_90DI, tempFamilia.Nombre_90DI);
             MessageBox.Show(
-                response ? "Familia eliminada con éxito." : "Error al eliminar la familia.",
-                response ? "Éxito" : "Error",
+                response ? LanguageManager_90DI.T("familias_msg_eliminada") : LanguageManager_90DI.T("familias_msg_error_eliminar"),
+                response ? LanguageManager_90DI.T("familias_msg_exito_title") : LanguageManager_90DI.T("familias_msg_error_title"),
                 MessageBoxButtons.OK,
                 response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 

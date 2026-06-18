@@ -106,6 +106,11 @@ namespace BLL_90DI
             return _dal.UpdatePassword90DI(idUsuario, hashPassword);
         }
 
+        public bool UpdateIdioma_90DI(int idUsuario, string idioma)
+        {
+            return _dal.UpdateIdioma90DI(idUsuario, idioma);
+        }
+
         public string getHashPassword_90DI(string password)
         {
             return SecurityService_90DI.HashPassword90DI(password);

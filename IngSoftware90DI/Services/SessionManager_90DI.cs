@@ -12,6 +12,15 @@ namespace Service_90DI
 
         public bool SesionActiva { get; private set; }
 
+        // Idioma activo de la sesión. Se elige en el Login (antes de autenticar)
+        // y persiste para las pantallas posteriores. Default: Español.
+        public Idioma_90DI IdiomaActual { get; set; } = new Idioma_90DI
+        {
+            IdIdioma_90DI = 1,
+            NombreIdioma_90DI = "Español",
+            CodigoIdioma_90DI = "es"
+        };
+
         private SessionManager_90DI() { }
 
         public static SessionManager_90DI Instancia
