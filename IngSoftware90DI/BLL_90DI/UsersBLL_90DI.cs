@@ -106,6 +106,11 @@ namespace BLL_90DI
             return _dal.UpdatePassword90DI(idUsuario, hashPassword);
         }
 
+        public bool UpdateIdioma_90DI(int idUsuario, string idioma)
+        {
+            return _dal.UpdateIdioma90DI(idUsuario, idioma);
+        }
+
         public string getHashPassword_90DI(string password)
         {
             return SecurityService_90DI.HashPassword90DI(password);
@@ -127,15 +132,30 @@ namespace BLL_90DI
 
         public bool CreateUser_90DI(User_90DI user)
         {
-            user.Password_90DI = getHashPassword_90DI(user.Password_90DI);
-            if (!string.IsNullOrEmpty(user.Email_90DI))
-                user.Email_90DI = SecurityService_90DI.ReversibleEncrypt_90DI(user.Email_90DI);
+            try
+            {
+                var todosLosUsuarios = _dal.GetAllUsers90DI();
+                bool dniDuplicado = todosLosUsuarios.Any(u => u.DNI_90DI.Trim() == user.DNI_90DI.Trim());
+                if (dniDuplicado)
+                    throw new InvalidOperationException($"El DNI '{user.DNI_90DI}' ya pertenece a otro usuario registrado.");
 
-          
-            var response = _dal.CreateUser90DI(user);
-            if(response)
-                CreateLogEvent_90DI("Usuario creado exitosamente: " + user.NombreUsuario_90DI, 2);
-            return response;
+                user.Password_90DI = getHashPassword_90DI(user.Password_90DI);
+                if (!string.IsNullOrEmpty(user.Email_90DI))
+                    user.Email_90DI = SecurityService_90DI.ReversibleEncrypt_90DI(user.Email_90DI);
+
+                var response = _dal.CreateUser90DI(user);
+                if (response)
+                    CreateLogEvent_90DI("Usuario creado exitosamente: " + user.NombreUsuario_90DI, 2);
+                return response;
+            }
+            catch (InvalidOperationException)
+            {
+                throw; // Se propaga hacia la UI para mostrar el mensaje al usuario
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error inesperado al crear el usuario: " + ex.Message, ex);
+            }
         }
 
         public bool UnblockUser_90DI(int idUsuario)
@@ -148,14 +168,30 @@ namespace BLL_90DI
 
         public bool UpdateUser_90DI(User_90DI user)
         {
-            if (!string.IsNullOrEmpty(user.Email_90DI))
-                user.Email_90DI = SecurityService_90DI.ReversibleEncrypt_90DI(user.Email_90DI);
-            var response =  _dal.UpdateUser90DI(user);
+            try
+            {
+                var todosLosUsuarios = _dal.GetAllUsers90DI();
+                bool dniDuplicado = todosLosUsuarios.Any(u => u.DNI_90DI.Trim() == user.DNI_90DI.Trim()
+                                                           && u.IdUsuario_90DI != user.IdUsuario_90DI);
+                if (dniDuplicado)
+                    throw new InvalidOperationException($"El DNI '{user.DNI_90DI}' ya pertenece a otro usuario registrado.");
 
-            if(response)
-                CreateLogEvent_90DI("Usuario actualizado exitosamente: " + user.NombreUsuario_90DI, 2);
+                if (!string.IsNullOrEmpty(user.Email_90DI))
+                    user.Email_90DI = SecurityService_90DI.ReversibleEncrypt_90DI(user.Email_90DI);
 
-            return response;
+                var response = _dal.UpdateUser90DI(user);
+                if (response)
+                    CreateLogEvent_90DI("Usuario actualizado exitosamente: " + user.NombreUsuario_90DI, 2);
+                return response;
+            }
+            catch (InvalidOperationException)
+            {
+                throw; // Se propaga hacia la UI para mostrar el mensaje al usuario
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error inesperado al actualizar el usuario: " + ex.Message, ex);
+            }
         }
 
         public bool ActivateUser_90DI(User_90DI user)

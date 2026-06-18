@@ -25,7 +25,7 @@ namespace DAL
                             SELECT IdUsuario_90DI, NombreUsuario_90DI, Password_90DI,
                                    Activo_90DI, FechaAlta_90DI, DNI_90DI,
                                    Apellidos_90DI, Nombre_90DI, Rol_90DI,
-                                   Email_90DI, Bloqueo_90DI
+                                   Email_90DI, Bloqueo_90DI, Idioma_90DI
                             FROM User_90DI
                         """;
                         using (var reader = cmd.ExecuteReader())
@@ -44,7 +44,8 @@ namespace DAL
                                     Nombre_90DI        = reader.IsDBNull(7)  ? "" : reader.GetString(7),
                                     Rol_90DI           = reader.IsDBNull(8)  ? "0" : reader.GetInt32(8).ToString(),
                                     Email_90DI         = reader.IsDBNull(9)  ? "" : reader.GetString(9),
-                                    Bloqueo_90DI       = reader.IsDBNull(10) ? false : reader.GetBoolean(10)
+                                    Bloqueo_90DI       = reader.IsDBNull(10) ? false : reader.GetBoolean(10),
+                                    Idioma_90DI        = reader.IsDBNull(11) ? "es" : reader.GetString(11)
                                 });
                             }
                         }
@@ -72,7 +73,7 @@ namespace DAL
                             SELECT IdUsuario_90DI, NombreUsuario_90DI, Password_90DI,
                                    Activo_90DI, FechaAlta_90DI, DNI_90DI,
                                    Apellidos_90DI, Nombre_90DI, Rol_90DI,
-                                   Email_90DI, Bloqueo_90DI
+                                   Email_90DI, Bloqueo_90DI, Idioma_90DI
                             FROM User_90DI
                             WHERE NombreUsuario_90DI = @Username
                         """;
@@ -93,7 +94,8 @@ namespace DAL
                                     Nombre_90DI        = reader.IsDBNull(7)  ? "" : reader.GetString(7),
                                     Rol_90DI           = reader.IsDBNull(8)  ? "0" : reader.GetInt32(8).ToString(),
                                     Email_90DI         = reader.IsDBNull(9)  ? "" : reader.GetString(9),
-                                    Bloqueo_90DI       = reader.IsDBNull(10) ? false : reader.GetBoolean(10)
+                                    Bloqueo_90DI       = reader.IsDBNull(10) ? false : reader.GetBoolean(10),
+                                    Idioma_90DI        = reader.IsDBNull(11) ? "es" : reader.GetString(11)
                                 };
                             }
                         }
@@ -123,7 +125,7 @@ namespace DAL
                             SELECT IdUsuario_90DI, NombreUsuario_90DI, Password_90DI,
                                    Activo_90DI, FechaAlta_90DI, DNI_90DI,
                                    Apellidos_90DI, Nombre_90DI, Rol_90DI,
-                                   Email_90DI, Bloqueo_90DI
+                                   Email_90DI, Bloqueo_90DI, Idioma_90DI
                             FROM User_90DI
                             WHERE (@dni       IS NULL OR DNI_90DI           LIKE '%' + @dni       + '%')
                               AND (@apellidos IS NULL OR Apellidos_90DI     LIKE '%' + @apellidos + '%')
@@ -155,7 +157,8 @@ namespace DAL
                                     Nombre_90DI        = reader.IsDBNull(7)  ? "" : reader.GetString(7),
                                     Rol_90DI           = reader.IsDBNull(8)  ? "0" : reader.GetInt32(8).ToString(),
                                     Email_90DI         = reader.IsDBNull(9)  ? "" : reader.GetString(9),
-                                    Bloqueo_90DI       = reader.IsDBNull(10) ? false : reader.GetBoolean(10)
+                                    Bloqueo_90DI       = reader.IsDBNull(10) ? false : reader.GetBoolean(10),
+                                    Idioma_90DI        = reader.IsDBNull(11) ? "es" : reader.GetString(11)
                                 });
                             }
                         }
@@ -245,6 +248,36 @@ namespace DAL
                         cmd.Parameters.AddWithValue("@rol",           usuario.Rol_90DI);
                         cmd.Parameters.AddWithValue("@email",         usuario.Email_90DI);
                         cmd.Parameters.AddWithValue("@idUsuario",     usuario.IdUsuario_90DI);
+
+                        var rows = cmd.ExecuteNonQuery();
+                        return rows > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                return false;
+            }
+        }
+
+        public bool UpdateIdioma90DI(int idUsuario, string idioma)
+        {
+            try
+            {
+                using (var con = _conexion.GetConnection())
+                {
+                    con.Open();
+                    using (var cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText =
+                            """
+                                UPDATE User_90DI
+                                SET Idioma_90DI = @idioma
+                                WHERE IdUsuario_90DI = @idUsuario
+                            """;
+                        cmd.Parameters.AddWithValue("@idioma",    idioma);
+                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
 
                         var rows = cmd.ExecuteNonQuery();
                         return rows > 0;

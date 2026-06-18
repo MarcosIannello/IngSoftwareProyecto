@@ -1,4 +1,5 @@
 using BLL;
+using Services_90DI;
 using Services_90DI.entities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Capital_
 {
-    public partial class FrmAdminROLES_90DI : Form
+    public partial class FrmAdminROLES_90DI : Form, IObserver_90DI
     {
         private readonly RolBLL_90DI _rolBLL = new RolBLL_90DI();
         private readonly string _dm = "Nombre_90DI";
@@ -19,7 +20,33 @@ namespace Capital_
         public FrmAdminROLES_90DI()
         {
             InitializeComponent();
-            rdbModoConsulta.Checked = true; //Modo consulta es default.
+            rdbModoConsulta.Checked = true;
+
+            LanguageManager_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.TraduccionesActuales_90DI;
+            if (t.Count > 0) UpdateLanguage_90DI(t);
+        }
+
+        public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
+        {
+            if (traducciones.TryGetValue("roles_title",                    out var v)) label1.Text                   = v;
+            if (traducciones.TryGetValue("roles_lbl_nombre",               out v))     label4.Text                   = v;
+            if (traducciones.TryGetValue("roles_lbl_sel_rol",              out v))     label3.Text                   = v;
+            if (traducciones.TryGetValue("roles_lbl_patentes_disponibles", out v))     label5.Text                   = v;
+            if (traducciones.TryGetValue("roles_lbl_familias_disponibles", out v))     label6.Text                   = v;
+            if (traducciones.TryGetValue("roles_btn_aplicar",              out v))     btnAplicarCambios.Text        = v;
+            if (traducciones.TryGetValue("roles_btn_salir",                out v))     button5.Text                  = v;
+            if (traducciones.TryGetValue("roles_btn_agregar",              out v))     { btnAgregarPatente.Text = v; btnAgregarFamilia.Text = v; }
+            if (traducciones.TryGetValue("roles_btn_quitar",               out v))     { btnQuitarPatente.Text  = v; btnQuitarFamilia.Text  = v; }
+            if (traducciones.TryGetValue("roles_rdb_consulta",             out v))     rdbModoConsulta.Text          = v;
+            if (traducciones.TryGetValue("roles_rdb_crear",                out v))     rdbCrearFamilia.Text          = v;
+            if (traducciones.TryGetValue("roles_rdb_modificar",            out v))     rdbModificarFamilia.Text      = v;
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            LanguageManager_90DI.Unsubscribe_90DI(this);
+            base.OnFormClosed(e);
         }
 
         // ── Modos ─────────────────────────────────────────────────────────────
@@ -218,22 +245,42 @@ namespace Capital_
             {
                 if (string.IsNullOrWhiteSpace(txtNombreRol.Text))
                 {
-                    MessageBox.Show("Ingresá un nombre para el rol.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T("roles_msg_nombre_empty"), LanguageManager_90DI.T("roles_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                tempRol.Nombre_90DI = txtNombreRol.Text.Trim();
+                if (tempRol.Patentes.Count == 0 && tempRol.Familias.Count == 0)
+                {
+                    MessageBox.Show(LanguageManager_90DI.T("roles_msg_contenido_empty"), LanguageManager_90DI.T("roles_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                string nombreTrim = txtNombreRol.Text.Trim();
+                bool nombreDuplicado = _rolBLL.GetAllRoles_90DI()
+                    .Any(r => r.Nombre_90DI.Equals(nombreTrim, StringComparison.OrdinalIgnoreCase));
+                if (nombreDuplicado)
+                {
+                    MessageBox.Show(string.Format(LanguageManager_90DI.T("roles_msg_nombre_dup"), nombreTrim), LanguageManager_90DI.T("roles_msg_nombre_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                tempRol.Nombre_90DI = nombreTrim;
                 response = _rolBLL.CreateRol_90DI(tempRol);
-                MessageBox.Show(response ? "Rol creado con éxito." : "Error al crear el rol.",
-                                response ? "Éxito" : "Error", MessageBoxButtons.OK,
-                                response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+                MessageBox.Show(
+                    response ? LanguageManager_90DI.T("roles_msg_creado") : LanguageManager_90DI.T("roles_msg_error_crear"),
+                    response ? LanguageManager_90DI.T("roles_msg_exito_title") : LanguageManager_90DI.T("roles_msg_error_title"),
+                    MessageBoxButtons.OK, response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
             }
 
             if (rdbModificarFamilia.Checked)
             {
+                if (tempRol.Patentes.Count == 0 && tempRol.Familias.Count == 0)
+                {
+                    MessageBox.Show(LanguageManager_90DI.T("roles_msg_contenido_empty"), LanguageManager_90DI.T("roles_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 response = _rolBLL.UpdateRol_90DI(tempRol);
-                MessageBox.Show(response ? "Rol modificado con éxito." : "Error al modificar el rol.",
-                                response ? "Éxito" : "Error", MessageBoxButtons.OK,
-                                response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+                MessageBox.Show(
+                    response ? LanguageManager_90DI.T("roles_msg_modificado") : LanguageManager_90DI.T("roles_msg_error_modificar"),
+                    response ? LanguageManager_90DI.T("roles_msg_exito_title") : LanguageManager_90DI.T("roles_msg_error_title"),
+                    MessageBoxButtons.OK, response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
             }
 
             rdbModoConsulta.Checked = true;
@@ -251,8 +298,8 @@ namespace Capital_
             if (cmbRolActual.SelectedItem is not Rol_90DI rol) return;
 
             var confirm = MessageBox.Show(
-                $"¿Estás seguro de que querés eliminar el rol \"{rol.Nombre_90DI}\"?\nEsta acción eliminará todas sus relaciones y no se puede deshacer.",
-                "Confirmar eliminación",
+                string.Format(LanguageManager_90DI.T("roles_msg_confirm_eliminar"), rol.Nombre_90DI),
+                LanguageManager_90DI.T("roles_msg_confirm_eliminar_title"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
 
@@ -260,8 +307,8 @@ namespace Capital_
 
             bool response = _rolBLL.DeleteRol_90DI(rol.IdRol_90DI, rol.Nombre_90DI);
             MessageBox.Show(
-                response ? "Rol eliminado con éxito." : "Error al eliminar el rol.",
-                response ? "Éxito" : "Error",
+                response ? LanguageManager_90DI.T("roles_msg_eliminado") : LanguageManager_90DI.T("roles_msg_error_eliminar"),
+                response ? LanguageManager_90DI.T("roles_msg_exito_title") : LanguageManager_90DI.T("roles_msg_error_title"),
                 MessageBoxButtons.OK,
                 response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
