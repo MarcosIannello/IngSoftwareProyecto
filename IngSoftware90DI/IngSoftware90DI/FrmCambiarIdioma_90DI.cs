@@ -1,18 +1,21 @@
+using BLL_90DI;
+using Service_90DI;
 using Services_90DI;
 using Services_90DI.entities;
 
 namespace UI_90DI
 {
-    public class FrmCambiarIdioma_90DI : Form, IObserver_90DI
+    public partial class FrmCambiarIdioma_90DI : Form, IObserver_90DI
     {
-        private Label lblSeleccionar;
-        private ComboBox cmbIdioma;
-        private Button btnAplicar;
-        private Button btnCancelar;
+        private readonly UsersBLL_90DI _usuarioService = new UsersBLL_90DI();
 
         public FrmCambiarIdioma_90DI()
         {
-            BuildUI();
+            // Layout estatico definido en el Designer (vista previa).
+            InitializeComponent();
+
+            // Aplicar traducciones e items dinamicamente en runtime.
+            AplicarTraducciones();
             CargarIdiomas();
 
             LanguageManager_90DI.AddObserver_90DI(this);
@@ -20,48 +23,12 @@ namespace UI_90DI
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
-        private void BuildUI()
+        private void AplicarTraducciones()
         {
-            Text = LanguageManager_90DI.T("idioma_form_titulo");
-            ClientSize = new Size(320, 160);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            StartPosition = FormStartPosition.CenterParent;
-            MaximizeBox = false;
-            MinimizeBox = false;
-
-            lblSeleccionar = new Label
-            {
-                Text = LanguageManager_90DI.T("idioma_lbl_seleccionar"),
-                Location = new Point(20, 20),
-                AutoSize = true
-            };
-
-            cmbIdioma = new ComboBox
-            {
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Location = new Point(20, 50),
-                Size = new Size(275, 30)
-            };
-
-            btnAplicar = new Button
-            {
-                Text = LanguageManager_90DI.T("idioma_btn_aplicar"),
-                Location = new Point(20, 100),
-                Size = new Size(130, 36),
-                BackColor = Color.GreenYellow
-            };
-            btnAplicar.Click += BtnAplicar_Click;
-
-            btnCancelar = new Button
-            {
-                Text = LanguageManager_90DI.T("idioma_btn_cancelar"),
-                Location = new Point(165, 100),
-                Size = new Size(130, 36),
-                BackColor = Color.LightCoral
-            };
-            btnCancelar.Click += (_, _) => Close();
-
-            Controls.AddRange(new Control[] { lblSeleccionar, cmbIdioma, btnAplicar, btnCancelar });
+            Text                = LanguageManager_90DI.T("idioma_form_titulo");
+            lblSeleccionar.Text = LanguageManager_90DI.T("idioma_lbl_seleccionar");
+            btnAplicar.Text     = LanguageManager_90DI.T("idioma_btn_aplicar");
+            btnCancelar.Text    = LanguageManager_90DI.T("idioma_btn_cancelar");
         }
 
         private void CargarIdiomas()
@@ -77,7 +44,23 @@ namespace UI_90DI
         private void BtnAplicar_Click(object sender, EventArgs e)
         {
             if (cmbIdioma.SelectedItem is Idioma_90DI idioma)
+            {
+                // Notifica a los observers y actualiza el idioma de la sesión.
                 LanguageManager_90DI.NotifyAllObservers_90DI(idioma);
+
+                // Persiste el idioma elegido en la BD para el usuario logueado.
+                var session = SessionManager_90DI.Instancia;
+                if (session.SesionActiva && session.userActual.IdUsuario_90DI > 0)
+                {
+                    _usuarioService.UpdateIdioma_90DI(session.userActual.IdUsuario_90DI, idioma.CodigoIdioma_90DI);
+                    session.userActual.Idioma_90DI = idioma.CodigoIdioma_90DI;
+                }
+            }
+            Close();
+        }
+
+        private void BtnCancelar_Click(object sender, EventArgs e)
+        {
             Close();
         }
 

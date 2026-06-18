@@ -45,11 +45,21 @@ namespace UI_90DI
             if (traducciones.TryGetValue("login_usuario", out var usuario))  label2.Text = usuario;
             if (traducciones.TryGetValue("login_password", out var pass))    label3.Text = pass;
             if (traducciones.TryGetValue("login_btn_ingresar", out var btn)) Btn_Login.Text = btn;
+
+            // El título usa AutoSize: al cambiar de idioma varía su ancho.
+            // Lo recentramos horizontalmente para que no quede desfasado.
+            CentrarTitulo_90DI();
+        }
+
+        // Mantiene el label del título centrado horizontalmente en el form,
+        // sin importar el largo del texto traducido.
+        private void CentrarTitulo_90DI()
+        {
+            label1.Left = (ClientSize.Width - label1.Width) / 2;
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            // Evita memory leak: el LanguageManager (Singleton) mantiene la referencia.
             LanguageManager_90DI.Unsubscribe_90DI(this); // remueve solo este form, no todos los observers
             base.OnFormClosed(e);
         }
