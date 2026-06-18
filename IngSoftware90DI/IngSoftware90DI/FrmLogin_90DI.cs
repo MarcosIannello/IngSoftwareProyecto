@@ -102,10 +102,10 @@ namespace UI_90DI
                     return;
                 }
 
-                // Persistir el idioma elegido en la fila del usuario autenticado.
-                _usuariosBLL.UpdateIdioma_90DI(user!.IdUsuario_90DI, SessionManager_90DI.Instancia.IdiomaActual.CodigoIdioma_90DI);
-
-                // Verificar integridad del sistema
+                // Verificar integridad del sistema ANTES de cualquier escritura.
+                // Si se persiste el idioma primero, el recálculo del DV de User_90DI
+                // "sana" cualquier modificación manual de la tabla y la verificación
+                // dejaría de detectarla (falso negativo).
                 var resultados = _integridad.Verificar_90DI();
                 var corruptos  = resultados.Where(r => r.EsCorrupto).ToList();
 
@@ -134,6 +134,11 @@ namespace UI_90DI
                         return;
                     }
                 }
+
+                // Recién con el sistema íntegro persistimos el idioma elegido en la
+                // fila del usuario (esto recalcula el DV de User_90DI legítimamente).
+                _usuariosBLL.UpdateIdioma_90DI(user!.IdUsuario_90DI, SessionManager_90DI.Instancia.IdiomaActual.CodigoIdioma_90DI);
+
                 var menu = new FrmMenu_90DI();
                 menu.Show();
                 this.Hide();

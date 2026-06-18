@@ -80,7 +80,7 @@
             loginToolStripMenuItem.BackColor = Color.Maroon;
             loginToolStripMenuItem.ForeColor = SystemColors.Control;
             loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            loginToolStripMenuItem.Size = new Size(145, 24);
+            loginToolStripMenuItem.Size = new Size(180, 24);
             loginToolStripMenuItem.Text = "Login";
             loginToolStripMenuItem.Click += loginToolStripMenuItem_Click;
             // 
@@ -89,7 +89,7 @@
             logoutToolStripMenuItem.BackColor = Color.Maroon;
             logoutToolStripMenuItem.ForeColor = SystemColors.Control;
             logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            logoutToolStripMenuItem.Size = new Size(145, 24);
+            logoutToolStripMenuItem.Size = new Size(180, 24);
             logoutToolStripMenuItem.Text = "Logout";
             logoutToolStripMenuItem.Click += logoutToolStripMenuItem_Click;
             // 
@@ -98,7 +98,7 @@
             passwordToolStripMenuItem.BackColor = Color.Maroon;
             passwordToolStripMenuItem.ForeColor = SystemColors.Control;
             passwordToolStripMenuItem.Name = "passwordToolStripMenuItem";
-            passwordToolStripMenuItem.Size = new Size(145, 24);
+            passwordToolStripMenuItem.Size = new Size(180, 24);
             passwordToolStripMenuItem.Text = "Password";
             passwordToolStripMenuItem.Click += passwordToolStripMenuItem_Click;
             // 
@@ -107,8 +107,9 @@
             idiomaToolStripMenuItem.BackColor = Color.Maroon;
             idiomaToolStripMenuItem.ForeColor = SystemColors.Control;
             idiomaToolStripMenuItem.Name = "idiomaToolStripMenuItem";
-            idiomaToolStripMenuItem.Size = new Size(145, 24);
+            idiomaToolStripMenuItem.Size = new Size(180, 24);
             idiomaToolStripMenuItem.Text = "Idioma";
+            idiomaToolStripMenuItem.Click += idiomaToolStripMenuItem_Click_1;
             // 
             // adminToolStripMenuItem
             // 

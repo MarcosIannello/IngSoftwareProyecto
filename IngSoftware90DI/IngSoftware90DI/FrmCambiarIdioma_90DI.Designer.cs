@@ -33,25 +33,26 @@ namespace UI_90DI
             btnAplicar = new Button();
             btnCancelar = new Button();
             SuspendLayout();
-            //
+            // 
             // lblSeleccionar
-            //
+            // 
             lblSeleccionar.AutoSize = true;
             lblSeleccionar.Location = new Point(20, 20);
             lblSeleccionar.Name = "lblSeleccionar";
+            lblSeleccionar.Size = new Size(107, 15);
             lblSeleccionar.TabIndex = 0;
             lblSeleccionar.Text = "Seleccionar Idioma";
-            //
+            // 
             // cmbIdioma
-            //
+            // 
             cmbIdioma.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbIdioma.Location = new Point(20, 50);
             cmbIdioma.Name = "cmbIdioma";
-            cmbIdioma.Size = new Size(275, 30);
+            cmbIdioma.Size = new Size(275, 23);
             cmbIdioma.TabIndex = 1;
-            //
+            // 
             // btnAplicar
-            //
+            // 
             btnAplicar.BackColor = Color.GreenYellow;
             btnAplicar.Location = new Point(20, 100);
             btnAplicar.Name = "btnAplicar";
@@ -60,9 +61,9 @@ namespace UI_90DI
             btnAplicar.Text = "Aplicar";
             btnAplicar.UseVisualStyleBackColor = false;
             btnAplicar.Click += BtnAplicar_Click;
-            //
+            // 
             // btnCancelar
-            //
+            // 
             btnCancelar.BackColor = Color.LightCoral;
             btnCancelar.Location = new Point(165, 100);
             btnCancelar.Name = "btnCancelar";
@@ -71,9 +72,9 @@ namespace UI_90DI
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = false;
             btnCancelar.Click += BtnCancelar_Click;
-            //
+            // 
             // FrmCambiarIdioma_90DI
-            //
+            // 
             ClientSize = new Size(320, 160);
             Controls.Add(lblSeleccionar);
             Controls.Add(cmbIdioma);
@@ -85,6 +86,7 @@ namespace UI_90DI
             Name = "FrmCambiarIdioma_90DI";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Cambiar Idioma";
+            Load += FrmCambiarIdioma_90DI_Load;
             ResumeLayout(false);
             PerformLayout();
         }

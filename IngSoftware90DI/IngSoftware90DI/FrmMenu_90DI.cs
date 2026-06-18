@@ -23,25 +23,25 @@ namespace UI_90DI
 
         public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
         {
-            if (traducciones.TryGetValue("menu_usuarios",           out var v)) usuariosToolStripMenuItem.Text          = v;
-            if (traducciones.TryGetValue("menu_login",              out v))     loginToolStripMenuItem.Text              = v;
-            if (traducciones.TryGetValue("menu_logout",             out v))     logoutToolStripMenuItem.Text             = v;
-            if (traducciones.TryGetValue("menu_password",           out v))     passwordToolStripMenuItem.Text           = v;
-            if (traducciones.TryGetValue("menu_idioma",             out v))     idiomaToolStripMenuItem.Text             = v;
-            if (traducciones.TryGetValue("menu_admin",              out v))     adminToolStripMenuItem.Text              = v;
-            if (traducciones.TryGetValue("menu_gestion_usuarios",   out v))     gestionUsuariosToolStripMenuItem.Text    = v;
-            if (traducciones.TryGetValue("menu_abm_usuarios",       out v))     aBMUsuariosToolStripMenuItem.Text        = v;
-            if (traducciones.TryGetValue("menu_bitacora",           out v))     bitacoraToolStripMenuItem.Text           = v;
-            if (traducciones.TryGetValue("menu_admin_familia",      out v))     adminFamiliaToolStripMenuItem.Text       = v;
-            if (traducciones.TryGetValue("menu_admin_roles",        out v))     adminRolesToolStripMenuItem.Text         = v;
-            if (traducciones.TryGetValue("menu_maestro",            out v))     maestroToolStripMenuItem.Text            = v;
-            if (traducciones.TryGetValue("menu_clientes",           out v))     clientesToolStripMenuItem.Text           = v;
-            if (traducciones.TryGetValue("menu_prestamos",          out v))     prestamosToolStripMenuItem.Text          = v;
-            if (traducciones.TryGetValue("menu_medicos",            out v))     medicosToolStripMenuItem.Text            = v;
-            if (traducciones.TryGetValue("menu_pacientes",          out v))     pacientesToolStripMenuItem.Text          = v;
-            if (traducciones.TryGetValue("menu_reportes",           out v))     reportesToolStripMenuItem.Text           = v;
-            if (traducciones.TryGetValue("menu_historial_cliente",  out v))     historialClienteToolStripMenuItem.Text   = v;
-            if (traducciones.TryGetValue("menu_simulacion_prestamo",out v))     simulacionPrestamoToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_usuarios", out var v)) usuariosToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_login", out v)) loginToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_logout", out v)) logoutToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_password", out v)) passwordToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_idioma", out v)) idiomaToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_admin", out v)) adminToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_gestion_usuarios", out v)) gestionUsuariosToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_abm_usuarios", out v)) aBMUsuariosToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_bitacora", out v)) bitacoraToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_admin_familia", out v)) adminFamiliaToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_admin_roles", out v)) adminRolesToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_maestro", out v)) maestroToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_clientes", out v)) clientesToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_prestamos", out v)) prestamosToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_medicos", out v)) medicosToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_pacientes", out v)) pacientesToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_reportes", out v)) reportesToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_historial_cliente", out v)) historialClienteToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_simulacion_prestamo", out v)) simulacionPrestamoToolStripMenuItem.Text = v;
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
@@ -100,12 +100,6 @@ namespace UI_90DI
             var form = new FrmCambiarPassword_90DI();
             form.Show();
             this.Hide();
-        }
-
-        private void idiomaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using var form = new FrmCambiarIdioma_90DI();
-            form.ShowDialog(this);
         }
 
         private void aBMUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -177,6 +171,12 @@ namespace UI_90DI
         private void FrmMenu_90DI_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+        }
+
+        private void idiomaToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            using var form = new FrmCambiarIdioma_90DI();
+            form.ShowDialog(this);
         }
     }
 }

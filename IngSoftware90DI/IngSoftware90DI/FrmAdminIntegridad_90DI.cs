@@ -1,10 +1,11 @@
 using BLL_90DI;
 using Service_90DI;
+using Services_90DI;
 using Services_90DI.entities;
 
 namespace Capital_
 {
-    public partial class FrmAdminIntegridad_90DI : Form
+    public partial class FrmAdminIntegridad_90DI : Form, IObserver_90DI
     {
         private readonly List<ResultadoIntegridad_90DI> _resultados;
         private readonly IntegridadBLL_90DI _integridad = new IntegridadBLL_90DI();
@@ -13,10 +14,30 @@ namespace Capital_
         {
             InitializeComponent();
             _resultados = resultados;
+
+            // Suscribirse a los cambios de idioma y aplicar el idioma actual.
+            LanguageManager_90DI.AddObserver_90DI(this);
+            AplicarTraducciones();
         }
 
         private void FrmAdminIntegridad_90DI_Load(object sender, EventArgs e)
         {
+            MostrarResultados(_resultados);
+        }
+
+        // Aplica los textos estáticos (título y botones) en el idioma activo.
+        private void AplicarTraducciones()
+        {
+            Text                          = LanguageManager_90DI.T("integridad_form_titulo");
+            btnForzarIntegridadAdmin.Text = LanguageManager_90DI.T("integridad_btn_reparar");
+            btnBackup.Text                = LanguageManager_90DI.T("integridad_btn_backup");
+            btnSalir.Text                 = LanguageManager_90DI.T("integridad_btn_cancelar");
+        }
+
+        // Observer: al cambiar el idioma reaplica textos y vuelve a renderizar el detalle.
+        public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
+        {
+            AplicarTraducciones();
             MostrarResultados(_resultados);
         }
 
@@ -33,10 +54,8 @@ namespace Capital_
             if (!problemas.Any())
                 return;
 
-            int totalCorruptos = problemas.Count(r => r.EsCorrupto);
-
             richTextBox1.SelectionColor = Color.OrangeRed;
-            richTextBox1.AppendText($"⚠  Se detectaron {problemas.Count} tabla(s) con problemas de integridad:\n");
+            richTextBox1.AppendText(string.Format(LanguageManager_90DI.T("integridad_msg_detectados"), problemas.Count) + "\n");
             richTextBox1.SelectionColor = Color.Silver;
             richTextBox1.AppendText(new string('═', 65) + "\n\n");
 
@@ -46,22 +65,22 @@ namespace Capital_
                 if (r.EsError)
                 {
                     richTextBox1.SelectionColor = Color.Magenta;
-                    richTextBox1.AppendText($"  ?  {r.NombreTabla_90DI,-30} ERROR (espejo o tabla faltante)\n");
+                    richTextBox1.AppendText($"  ?  {r.NombreTabla_90DI,-30} {LanguageManager_90DI.T("integridad_lbl_error")}\n");
                     continue;
                 }
 
                 richTextBox1.SelectionColor = Color.Red;
-                richTextBox1.AppendText($"  ✘  {r.NombreTabla_90DI,-30} CORRUPTO");
+                richTextBox1.AppendText($"  ✘  {r.NombreTabla_90DI,-30} {LanguageManager_90DI.T("integridad_lbl_corrupto")}");
 
                 if (r.FilaAfectada_90DI != null)
                 {
                     richTextBox1.SelectionColor = Color.Orange;
-                    richTextBox1.AppendText($"\n       ↳ FILA  : {r.FilaAfectada_90DI}");
+                    richTextBox1.AppendText($"\n       ↳ {LanguageManager_90DI.T("integridad_lbl_fila")}  : {r.FilaAfectada_90DI}");
                 }
                 if (r.ColumnaAfectada_90DI != null)
                 {
                     richTextBox1.SelectionColor = Color.Orange;
-                    richTextBox1.AppendText($"\n       ↳ CELDA : {r.ColumnaAfectada_90DI}");
+                    richTextBox1.AppendText($"\n       ↳ {LanguageManager_90DI.T("integridad_lbl_celda")} : {r.ColumnaAfectada_90DI}");
                 }
                 richTextBox1.AppendText("\n");
             }
@@ -69,15 +88,15 @@ namespace Capital_
             richTextBox1.SelectionColor = Color.Silver;
             richTextBox1.AppendText("\n" + new string('─', 65) + "\n");
             richTextBox1.SelectionColor = Color.White;
-            richTextBox1.AppendText("Presioná \"Reparar Integridad\" para recalcular, \"Recuperar Backup\" para restaurar, o \"Cancelar\" para salir.");
+            richTextBox1.AppendText(LanguageManager_90DI.T("integridad_msg_acciones"));
         }
 
         // ─── Recuperar último backup (NO implementado todavía) ─────────────────
         private void BtnBackup_Click(object sender, EventArgs e)
         {
             var confirmar = MessageBox.Show(
-                "¿Desea restaurar la base de datos desde el último backup disponible?",
-                "Recuperar Backup",
+                LanguageManager_90DI.T("integridad_msg_backup_confirm"),
+                LanguageManager_90DI.T("integridad_msg_backup_title"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -86,8 +105,8 @@ namespace Capital_
 
             // TODO: implementar restauración real desde backup + recálculo + re-verificación.
             MessageBox.Show(
-                "La recuperación desde backup todavía no está implementada.",
-                "Función no disponible",
+                LanguageManager_90DI.T("integridad_msg_backup_no_impl"),
+                LanguageManager_90DI.T("integridad_msg_backup_no_impl_title"),
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
         }
@@ -98,7 +117,7 @@ namespace Capital_
         private void BtnForzarIntegridadAdmin_Click(object sender, EventArgs e)
         {
             btnForzarIntegridadAdmin.Enabled = false;
-            btnForzarIntegridadAdmin.Text = "Recalculando...";
+            btnForzarIntegridadAdmin.Text = LanguageManager_90DI.T("integridad_btn_recalculando");
 
             try
             {
@@ -107,8 +126,8 @@ namespace Capital_
                 if (!ok)
                 {
                     MessageBox.Show(
-                        "Ocurrió un error al recalcular la integridad. Revisá los logs.",
-                        "Error",
+                        LanguageManager_90DI.T("integridad_msg_recalc_error"),
+                        LanguageManager_90DI.T("integridad_msg_error_title"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
@@ -122,8 +141,8 @@ namespace Capital_
                 {
                     // Sistema limpio → continuar al menú
                     MessageBox.Show(
-                        "Integridad recalculada correctamente. El sistema está íntegro.",
-                        "Integridad OK",
+                        LanguageManager_90DI.T("integridad_msg_recalc_ok"),
+                        LanguageManager_90DI.T("integridad_msg_recalc_ok_title"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
@@ -133,20 +152,24 @@ namespace Capital_
                 else
                 {
                     MessageBox.Show(
-                        $"Se recalculó pero aún quedan {nuevosCorruptos.Count} problema(s).\nRevisá los detalles.",
-                        "Advertencia",
+                        string.Format(LanguageManager_90DI.T("integridad_msg_recalc_pendiente"), nuevosCorruptos.Count),
+                        LanguageManager_90DI.T("integridad_msg_advertencia_title"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    string.Format(LanguageManager_90DI.T("integridad_msg_error_inesperado"), ex.Message),
+                    LanguageManager_90DI.T("integridad_msg_error_title"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             finally
             {
                 btnForzarIntegridadAdmin.Enabled = true;
-                btnForzarIntegridadAdmin.Text = "Reparar Integridad";
+                btnForzarIntegridadAdmin.Text = LanguageManager_90DI.T("integridad_btn_reparar");
             }
         }
 
@@ -156,6 +179,12 @@ namespace Capital_
             SessionManager_90DI.Instancia.CerrarSesion();
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            LanguageManager_90DI.Unsubscribe_90DI(this);
+            base.OnFormClosed(e);
         }
     }
 }

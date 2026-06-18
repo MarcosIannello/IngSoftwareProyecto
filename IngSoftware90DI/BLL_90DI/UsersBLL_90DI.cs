@@ -116,7 +116,12 @@ namespace BLL_90DI
 
         public bool UpdateIdioma_90DI(int idUsuario, string idioma)
         {
-            return _dal.UpdateIdioma90DI(idUsuario, idioma);
+            var result = _dal.UpdateIdioma90DI(idUsuario, idioma);
+            if (result)
+                // Recalcular el DV: escribir el idioma modifica la fila de User_90DI
+                // y sin esto la verificación de integridad la marcaría como corrupta.
+                _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+            return result;
         }
 
         public string getHashPassword_90DI(string password)
