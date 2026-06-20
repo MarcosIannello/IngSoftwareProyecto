@@ -29,28 +29,30 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            btnAgregarPatente = new Button();
-            btnQuitarPatente = new Button();
-            btnAplicarCambios = new Button();
-            button5 = new Button();
-            label2 = new Label();
-            label3 = new Label();
-            LstFamiliasPatentes = new ListBox();
-            lstPatentes = new ListBox();
-            rdbModificarFamilia = new RadioButton();
-            rdbCrearFamilia = new RadioButton();
-            rdbModoConsulta = new RadioButton();
-            lstFamilias = new ListBox();
+            frmPanelContentAdminFamilias = new Panel();
+            btnEliminarFamilia = new Button();
+            lstFamiliasFamilia = new ListBox();
             pnlFamiliaNombre = new FlowLayoutPanel();
             label4 = new Label();
             txtNombreFamilia = new TextBox();
-            button1 = new Button();
-            button2 = new Button();
+            lstFamilias = new ListBox();
+            rdbModoConsulta = new RadioButton();
+            rdbCrearFamilia = new RadioButton();
+            rdbModificarFamilia = new RadioButton();
+            lstPatentes = new ListBox();
+            LstFamiliasPatentes = new ListBox();
+            label3 = new Label();
+            label2 = new Label();
+            button5 = new Button();
+            btnAplicarCambios = new Button();
+            btnQuitarPatente = new Button();
+            btnAgregarPatente = new Button();
             pnlAgregarQuitarFamilias = new Panel();
             label5 = new Label();
             cmbFamiliasDisponibles = new ComboBox();
-            lstFamiliasFamilia = new ListBox();
-            btnEliminarFamilia = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            frmPanelContentAdminFamilias.SuspendLayout();
             pnlFamiliaNombre.SuspendLayout();
             pnlAgregarQuitarFamilias.SuspendLayout();
             SuspendLayout();
@@ -58,218 +60,37 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 9);
+            label1.Location = new Point(13, 11);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(289, 32);
+            label1.Size = new Size(145, 15);
             label1.TabIndex = 0;
             label1.Text = "Administrador de Familias";
+            label1.Click += label1_Click;
             // 
-            // btnAgregarPatente
+            // frmPanelContentAdminFamilias
             // 
-            btnAgregarPatente.Location = new Point(890, 435);
-            btnAgregarPatente.Name = "btnAgregarPatente";
-            btnAgregarPatente.Size = new Size(202, 74);
-            btnAgregarPatente.TabIndex = 3;
-            btnAgregarPatente.Text = "Agregar Patente";
-            btnAgregarPatente.UseVisualStyleBackColor = true;
-            btnAgregarPatente.Click += btnAgregarPatente_Click;
-            // 
-            // btnQuitarPatente
-            // 
-            btnQuitarPatente.Location = new Point(890, 542);
-            btnQuitarPatente.Name = "btnQuitarPatente";
-            btnQuitarPatente.Size = new Size(202, 74);
-            btnQuitarPatente.TabIndex = 4;
-            btnQuitarPatente.Text = "Quitar Patente";
-            btnQuitarPatente.UseVisualStyleBackColor = true;
-            btnQuitarPatente.Click += btnQuitarPatente_Click;
-            // 
-            // btnAplicarCambios
-            // 
-            btnAplicarCambios.Location = new Point(101, 1002);
-            btnAplicarCambios.Name = "btnAplicarCambios";
-            btnAplicarCambios.Size = new Size(465, 74);
-            btnAplicarCambios.TabIndex = 5;
-            btnAplicarCambios.Text = "Aplicar";
-            btnAplicarCambios.UseVisualStyleBackColor = true;
-            btnAplicarCambios.Click += btnAplicarCambios_Click;
-            // 
-            // button5
-            // 
-            button5.Location = new Point(1301, 1003);
-            button5.Name = "button5";
-            button5.Size = new Size(465, 74);
-            button5.TabIndex = 7;
-            button5.Text = "Salir";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(221, 254);
-            label2.Name = "label2";
-            label2.Size = new Size(218, 32);
-            label2.TabIndex = 8;
-            label2.Text = "Familia -> Patentes";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(1480, 255);
-            label3.Name = "label3";
-            label3.Size = new Size(104, 32);
-            label3.TabIndex = 9;
-            label3.Text = "Patentes";
-            // 
-            // LstFamiliasPatentes
-            // 
-            LstFamiliasPatentes.FormattingEnabled = true;
-            LstFamiliasPatentes.Location = new Point(101, 299);
-            LstFamiliasPatentes.Name = "LstFamiliasPatentes";
-            LstFamiliasPatentes.Size = new Size(465, 324);
-            LstFamiliasPatentes.TabIndex = 10;
-            LstFamiliasPatentes.SelectedIndexChanged += LstFamiliasPatentes_SelectedIndexChanged;
-            // 
-            // lstPatentes
-            // 
-            lstPatentes.FormattingEnabled = true;
-            lstPatentes.Location = new Point(1301, 300);
-            lstPatentes.Name = "lstPatentes";
-            lstPatentes.Size = new Size(465, 644);
-            lstPatentes.TabIndex = 11;
-            lstPatentes.SelectedIndexChanged += lstPatentes_SelectedIndexChanged;
-            // 
-            // rdbModificarFamilia
-            // 
-            rdbModificarFamilia.AutoSize = true;
-            rdbModificarFamilia.Location = new Point(775, 58);
-            rdbModificarFamilia.Name = "rdbModificarFamilia";
-            rdbModificarFamilia.Size = new Size(227, 36);
-            rdbModificarFamilia.TabIndex = 12;
-            rdbModificarFamilia.TabStop = true;
-            rdbModificarFamilia.Text = "Modificar Familia";
-            rdbModificarFamilia.UseVisualStyleBackColor = true;
-            rdbModificarFamilia.CheckedChanged += rdbModificarFamilia_CheckedChanged;
-            // 
-            // rdbCrearFamilia
-            // 
-            rdbCrearFamilia.AutoSize = true;
-            rdbCrearFamilia.Location = new Point(1092, 58);
-            rdbCrearFamilia.Name = "rdbCrearFamilia";
-            rdbCrearFamilia.Size = new Size(182, 36);
-            rdbCrearFamilia.TabIndex = 13;
-            rdbCrearFamilia.TabStop = true;
-            rdbCrearFamilia.Text = "Crear Familia";
-            rdbCrearFamilia.UseVisualStyleBackColor = true;
-            rdbCrearFamilia.CheckedChanged += rdbCrearFamilia_CheckedChanged;
-            // 
-            // rdbModoConsulta
-            // 
-            rdbModoConsulta.AutoSize = true;
-            rdbModoConsulta.Location = new Point(481, 58);
-            rdbModoConsulta.Name = "rdbModoConsulta";
-            rdbModoConsulta.Size = new Size(209, 36);
-            rdbModoConsulta.TabIndex = 14;
-            rdbModoConsulta.TabStop = true;
-            rdbModoConsulta.Text = "Modo Consulta";
-            rdbModoConsulta.UseVisualStyleBackColor = true;
-            rdbModoConsulta.CheckedChanged += rdbModoConsulta_CheckedChanged;
-            // 
-            // lstFamilias
-            // 
-            lstFamilias.FormattingEnabled = true;
-            lstFamilias.Location = new Point(775, 160);
-            lstFamilias.Name = "lstFamilias";
-            lstFamilias.Size = new Size(428, 228);
-            lstFamilias.TabIndex = 15;
-            lstFamilias.Visible = false;
-            lstFamilias.SelectedIndexChanged += lstFamilias_SelectedIndexChanged;
-            lstFamilias.SelectedValueChanged += lstFamilias_SelectedValueChanged;
-            // 
-            // pnlFamiliaNombre
-            // 
-            pnlFamiliaNombre.Controls.Add(label4);
-            pnlFamiliaNombre.Controls.Add(txtNombreFamilia);
-            pnlFamiliaNombre.Location = new Point(29, 184);
-            pnlFamiliaNombre.Name = "pnlFamiliaNombre";
-            pnlFamiliaNombre.Size = new Size(557, 53);
-            pnlFamiliaNombre.TabIndex = 16;
-            pnlFamiliaNombre.Visible = false;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(3, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(176, 32);
-            label4.TabIndex = 0;
-            label4.Text = "NombreFamilia";
-            // 
-            // txtNombreFamilia
-            // 
-            txtNombreFamilia.Location = new Point(185, 3);
-            txtNombreFamilia.Name = "txtNombreFamilia";
-            txtNombreFamilia.Size = new Size(364, 39);
-            txtNombreFamilia.TabIndex = 1;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(262, 172);
-            button1.Name = "button1";
-            button1.Size = new Size(202, 74);
-            button1.TabIndex = 18;
-            button1.Text = "Quitar Familia";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(20, 172);
-            button2.Name = "button2";
-            button2.Size = new Size(202, 74);
-            button2.TabIndex = 17;
-            button2.Text = "Agregar Familia";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // pnlAgregarQuitarFamilias
-            // 
-            pnlAgregarQuitarFamilias.Controls.Add(label5);
-            pnlAgregarQuitarFamilias.Controls.Add(cmbFamiliasDisponibles);
-            pnlAgregarQuitarFamilias.Controls.Add(button1);
-            pnlAgregarQuitarFamilias.Controls.Add(button2);
-            pnlAgregarQuitarFamilias.Location = new Point(740, 642);
-            pnlAgregarQuitarFamilias.Name = "pnlAgregarQuitarFamilias";
-            pnlAgregarQuitarFamilias.Size = new Size(493, 302);
-            pnlAgregarQuitarFamilias.TabIndex = 19;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(135, 40);
-            label5.Name = "label5";
-            label5.Size = new Size(229, 32);
-            label5.TabIndex = 20;
-            label5.Text = "Familias Disponibles";
-            // 
-            // cmbFamiliasDisponibles
-            // 
-            cmbFamiliasDisponibles.FormattingEnabled = true;
-            cmbFamiliasDisponibles.Location = new Point(63, 89);
-            cmbFamiliasDisponibles.Name = "cmbFamiliasDisponibles";
-            cmbFamiliasDisponibles.Size = new Size(375, 40);
-            cmbFamiliasDisponibles.TabIndex = 19;
-            cmbFamiliasDisponibles.SelectedIndexChanged += cmbFamiliasDisponibles_SelectedIndexChanged;
-            // 
-            // lstFamiliasFamilia
-            // 
-            lstFamiliasFamilia.FormattingEnabled = true;
-            lstFamiliasFamilia.Location = new Point(101, 619);
-            lstFamiliasFamilia.Name = "lstFamiliasFamilia";
-            lstFamiliasFamilia.Size = new Size(465, 324);
-            lstFamiliasFamilia.TabIndex = 20;
-            lstFamiliasFamilia.SelectedIndexChanged += lstFamiliasFamilia_SelectedIndexChanged;
+            frmPanelContentAdminFamilias.Controls.Add(btnEliminarFamilia);
+            frmPanelContentAdminFamilias.Controls.Add(label1);
+            frmPanelContentAdminFamilias.Controls.Add(lstFamiliasFamilia);
+            frmPanelContentAdminFamilias.Controls.Add(pnlFamiliaNombre);
+            frmPanelContentAdminFamilias.Controls.Add(lstFamilias);
+            frmPanelContentAdminFamilias.Controls.Add(rdbModoConsulta);
+            frmPanelContentAdminFamilias.Controls.Add(rdbCrearFamilia);
+            frmPanelContentAdminFamilias.Controls.Add(rdbModificarFamilia);
+            frmPanelContentAdminFamilias.Controls.Add(lstPatentes);
+            frmPanelContentAdminFamilias.Controls.Add(LstFamiliasPatentes);
+            frmPanelContentAdminFamilias.Controls.Add(label3);
+            frmPanelContentAdminFamilias.Controls.Add(label2);
+            frmPanelContentAdminFamilias.Controls.Add(button5);
+            frmPanelContentAdminFamilias.Controls.Add(btnAplicarCambios);
+            frmPanelContentAdminFamilias.Controls.Add(btnQuitarPatente);
+            frmPanelContentAdminFamilias.Controls.Add(btnAgregarPatente);
+            frmPanelContentAdminFamilias.Controls.Add(pnlAgregarQuitarFamilias);
+            frmPanelContentAdminFamilias.Location = new Point(279, 55);
+            frmPanelContentAdminFamilias.Name = "frmPanelContentAdminFamilias";
+            frmPanelContentAdminFamilias.Size = new Size(1198, 655);
+            frmPanelContentAdminFamilias.TabIndex = 41;
             // 
             // btnEliminarFamilia
             // 
@@ -277,73 +98,283 @@
             btnEliminarFamilia.Cursor = Cursors.Hand;
             btnEliminarFamilia.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnEliminarFamilia.ForeColor = SystemColors.Control;
-            btnEliminarFamilia.Location = new Point(603, 183);
+            btnEliminarFamilia.Location = new Point(440, 147);
+            btnEliminarFamilia.Margin = new Padding(2, 1, 2, 1);
             btnEliminarFamilia.Name = "btnEliminarFamilia";
-            btnEliminarFamilia.Size = new Size(70, 54);
-            btnEliminarFamilia.TabIndex = 39;
+            btnEliminarFamilia.Size = new Size(38, 25);
+            btnEliminarFamilia.TabIndex = 55;
             btnEliminarFamilia.Text = "x";
             btnEliminarFamilia.UseVisualStyleBackColor = false;
             btnEliminarFamilia.Visible = false;
-            btnEliminarFamilia.Click += btnEliminarFamilia_Click;
+            // 
+            // lstFamiliasFamilia
+            // 
+            lstFamiliasFamilia.FormattingEnabled = true;
+            lstFamiliasFamilia.ItemHeight = 15;
+            lstFamiliasFamilia.Location = new Point(169, 351);
+            lstFamiliasFamilia.Margin = new Padding(2, 1, 2, 1);
+            lstFamiliasFamilia.Name = "lstFamiliasFamilia";
+            lstFamiliasFamilia.Size = new Size(252, 154);
+            lstFamiliasFamilia.TabIndex = 54;
+            // 
+            // pnlFamiliaNombre
+            // 
+            pnlFamiliaNombre.Controls.Add(label4);
+            pnlFamiliaNombre.Controls.Add(txtNombreFamilia);
+            pnlFamiliaNombre.Location = new Point(131, 147);
+            pnlFamiliaNombre.Margin = new Padding(2, 1, 2, 1);
+            pnlFamiliaNombre.Name = "pnlFamiliaNombre";
+            pnlFamiliaNombre.Size = new Size(300, 25);
+            pnlFamiliaNombre.TabIndex = 52;
+            pnlFamiliaNombre.Visible = false;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(2, 0);
+            label4.Margin = new Padding(2, 0, 2, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(89, 15);
+            label4.TabIndex = 0;
+            label4.Text = "NombreFamilia";
+            // 
+            // txtNombreFamilia
+            // 
+            txtNombreFamilia.Location = new Point(95, 1);
+            txtNombreFamilia.Margin = new Padding(2, 1, 2, 1);
+            txtNombreFamilia.Name = "txtNombreFamilia";
+            txtNombreFamilia.Size = new Size(198, 23);
+            txtNombreFamilia.TabIndex = 1;
+            // 
+            // lstFamilias
+            // 
+            lstFamilias.FormattingEnabled = true;
+            lstFamilias.ItemHeight = 15;
+            lstFamilias.Location = new Point(532, 136);
+            lstFamilias.Margin = new Padding(2, 1, 2, 1);
+            lstFamilias.Name = "lstFamilias";
+            lstFamilias.Size = new Size(232, 109);
+            lstFamilias.TabIndex = 51;
+            lstFamilias.Visible = false;
+            // 
+            // rdbModoConsulta
+            // 
+            rdbModoConsulta.AutoSize = true;
+            rdbModoConsulta.Location = new Point(374, 88);
+            rdbModoConsulta.Margin = new Padding(2, 1, 2, 1);
+            rdbModoConsulta.Name = "rdbModoConsulta";
+            rdbModoConsulta.Size = new Size(107, 19);
+            rdbModoConsulta.TabIndex = 50;
+            rdbModoConsulta.TabStop = true;
+            rdbModoConsulta.Text = "Modo Consulta";
+            rdbModoConsulta.UseVisualStyleBackColor = true;
+            // 
+            // rdbCrearFamilia
+            // 
+            rdbCrearFamilia.AutoSize = true;
+            rdbCrearFamilia.Location = new Point(703, 88);
+            rdbCrearFamilia.Margin = new Padding(2, 1, 2, 1);
+            rdbCrearFamilia.Name = "rdbCrearFamilia";
+            rdbCrearFamilia.Size = new Size(94, 19);
+            rdbCrearFamilia.TabIndex = 49;
+            rdbCrearFamilia.TabStop = true;
+            rdbCrearFamilia.Text = "Crear Familia";
+            rdbCrearFamilia.UseVisualStyleBackColor = true;
+            // 
+            // rdbModificarFamilia
+            // 
+            rdbModificarFamilia.AutoSize = true;
+            rdbModificarFamilia.Location = new Point(532, 88);
+            rdbModificarFamilia.Margin = new Padding(2, 1, 2, 1);
+            rdbModificarFamilia.Name = "rdbModificarFamilia";
+            rdbModificarFamilia.Size = new Size(117, 19);
+            rdbModificarFamilia.TabIndex = 48;
+            rdbModificarFamilia.TabStop = true;
+            rdbModificarFamilia.Text = "Modificar Familia";
+            rdbModificarFamilia.UseVisualStyleBackColor = true;
+            // 
+            // lstPatentes
+            // 
+            lstPatentes.FormattingEnabled = true;
+            lstPatentes.ItemHeight = 15;
+            lstPatentes.Location = new Point(816, 202);
+            lstPatentes.Margin = new Padding(2, 1, 2, 1);
+            lstPatentes.Name = "lstPatentes";
+            lstPatentes.Size = new Size(252, 304);
+            lstPatentes.TabIndex = 47;
+            // 
+            // LstFamiliasPatentes
+            // 
+            LstFamiliasPatentes.FormattingEnabled = true;
+            LstFamiliasPatentes.ItemHeight = 15;
+            LstFamiliasPatentes.Location = new Point(169, 201);
+            LstFamiliasPatentes.Margin = new Padding(2, 1, 2, 1);
+            LstFamiliasPatentes.Name = "LstFamiliasPatentes";
+            LstFamiliasPatentes.Size = new Size(252, 154);
+            LstFamiliasPatentes.TabIndex = 46;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(912, 181);
+            label3.Margin = new Padding(2, 0, 2, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(52, 15);
+            label3.TabIndex = 45;
+            label3.Text = "Patentes";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(234, 180);
+            label2.Margin = new Padding(2, 0, 2, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(109, 15);
+            label2.TabIndex = 44;
+            label2.Text = "Familia -> Patentes";
+            // 
+            // button5
+            // 
+            button5.BackColor = Color.LightCoral;
+            button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button5.ForeColor = SystemColors.ControlLightLight;
+            button5.Location = new Point(816, 531);
+            button5.Margin = new Padding(2, 1, 2, 1);
+            button5.Name = "button5";
+            button5.Size = new Size(250, 35);
+            button5.TabIndex = 43;
+            button5.Text = "Salir";
+            button5.UseVisualStyleBackColor = false;
+            button5.Click += button5_Click_1;
+            // 
+            // btnAplicarCambios
+            // 
+            btnAplicarCambios.Location = new Point(169, 531);
+            btnAplicarCambios.Margin = new Padding(2, 1, 2, 1);
+            btnAplicarCambios.Name = "btnAplicarCambios";
+            btnAplicarCambios.Size = new Size(250, 35);
+            btnAplicarCambios.TabIndex = 42;
+            btnAplicarCambios.Text = "Aplicar";
+            btnAplicarCambios.UseVisualStyleBackColor = true;
+            // 
+            // btnQuitarPatente
+            // 
+            btnQuitarPatente.Location = new Point(594, 315);
+            btnQuitarPatente.Margin = new Padding(2, 1, 2, 1);
+            btnQuitarPatente.Name = "btnQuitarPatente";
+            btnQuitarPatente.Size = new Size(109, 35);
+            btnQuitarPatente.TabIndex = 41;
+            btnQuitarPatente.Text = "Quitar Patente";
+            btnQuitarPatente.UseVisualStyleBackColor = true;
+            // 
+            // btnAgregarPatente
+            // 
+            btnAgregarPatente.Location = new Point(594, 265);
+            btnAgregarPatente.Margin = new Padding(2, 1, 2, 1);
+            btnAgregarPatente.Name = "btnAgregarPatente";
+            btnAgregarPatente.Size = new Size(109, 35);
+            btnAgregarPatente.TabIndex = 40;
+            btnAgregarPatente.Text = "Agregar Patente";
+            btnAgregarPatente.UseVisualStyleBackColor = true;
+            // 
+            // pnlAgregarQuitarFamilias
+            // 
+            pnlAgregarQuitarFamilias.Controls.Add(label5);
+            pnlAgregarQuitarFamilias.Controls.Add(cmbFamiliasDisponibles);
+            pnlAgregarQuitarFamilias.Controls.Add(button1);
+            pnlAgregarQuitarFamilias.Controls.Add(button2);
+            pnlAgregarQuitarFamilias.Location = new Point(513, 362);
+            pnlAgregarQuitarFamilias.Margin = new Padding(2, 1, 2, 1);
+            pnlAgregarQuitarFamilias.Name = "pnlAgregarQuitarFamilias";
+            pnlAgregarQuitarFamilias.Size = new Size(265, 142);
+            pnlAgregarQuitarFamilias.TabIndex = 53;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(73, 19);
+            label5.Margin = new Padding(2, 0, 2, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(114, 15);
+            label5.TabIndex = 20;
+            label5.Text = "Familias Disponibles";
+            // 
+            // cmbFamiliasDisponibles
+            // 
+            cmbFamiliasDisponibles.FormattingEnabled = true;
+            cmbFamiliasDisponibles.Location = new Point(34, 42);
+            cmbFamiliasDisponibles.Margin = new Padding(2, 1, 2, 1);
+            cmbFamiliasDisponibles.Name = "cmbFamiliasDisponibles";
+            cmbFamiliasDisponibles.Size = new Size(204, 23);
+            cmbFamiliasDisponibles.TabIndex = 19;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(141, 81);
+            button1.Margin = new Padding(2, 1, 2, 1);
+            button1.Name = "button1";
+            button1.Size = new Size(109, 35);
+            button1.TabIndex = 18;
+            button1.Text = "Quitar Familia";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(11, 81);
+            button2.Margin = new Padding(2, 1, 2, 1);
+            button2.Name = "button2";
+            button2.Size = new Size(109, 35);
+            button2.TabIndex = 17;
+            button2.Text = "Agregar Familia";
+            button2.UseVisualStyleBackColor = true;
             // 
             // FrmAdminFamilias
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1948, 1292);
-            Controls.Add(btnEliminarFamilia);
-            Controls.Add(lstFamiliasFamilia);
-            Controls.Add(pnlFamiliaNombre);
-            Controls.Add(lstFamilias);
-            Controls.Add(rdbModoConsulta);
-            Controls.Add(rdbCrearFamilia);
-            Controls.Add(rdbModificarFamilia);
-            Controls.Add(lstPatentes);
-            Controls.Add(LstFamiliasPatentes);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(button5);
-            Controls.Add(btnAplicarCambios);
-            Controls.Add(btnQuitarPatente);
-            Controls.Add(btnAgregarPatente);
-            Controls.Add(label1);
-            Controls.Add(pnlAgregarQuitarFamilias);
+            ClientSize = new Size(1761, 742);
+            Controls.Add(frmPanelContentAdminFamilias);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+            Margin = new Padding(2, 1, 2, 1);
             Name = "FrmAdminFamilias";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmAdminFamilias_90DI";
+            WindowState = FormWindowState.Maximized;
             Load += FrmAdminRoles_90DI_Load;
+            frmPanelContentAdminFamilias.ResumeLayout(false);
+            frmPanelContentAdminFamilias.PerformLayout();
             pnlFamiliaNombre.ResumeLayout(false);
             pnlFamiliaNombre.PerformLayout();
             pnlAgregarQuitarFamilias.ResumeLayout(false);
             pnlAgregarQuitarFamilias.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private Label label1;
-        private Button btnAgregarPatente;
-        private Button btnQuitarPatente;
-        private Button btnAplicarCambios;
-        private Button button5;
-        private Label label2;
-        private Label label3;
-        private ListBox LstFamiliasPatentes;
-        private ListBox lstPatentes;
-        private RadioButton rdbModificarFamilia;
-        private RadioButton rdbCrearFamilia;
-        private RadioButton rdbModoConsulta;
-        private ListBox lstFamilias;
+        private Panel frmPanelContentAdminFamilias;
+        private Button btnEliminarFamilia;
+        private ListBox lstFamiliasFamilia;
         private FlowLayoutPanel pnlFamiliaNombre;
         private Label label4;
+        private TextBox txtNombreFamilia;
+        private ListBox lstFamilias;
+        private RadioButton rdbModoConsulta;
+        private RadioButton rdbCrearFamilia;
+        private RadioButton rdbModificarFamilia;
+        private ListBox lstPatentes;
+        private ListBox LstFamiliasPatentes;
+        private Label label3;
+        private Label label2;
+        private Button button5;
+        private Button btnAplicarCambios;
+        private Button btnQuitarPatente;
+        private Button btnAgregarPatente;
+        private Panel pnlAgregarQuitarFamilias;
+        private Label label5;
+        private ComboBox cmbFamiliasDisponibles;
         private Button button1;
         private Button button2;
-        private Panel pnlAgregarQuitarFamilias;
-        private ListBox lstFamiliasFamilia;
-        private ComboBox cmbFamiliasDisponibles;
-        private Label label5;
-        private TextBox txtNombreFamilia;
-        private Button btnEliminarFamilia;
     }
 }

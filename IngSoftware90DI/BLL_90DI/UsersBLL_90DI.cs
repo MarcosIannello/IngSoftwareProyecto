@@ -3,6 +3,7 @@ using DAL;
 using Service_90DI;
 using Services_90DI;
 using Services_90DI.entities;
+using Services_90DI.constantes;
 
 namespace BLL_90DI
 {
@@ -10,6 +11,7 @@ namespace BLL_90DI
     {
         private readonly UserDAL_90DI _dal = new UserDAL_90DI();
         private readonly BitacoraBLL_90DI _bitacora = new BitacoraBLL_90DI();
+        private readonly IntegridadBLL_90DI _integridad = new IntegridadBLL_90DI();
 
         private const int MAX_INTENTOS = 3;
 
@@ -66,6 +68,7 @@ namespace BLL_90DI
                     if (_intentos >= MAX_INTENTOS)
                     {
                         _dal.blockUser90DI(user.IdUsuario_90DI);
+                        _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
                         return new User_90DI { Bloqueo_90DI = true };
                     }
                     return null;
@@ -102,13 +105,23 @@ namespace BLL_90DI
         public bool updatePassword_90DI(int idUsuario, string password)
         {
             var hashPassword = getHashPassword_90DI(password);
-
-            return _dal.UpdatePassword90DI(idUsuario, hashPassword);
+            var result = _dal.UpdatePassword90DI(idUsuario, hashPassword);
+            if (result)
+            {
+                CreateLogEvent_90DI("Contraseña actualizada para el usuario ID: " + idUsuario, 2);
+                _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+            }
+            return result;
         }
 
         public bool UpdateIdioma_90DI(int idUsuario, string idioma)
         {
-            return _dal.UpdateIdioma90DI(idUsuario, idioma);
+            var result = _dal.UpdateIdioma90DI(idUsuario, idioma);
+            if (result)
+                // Recalcular el DV: escribir el idioma modifica la fila de User_90DI
+                // y sin esto la verificación de integridad la marcaría como corrupta.
+                _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+            return result;
         }
 
         public string getHashPassword_90DI(string password)
@@ -145,7 +158,10 @@ namespace BLL_90DI
 
                 var response = _dal.CreateUser90DI(user);
                 if (response)
+                {
                     CreateLogEvent_90DI("Usuario creado exitosamente: " + user.NombreUsuario_90DI, 2);
+                    _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                }
                 return response;
             }
             catch (InvalidOperationException)
@@ -161,8 +177,11 @@ namespace BLL_90DI
         public bool UnblockUser_90DI(int idUsuario)
         {
             var response = _dal.UnblockUser90DI(idUsuario);
-            if(response)
+            if (response)
+            {
                 CreateLogEvent_90DI("Usuario desbloqueado: " + SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI, 3);
+                _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+            }
             return response;
         }
 
@@ -181,7 +200,10 @@ namespace BLL_90DI
 
                 var response = _dal.UpdateUser90DI(user);
                 if (response)
+                {
                     CreateLogEvent_90DI("Usuario actualizado exitosamente: " + user.NombreUsuario_90DI, 2);
+                    _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                }
                 return response;
             }
             catch (InvalidOperationException)
@@ -200,13 +222,15 @@ namespace BLL_90DI
             if (user.Activo_90DI)
             {
                 response = _dal.DesactivateUser90DI(user.IdUsuario_90DI);
-                CreateLogEvent_90DI("Usuario desactivado: " + user.NombreUsuario_90DI, 1);
+                if (response) CreateLogEvent_90DI("Usuario desactivado: " + user.NombreUsuario_90DI, 1);
             }
             else
             {
                 response = _dal.ActivateUser90DI(user.IdUsuario_90DI);
-                CreateLogEvent_90DI("Usuario activado: " + user.NombreUsuario_90DI, 1);
+                if (response) CreateLogEvent_90DI("Usuario activado: " + user.NombreUsuario_90DI, 1);
             }
+            if (response)
+                _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
             return response;
         }
 

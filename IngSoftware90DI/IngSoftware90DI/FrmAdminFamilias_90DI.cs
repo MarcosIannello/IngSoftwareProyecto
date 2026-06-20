@@ -1,6 +1,7 @@
 ﻿using BLL;
 using Services_90DI;
 using Services_90DI.entities;
+using UI_90DI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -431,6 +432,19 @@ namespace Capital_
                 response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
             rdbModoConsulta.Checked = true;
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            var frmMenu = new FrmMenu_90DI();
+            frmMenu.Show();
+            this.Close();
+            
         }
     }
 }

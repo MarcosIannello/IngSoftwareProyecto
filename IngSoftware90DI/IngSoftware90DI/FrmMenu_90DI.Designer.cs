@@ -50,7 +50,6 @@
             historialClienteToolStripMenuItem = new ToolStripMenuItem();
             simulacionPrestamoToolStripMenuItem = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
-            butnToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -81,7 +80,7 @@
             loginToolStripMenuItem.BackColor = Color.Maroon;
             loginToolStripMenuItem.ForeColor = SystemColors.Control;
             loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            loginToolStripMenuItem.Size = new Size(145, 24);
+            loginToolStripMenuItem.Size = new Size(180, 24);
             loginToolStripMenuItem.Text = "Login";
             loginToolStripMenuItem.Click += loginToolStripMenuItem_Click;
             // 
@@ -90,7 +89,7 @@
             logoutToolStripMenuItem.BackColor = Color.Maroon;
             logoutToolStripMenuItem.ForeColor = SystemColors.Control;
             logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            logoutToolStripMenuItem.Size = new Size(145, 24);
+            logoutToolStripMenuItem.Size = new Size(180, 24);
             logoutToolStripMenuItem.Text = "Logout";
             logoutToolStripMenuItem.Click += logoutToolStripMenuItem_Click;
             // 
@@ -99,7 +98,7 @@
             passwordToolStripMenuItem.BackColor = Color.Maroon;
             passwordToolStripMenuItem.ForeColor = SystemColors.Control;
             passwordToolStripMenuItem.Name = "passwordToolStripMenuItem";
-            passwordToolStripMenuItem.Size = new Size(145, 24);
+            passwordToolStripMenuItem.Size = new Size(180, 24);
             passwordToolStripMenuItem.Text = "Password";
             passwordToolStripMenuItem.Click += passwordToolStripMenuItem_Click;
             // 
@@ -108,9 +107,9 @@
             idiomaToolStripMenuItem.BackColor = Color.Maroon;
             idiomaToolStripMenuItem.ForeColor = SystemColors.Control;
             idiomaToolStripMenuItem.Name = "idiomaToolStripMenuItem";
-            idiomaToolStripMenuItem.Size = new Size(145, 24);
+            idiomaToolStripMenuItem.Size = new Size(180, 24);
             idiomaToolStripMenuItem.Text = "Idioma";
-            idiomaToolStripMenuItem.Click += idiomaToolStripMenuItem_Click;
+            idiomaToolStripMenuItem.Click += idiomaToolStripMenuItem_Click_1;
             // 
             // adminToolStripMenuItem
             // 
@@ -207,7 +206,7 @@
             // 
             // reportesToolStripMenuItem
             // 
-            reportesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { historialClienteToolStripMenuItem, simulacionPrestamoToolStripMenuItem, butnToolStripMenuItem });
+            reportesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { historialClienteToolStripMenuItem, simulacionPrestamoToolStripMenuItem });
             reportesToolStripMenuItem.ForeColor = SystemColors.Control;
             reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             reportesToolStripMenuItem.Size = new Size(84, 23);
@@ -236,22 +235,16 @@
             pictureBox1.Location = new Point(0, 25);
             pictureBox1.Margin = new Padding(2, 1, 2, 1);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(794, 410);
+            pictureBox1.Size = new Size(794, 399);
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
-            // 
-            // butnToolStripMenuItem
-            // 
-            butnToolStripMenuItem.Name = "butnToolStripMenuItem";
-            butnToolStripMenuItem.Size = new Size(223, 24);
-            butnToolStripMenuItem.Text = "butn";
             // 
             // FrmMenu_90DI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(794, 435);
+            ClientSize = new Size(794, 424);
             Controls.Add(pictureBox1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
@@ -260,6 +253,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Menu200MI";
             FormClosed += Menu200MI_FormClosed;
+            Load += FrmMenu_90DI_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -315,6 +309,5 @@
         private PictureBox pictureBox1;
         private ToolStripMenuItem adminFamiliaToolStripMenuItem;
         private ToolStripMenuItem adminRolesToolStripMenuItem;
-        private ToolStripMenuItem butnToolStripMenuItem;
     }
 }
