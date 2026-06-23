@@ -15,7 +15,7 @@ namespace UI_90DI
         {
             InitializeComponent();
 
-            //Pantalla Tag y su correspondiente patente
+            //match de menu y patentes
             AsignarTagsMenu();
 
             // Mostrar/ocultar opciones del menú según las patentes del usuario logueado.
@@ -23,7 +23,7 @@ namespace UI_90DI
 
             LanguageManager_90DI.AddObserver_90DI(this);
 
-            // Aplicar el idioma actual al abrir (por si ya se eligió uno en el Login).
+            // Aplicar el idioma actual al abrir
             var traducciones = LanguageManager_90DI.TraduccionesActuales_90DI;
             if (traducciones.Count > 0)
                 UpdateLanguage_90DI(traducciones);
@@ -80,9 +80,7 @@ namespace UI_90DI
                 return algunoVisible;
             }
 
-            // Importante: devolver el valor calculado, NO re-leer mi.Visible. Durante
-            // el constructor el getter Visible devuelve false (el form aún no se mostró),
-            // lo que haría que los contenedores oculten todo.
+           
             bool visible = mi.Tag is not string patente
                            || SessionManager_90DI.Instancia.TienePatente_90DI(patente);
             mi.Visible = visible;
@@ -165,7 +163,6 @@ namespace UI_90DI
 
         private void passwordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Modal y por encima del menú: el menú no se cierra ni se oculta.
             using var form = new FrmCambiarPassword_90DI();
             form.ShowDialog(this);
         }
