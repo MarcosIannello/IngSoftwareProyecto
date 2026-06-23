@@ -1,7 +1,9 @@
+using BLL;
 using BLL_90DI;
 using Capital_;
 using Service_90DI;
 using Services_90DI;
+using Services_90DI.constantes;
 using Services_90DI.entities;
 using System.Linq;
 
@@ -10,10 +12,14 @@ namespace UI_90DI
 {
     public partial class FrmLogin_90DI : Form, IObserver_90DI
     {
-        // Perfil que corresponde a administrador en la tabla de usuarios Hardcodeado para test
-        private const int PERFIL_ADMIN = 1;
+        // Patente que habilita a ver/reparar el form de integridad (admin del sistema).
+        // Se reutiliza la patente de administración de roles: el admin de roles es el
+        // admin del sistema. Si en el futuro la integridad necesita un permiso propio,
+        // agregar una patente nueva en Patentes_90DI y referenciarla acá.
+        private const string PATENTE_ADMIN_INTEGRIDAD = Patentes_90DI.AdminRoles;
         private readonly UsersBLL_90DI      _usuariosBLL = new UsersBLL_90DI();
         private readonly IntegridadBLL_90DI _integridad  = new IntegridadBLL_90DI();
+        private readonly RolBLL_90DI        _rolesBLL    = new RolBLL_90DI();
 
         public FrmLogin_90DI()
         {
@@ -22,7 +28,7 @@ namespace UI_90DI
             // Suscribir el form como observer de los cambios de idioma.
             LanguageManager_90DI.AddObserver_90DI(this);
 
-            // Cargar idiomas disponibles y aplicar el inicial (Español).
+            // Cargar idiomas disponibles y aplicar default (es)
             CargarIdiomas_90DI();
         }
 
@@ -34,7 +40,7 @@ namespace UI_90DI
             cmbIdioma.SelectedIndex = 0; // dispara SelectedIndexChanged → aplica Español
         }
 
-        // Paso 3 del caso de uso: el usuario selecciona un idioma del listado.
+        // el usuario selecciona un idioma del listado.
         private void cmbIdioma_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbIdioma.SelectedItem is Idioma_90DI idioma)
@@ -49,13 +55,9 @@ namespace UI_90DI
             if (traducciones.TryGetValue("login_password", out var pass))    label3.Text = pass;
             if (traducciones.TryGetValue("login_btn_ingresar", out var btn)) Btn_Login.Text = btn;
 
-            // El título usa AutoSize: al cambiar de idioma varía su ancho.
-            // Lo recentramos horizontalmente para que no quede desfasado.
             CentrarTitulo_90DI();
         }
-
-        // Mantiene el label del título centrado horizontalmente en el form,
-        // sin importar el largo del texto traducido.
+        
         private void CentrarTitulo_90DI()
         {
             label1.Left = (ClientSize.Width - label1.Width) / 2;
@@ -96,22 +98,26 @@ namespace UI_90DI
 
 
                 var login = SessionManager_90DI.Instancia.Login_90DI(user);
+
                 if (!login)
                 {
                     MessageBox.Show("Credenciales inválidas, intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Verificar integridad del sistema ANTES de cualquier escritura.
-                // Si se persiste el idioma primero, el recálculo del DV de User_90DI
-                // "sana" cualquier modificación manual de la tabla y la verificación
-                // dejaría de detectarla (falso negativo).
+                // Cargar las patentes efectivas del usuario en la sesión 
+                int idRol = int.TryParse(user!.Rol_90DI, out var r) ? r : 0;
+                SessionManager_90DI.Instancia.PatentesActivas = _rolesBLL.GetPatentesEfectivas_90DI(idRol);
+
+                // Verificacion de integridad del sistema ANTES de cualquier escritura
                 var resultados = _integridad.Verificar_90DI();
                 var corruptos  = resultados.Where(r => r.EsCorrupto).ToList();
 
                 if (corruptos.Any())
                 {
-                    bool esAdmin = user!.IdPerfil_90DI == PERFIL_ADMIN;
+                    // Solo un administrador (tiene la patente correspondiente) puede ver
+                    // y reparar la integridad. El usuario común queda sin acceso.
+                    bool esAdmin = SessionManager_90DI.Instancia.TienePatente_90DI(PATENTE_ADMIN_INTEGRIDAD);
 
                     if (esAdmin)
                     {
@@ -135,9 +141,11 @@ namespace UI_90DI
                     }
                 }
 
-                // Recién con el sistema íntegro persistimos el idioma elegido en la
-                // fila del usuario (esto recalcula el DV de User_90DI legítimamente).
-                _usuariosBLL.UpdateIdioma_90DI(user!.IdUsuario_90DI, SessionManager_90DI.Instancia.IdiomaActual.CodigoIdioma_90DI);
+                // Solo si difiere del que ya tiene en BD: evita un UPDATE y un recálculo
+                // de DV innecesarios cuando el idioma no cambió.
+                string idiomaElegido = SessionManager_90DI.Instancia.IdiomaActual.CodigoIdioma_90DI;
+                if (!string.Equals(idiomaElegido, user!.Idioma_90DI, StringComparison.OrdinalIgnoreCase))
+                    _usuariosBLL.UpdateIdioma_90DI(user.IdUsuario_90DI, idiomaElegido);
 
                 var menu = new FrmMenu_90DI();
                 menu.Show();

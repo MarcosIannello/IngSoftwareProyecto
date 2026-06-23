@@ -205,7 +205,7 @@ namespace DAL
                         cmd.Parameters.AddWithValue("@dni",           usuario.DNI_90DI);
                         cmd.Parameters.AddWithValue("@apellidos",     usuario.Apellidos_90DI);
                         cmd.Parameters.AddWithValue("@nombre",        usuario.Nombre_90DI);
-                        cmd.Parameters.AddWithValue("@rol",           0); //Ignora lo que carguemos default 0 x ahora cuando quede todo seteado armar Combo con roles
+                        cmd.Parameters.AddWithValue("@rol",           int.TryParse(usuario.Rol_90DI, out var idRolCreate) ? idRolCreate : 0);
                         cmd.Parameters.AddWithValue("@email",         usuario.Email_90DI);
                         cmd.Parameters.AddWithValue("@bloqueado",     usuario.Bloqueo_90DI);
 
@@ -245,7 +245,7 @@ namespace DAL
                         cmd.Parameters.AddWithValue("@dni",           usuario.DNI_90DI);
                         cmd.Parameters.AddWithValue("@apellidos",     usuario.Apellidos_90DI);
                         cmd.Parameters.AddWithValue("@nombre",        usuario.Nombre_90DI);
-                        cmd.Parameters.AddWithValue("@rol",           usuario.Rol_90DI);
+                        cmd.Parameters.AddWithValue("@rol",           int.TryParse(usuario.Rol_90DI, out var idRolUpdate) ? idRolUpdate : 0);
                         cmd.Parameters.AddWithValue("@email",         usuario.Email_90DI);
                         cmd.Parameters.AddWithValue("@idUsuario",     usuario.IdUsuario_90DI);
 

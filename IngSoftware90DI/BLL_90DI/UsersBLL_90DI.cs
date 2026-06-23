@@ -47,6 +47,8 @@ namespace BLL_90DI
             {
                 if (SecurityService_90DI.Verify90DI(password, user.Password_90DI))
                 {
+                    _intentos = 0; // login exitoso: resetea el contador de intentos fallidos
+
                     //LogEvent login exitoso
                     _bitacora.CreateLogEvent_90DI(new Event_90DI
                     {
@@ -80,12 +82,13 @@ namespace BLL_90DI
 
         public void Logout_90DI()
         {
+            var username = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI;
+
+            // El registro en bitácora es best-effort: si falla (BD/integridad), NO debe
+            // impedir el cierre de sesión. Antes, un error acá relanzaba la excepción y
+            // la UI no cambiaba al login → parecía que "no deslogueaba".
             try
             {
-                var username = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI;
-
-                SessionManager_90DI.Instancia.CerrarSesion();
-
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
                 {
                     Login_90DI = username,
@@ -95,11 +98,11 @@ namespace BLL_90DI
                     Evento_90DI = "Cierre de sesion",
                     Criticidad_90DI = 1
                 });
+            }
+            catch { /* el registro es best-effort; no debe abortar el logout */ }
 
-            }
-            catch (Exception ex) {
-                throw new Exception("Error al cerrar sesión: " + ex.Message);
-            }
+            // Cerrar la sesión SIEMPRE: es lo crítico del logout.
+            SessionManager_90DI.Instancia.CerrarSesion();
         }
 
         public bool updatePassword_90DI(int idUsuario, string password)

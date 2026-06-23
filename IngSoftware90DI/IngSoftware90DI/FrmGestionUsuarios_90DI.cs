@@ -1,3 +1,4 @@
+using BLL;
 using BLL_90DI;
 using DAL;
 using Service_90DI;
@@ -18,7 +19,9 @@ namespace UI_90DI
     {
         UsersBLL_90DI _users      = new UsersBLL_90DI();
         BitacoraBLL_90DI _bitacora   = new BitacoraBLL_90DI();
+        RolBLL_90DI _rolesBLL         = new RolBLL_90DI();
         List<User_90DI> usersList     = new List<User_90DI>();
+        List<Rol_90DI> rolesList      = new List<Rol_90DI>();
         User_90DI newUser             = new User_90DI();
         private readonly FrmMenu_90DI _menu;
 
@@ -48,6 +51,7 @@ namespace UI_90DI
             dataGridUsers.ClipboardCopyMode     = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 
             GetUsers();
+            LoadRoles();
             EnableQueryFields();
             CleanForm();
             rdbActive.Checked = true;
@@ -138,7 +142,7 @@ namespace UI_90DI
             txtEmail.Enabled      = false;
             txtLogin.Enabled      = false;
             txtNombre.Enabled     = false;
-            txtRol.Enabled        = false;
+            cmbRolActual.Enabled  = false;
             chkActiveUSer.Enabled = false;
             chkBlock.Enabled      = false;
         }
@@ -150,7 +154,7 @@ namespace UI_90DI
             txtEmail.Enabled      = true;
             txtLogin.Enabled      = true;
             txtNombre.Enabled     = true;
-            txtRol.Enabled        = true;
+            cmbRolActual.Enabled  = false; // en consulta el rol no se edita
             chkActiveUSer.Enabled = false;
             chkBlock.Enabled      = false;
         }
@@ -162,7 +166,7 @@ namespace UI_90DI
             txtEmail.Enabled      = true;
             txtLogin.Enabled      = true;
             txtNombre.Enabled     = true;
-            txtRol.Enabled        = true;
+            cmbRolActual.Enabled  = true;
             chkActiveUSer.Enabled = true;
             chkBlock.Enabled      = true;
         }
@@ -174,7 +178,7 @@ namespace UI_90DI
             txtEmail.Text         = "";
             txtLogin.Text         = "";
             txtNombre.Text        = "";
-            txtRol.Text           = "";
+            cmbRolActual.SelectedIndex = rolesList.Count > 0 ? 0 : -1;
             chkActiveUSer.Checked = false;
             chkBlock.Checked      = false;
         }
@@ -237,6 +241,23 @@ namespace UI_90DI
             RefreshGrid(usersList);
         }
 
+        // Trae el listado de roles y lo bindea al combo. ValueMember = IdRol para
+        // poder guardar/recuperar el rol asignado al usuario por su id.
+        private void LoadRoles()
+        {
+            rolesList = _rolesBLL.GetAllRoles_90DI();
+            cmbRolActual.DisplayMember = "Nombre_90DI";
+            cmbRolActual.ValueMember   = "IdRol_90DI";
+            cmbRolActual.DataSource    = rolesList;
+            cmbRolActual.SelectedIndex = rolesList.Count > 0 ? 0 : -1;
+        }
+
+        // Id del rol seleccionado en el combo (como string, igual que User_90DI.Rol_90DI).
+        private string GetSelectedRolId()
+        {
+            return cmbRolActual.SelectedValue?.ToString() ?? "0";
+        }
+
         private void RefreshGrid(List<User_90DI> list)
         {
             dataGridUsers.DataSource = list;
@@ -266,7 +287,11 @@ namespace UI_90DI
             txtDni.Text           = user.DNI_90DI;
             txtLogin.Text         = user.NombreUsuario_90DI;
             txtNombre.Text        = user.Nombre_90DI;
-            txtRol.Text           = user.Rol_90DI;
+            // Seleccionar en el combo el rol asignado al usuario (match por IdRol)
+            if (int.TryParse(user.Rol_90DI, out var idRolUser))
+                cmbRolActual.SelectedValue = idRolUser;
+            else
+                cmbRolActual.SelectedIndex = rolesList.Count > 0 ? 0 : -1;
             txtEmail.Text         = user.Email_90DI;
             chkActiveUSer.Checked = user.Activo_90DI;
             chkBlock.Checked      = user.Bloqueo_90DI;
@@ -349,7 +374,7 @@ namespace UI_90DI
                 Activo_90DI        = chkActiveUSer.Checked,
                 FechaAlta_90DI     = DateTime.Now,
                 IdPerfil_90DI      = 1, // TODO: reemplazar cuando estén desarrollados los perfiles
-                Rol_90DI           = "Admin", //CAMBIAR cuando este desarrollado roles!!!
+                Rol_90DI           = GetSelectedRolId(), // rol elegido en el combo
                 Bloqueo_90DI       = chkBlock.Checked,
                 Password_90DI      = txtDni.Text + txtApellido.Text,  // DNI + Apellido
                 Email_90DI         = txtEmail.Text
@@ -396,6 +421,7 @@ namespace UI_90DI
                     temp.Activo_90DI        = chkActiveUSer.Checked;
                     temp.Bloqueo_90DI       = chkBlock.Checked;
                     temp.Email_90DI         = txtEmail.Text;
+                    temp.Rol_90DI           = GetSelectedRolId(); // rol elegido en el combo
                     response = _users.UpdateUser_90DI(temp);
                     
                     GetUsers();
@@ -478,9 +504,6 @@ namespace UI_90DI
 
             if (!string.IsNullOrWhiteSpace(txtEmail.Text))
                 filtered = filtered.Where(u => u.Email_90DI.Contains(txtEmail.Text.Trim(), StringComparison.OrdinalIgnoreCase));
-
-            if (!string.IsNullOrWhiteSpace(txtRol.Text))
-                filtered = filtered.Where(u => u.Rol_90DI.Contains(txtRol.Text.Trim(), StringComparison.OrdinalIgnoreCase));
 
             if (!string.IsNullOrWhiteSpace(txtLogin.Text))
                 filtered = filtered.Where(u => u.NombreUsuario_90DI.Contains(txtLogin.Text.Trim(), StringComparison.OrdinalIgnoreCase));

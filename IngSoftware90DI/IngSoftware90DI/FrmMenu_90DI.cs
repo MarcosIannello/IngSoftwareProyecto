@@ -1,4 +1,5 @@
 using Services_90DI;
+using Services_90DI.constantes;
 using BLL_90DI;
 using Service_90DI;
 using Capital_;
@@ -13,12 +14,79 @@ namespace UI_90DI
         public FrmMenu_90DI()
         {
             InitializeComponent();
+
+            //Pantalla Tag y su correspondiente patente
+            AsignarTagsMenu();
+
+            // Mostrar/ocultar opciones del menú según las patentes del usuario logueado.
+            AplicarPermisos();
+
             LanguageManager_90DI.AddObserver_90DI(this);
 
             // Aplicar el idioma actual al abrir (por si ya se eligió uno en el Login).
             var traducciones = LanguageManager_90DI.TraduccionesActuales_90DI;
             if (traducciones.Count > 0)
                 UpdateLanguage_90DI(traducciones);
+        }
+        
+        // El valor del Tag debe coincidir con el Nombre_90DI de la patente en la BD.
+        // Solo se taguean las pantallas que SE GATEAN por permiso. Las que quedan
+        // sin Tag (Login, Logout, Idioma y los placeholders de Maestro/Reportes
+        // sin patente) se consideran siempre visibles.
+        private void AsignarTagsMenu()
+        {
+            // ─── Usuarios ───
+            passwordToolStripMenuItem.Tag         = Patentes_90DI.CambiarPassword;
+
+            // ─── Admin ───
+            aBMUsuariosToolStripMenuItem.Tag      = Patentes_90DI.AbmUsuarios;
+            bitacoraToolStripMenuItem.Tag         = Patentes_90DI.Bitacora;
+            adminFamiliaToolStripMenuItem.Tag     = Patentes_90DI.AdminFamilia;
+            adminRolesToolStripMenuItem.Tag       = Patentes_90DI.AdminRoles;
+
+            // ─── Maestro ───
+            clientesToolStripMenuItem.Tag         = Patentes_90DI.Clientes;
+            prestamosToolStripMenuItem.Tag        = Patentes_90DI.Prestamos;
+            medicosToolStripMenuItem.Tag          = Patentes_90DI.Medicos;
+            pacientesToolStripMenuItem.Tag        = Patentes_90DI.Pacientes;
+
+            // ─── Reportes ───
+            historialClienteToolStripMenuItem.Tag   = Patentes_90DI.HistorialCliente;
+            simulacionPrestamoToolStripMenuItem.Tag = Patentes_90DI.SimulacionPrestamo;
+        }
+
+        // Muestra u oculta cada opción del menú según las patentes del usuario en sesión.
+        private void AplicarPermisos()
+        {
+            foreach (ToolStripItem item in menuStrip1.Items)
+                AplicarPermisosItem(item);
+        }
+
+        // Regla de visibilidad por item:
+        // - Contenedor (tiene hijos): visible si al menos un hijo quedó visible.
+        // - Hoja con Tag: visible solo si el usuario tiene esa patente.
+        // - Hoja sin Tag: siempre visible (Login, Logout, Idioma, placeholders).
+        private bool AplicarPermisosItem(ToolStripItem item)
+        {
+            if (item is not ToolStripMenuItem mi)
+                return false;
+
+            if (mi.DropDownItems.Count > 0)
+            {
+                bool algunoVisible = false;
+                foreach (ToolStripItem hijo in mi.DropDownItems)
+                    algunoVisible |= AplicarPermisosItem(hijo);
+                mi.Visible = algunoVisible;
+                return algunoVisible;
+            }
+
+            // Importante: devolver el valor calculado, NO re-leer mi.Visible. Durante
+            // el constructor el getter Visible devuelve false (el form aún no se mostró),
+            // lo que haría que los contenedores oculten todo.
+            bool visible = mi.Tag is not string patente
+                           || SessionManager_90DI.Instancia.TienePatente_90DI(patente);
+            mi.Visible = visible;
+            return visible;
         }
 
         public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
@@ -97,9 +165,9 @@ namespace UI_90DI
 
         private void passwordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new FrmCambiarPassword_90DI();
-            form.Show();
-            this.Hide();
+            // Modal y por encima del menú: el menú no se cierra ni se oculta.
+            using var form = new FrmCambiarPassword_90DI();
+            form.ShowDialog(this);
         }
 
         private void aBMUsuariosToolStripMenuItem_Click(object sender, EventArgs e)

@@ -39,7 +39,7 @@
             rdbModoConsulta = new RadioButton();
             rdbCrearFamilia = new RadioButton();
             rdbModificarFamilia = new RadioButton();
-            lstPatentes = new ListBox();
+            lstPatentes = new ComboBox();
             LstFamiliasPatentes = new ListBox();
             label3 = new Label();
             label2 = new Label();
@@ -195,12 +195,12 @@
             // 
             // lstPatentes
             // 
+            lstPatentes.DropDownStyle = ComboBoxStyle.DropDownList;
             lstPatentes.FormattingEnabled = true;
-            lstPatentes.ItemHeight = 15;
             lstPatentes.Location = new Point(816, 202);
             lstPatentes.Margin = new Padding(2, 1, 2, 1);
             lstPatentes.Name = "lstPatentes";
-            lstPatentes.Size = new Size(252, 304);
+            lstPatentes.Size = new Size(252, 23);
             lstPatentes.TabIndex = 47;
             // 
             // LstFamiliasPatentes
@@ -363,7 +363,7 @@
         private RadioButton rdbModoConsulta;
         private RadioButton rdbCrearFamilia;
         private RadioButton rdbModificarFamilia;
-        private ListBox lstPatentes;
+        private ComboBox lstPatentes;
         private ListBox LstFamiliasPatentes;
         private Label label3;
         private Label label2;

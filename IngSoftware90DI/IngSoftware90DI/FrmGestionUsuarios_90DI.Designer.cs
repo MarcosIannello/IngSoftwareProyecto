@@ -40,7 +40,6 @@
             txtEmail = new TextBox();
             txtNombre = new TextBox();
             txtLogin = new TextBox();
-            txtRol = new TextBox();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
@@ -58,6 +57,7 @@
             label10 = new Label();
             btnCancelar = new Button();
             button1 = new Button();
+            cmbRolActual = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridUsers).BeginInit();
             SuspendLayout();
             // 
@@ -65,10 +65,10 @@
             // 
             btnCrear.BackColor = Color.AliceBlue;
             btnCrear.Cursor = Cursors.Hand;
-            btnCrear.Location = new Point(1101, 211);
+            btnCrear.Location = new Point(1277, 97);
             btnCrear.Margin = new Padding(2, 1, 2, 1);
             btnCrear.Name = "btnCrear";
-            btnCrear.Size = new Size(108, 33);
+            btnCrear.Size = new Size(108, 49);
             btnCrear.TabIndex = 0;
             btnCrear.Text = "Crear";
             btnCrear.UseVisualStyleBackColor = false;
@@ -79,10 +79,10 @@
             btnDesbloquear.BackColor = Color.AliceBlue;
             btnDesbloquear.Cursor = Cursors.Hand;
             btnDesbloquear.Enabled = false;
-            btnDesbloquear.Location = new Point(1101, 248);
+            btnDesbloquear.Location = new Point(1277, 162);
             btnDesbloquear.Margin = new Padding(2, 1, 2, 1);
             btnDesbloquear.Name = "btnDesbloquear";
-            btnDesbloquear.Size = new Size(108, 33);
+            btnDesbloquear.Size = new Size(108, 49);
             btnDesbloquear.TabIndex = 1;
             btnDesbloquear.Text = "Desbloquear";
             btnDesbloquear.UseVisualStyleBackColor = false;
@@ -92,10 +92,10 @@
             // 
             btnModificar.BackColor = Color.AliceBlue;
             btnModificar.Cursor = Cursors.Hand;
-            btnModificar.Location = new Point(1101, 287);
+            btnModificar.Location = new Point(1277, 226);
             btnModificar.Margin = new Padding(2, 1, 2, 1);
             btnModificar.Name = "btnModificar";
-            btnModificar.Size = new Size(108, 33);
+            btnModificar.Size = new Size(108, 49);
             btnModificar.TabIndex = 2;
             btnModificar.Text = "Modificar";
             btnModificar.UseVisualStyleBackColor = false;
@@ -105,10 +105,10 @@
             // 
             btnActive.BackColor = Color.AliceBlue;
             btnActive.Cursor = Cursors.Hand;
-            btnActive.Location = new Point(1101, 326);
+            btnActive.Location = new Point(1277, 287);
             btnActive.Margin = new Padding(2, 1, 2, 1);
             btnActive.Name = "btnActive";
-            btnActive.Size = new Size(108, 33);
+            btnActive.Size = new Size(108, 49);
             btnActive.TabIndex = 3;
             btnActive.Text = "Act / Desactivar";
             btnActive.UseVisualStyleBackColor = false;
@@ -117,7 +117,7 @@
             // btnAplicar
             // 
             btnAplicar.BackColor = Color.GreenYellow;
-            btnAplicar.Location = new Point(981, 530);
+            btnAplicar.Location = new Point(1157, 535);
             btnAplicar.Margin = new Padding(2, 1, 2, 1);
             btnAplicar.Name = "btnAplicar";
             btnAplicar.Size = new Size(103, 37);
@@ -129,7 +129,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(359, 185);
+            label1.Location = new Point(443, 46);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(52, 15);
@@ -139,17 +139,17 @@
             // dataGridUsers
             // 
             dataGridUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridUsers.Location = new Point(300, 212);
+            dataGridUsers.Location = new Point(256, 97);
             dataGridUsers.Margin = new Padding(2, 1, 2, 1);
             dataGridUsers.Name = "dataGridUsers";
             dataGridUsers.RowHeadersWidth = 82;
-            dataGridUsers.Size = new Size(762, 159);
+            dataGridUsers.Size = new Size(997, 301);
             dataGridUsers.TabIndex = 8;
             dataGridUsers.CellClick += dataGridUsers_CellClick;
             // 
             // txtDni
             // 
-            txtDni.Location = new Point(383, 397);
+            txtDni.Location = new Point(346, 409);
             txtDni.Margin = new Padding(2, 1, 2, 1);
             txtDni.MaxLength = 8;
             txtDni.Name = "txtDni";
@@ -158,7 +158,7 @@
             // 
             // txtApellido
             // 
-            txtApellido.Location = new Point(383, 418);
+            txtApellido.Location = new Point(346, 445);
             txtApellido.Margin = new Padding(2, 1, 2, 1);
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(110, 23);
@@ -167,7 +167,7 @@
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(383, 461);
+            txtEmail.Location = new Point(346, 514);
             txtEmail.Margin = new Padding(2, 1, 2, 1);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(110, 23);
@@ -175,7 +175,7 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(383, 440);
+            txtNombre.Location = new Point(346, 479);
             txtNombre.Margin = new Padding(2, 1, 2, 1);
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(110, 23);
@@ -184,24 +184,16 @@
             // 
             // txtLogin
             // 
-            txtLogin.Location = new Point(383, 502);
+            txtLogin.Location = new Point(346, 583);
             txtLogin.Margin = new Padding(2, 1, 2, 1);
             txtLogin.Name = "txtLogin";
             txtLogin.Size = new Size(110, 23);
             txtLogin.TabIndex = 14;
             // 
-            // txtRol
-            // 
-            txtRol.Location = new Point(383, 481);
-            txtRol.Margin = new Padding(2, 1, 2, 1);
-            txtRol.Name = "txtRol";
-            txtRol.Size = new Size(110, 23);
-            txtRol.TabIndex = 13;
-            // 
             // label2
             // 
             label2.BorderStyle = BorderStyle.FixedSingle;
-            label2.Location = new Point(300, 397);
+            label2.Location = new Point(261, 409);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
             label2.Size = new Size(81, 19);
@@ -211,7 +203,7 @@
             // label3
             // 
             label3.BorderStyle = BorderStyle.FixedSingle;
-            label3.Location = new Point(300, 419);
+            label3.Location = new Point(261, 445);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
             label3.Size = new Size(81, 19);
@@ -221,7 +213,7 @@
             // label4
             // 
             label4.BorderStyle = BorderStyle.FixedSingle;
-            label4.Location = new Point(300, 462);
+            label4.Location = new Point(261, 516);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
             label4.Size = new Size(81, 19);
@@ -231,7 +223,7 @@
             // label5
             // 
             label5.BorderStyle = BorderStyle.FixedSingle;
-            label5.Location = new Point(300, 440);
+            label5.Location = new Point(261, 479);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
             label5.Size = new Size(81, 19);
@@ -241,7 +233,7 @@
             // label6
             // 
             label6.BorderStyle = BorderStyle.FixedSingle;
-            label6.Location = new Point(300, 503);
+            label6.Location = new Point(261, 583);
             label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
             label6.Size = new Size(81, 19);
@@ -251,7 +243,7 @@
             // label7
             // 
             label7.BorderStyle = BorderStyle.FixedSingle;
-            label7.Location = new Point(300, 481);
+            label7.Location = new Point(261, 549);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
             label7.Size = new Size(81, 19);
@@ -261,7 +253,7 @@
             // label8
             // 
             label8.BorderStyle = BorderStyle.FixedSingle;
-            label8.Location = new Point(300, 547);
+            label8.Location = new Point(261, 659);
             label8.Margin = new Padding(2, 0, 2, 0);
             label8.Name = "label8";
             label8.Size = new Size(81, 19);
@@ -271,7 +263,7 @@
             // label9
             // 
             label9.BorderStyle = BorderStyle.FixedSingle;
-            label9.Location = new Point(300, 525);
+            label9.Location = new Point(261, 620);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
             label9.Size = new Size(81, 19);
@@ -281,7 +273,7 @@
             // chkBlock
             // 
             chkBlock.AutoSize = true;
-            chkBlock.Location = new Point(406, 527);
+            chkBlock.Location = new Point(371, 620);
             chkBlock.Margin = new Padding(2, 1, 2, 1);
             chkBlock.Name = "chkBlock";
             chkBlock.Size = new Size(55, 19);
@@ -294,7 +286,7 @@
             chkActiveUSer.AutoSize = true;
             chkActiveUSer.Checked = true;
             chkActiveUSer.CheckState = CheckState.Checked;
-            chkActiveUSer.Location = new Point(406, 548);
+            chkActiveUSer.Location = new Point(371, 659);
             chkActiveUSer.Margin = new Padding(2, 1, 2, 1);
             chkActiveUSer.Name = "chkActiveUSer";
             chkActiveUSer.Size = new Size(60, 19);
@@ -305,7 +297,7 @@
             // lblCantUsers
             // 
             lblCantUsers.AutoSize = true;
-            lblCantUsers.Location = new Point(792, 185);
+            lblCantUsers.Location = new Point(876, 46);
             lblCantUsers.Margin = new Padding(2, 0, 2, 0);
             lblCantUsers.Name = "lblCantUsers";
             lblCantUsers.Size = new Size(109, 15);
@@ -315,7 +307,7 @@
             // rdbActive
             // 
             rdbActive.AutoSize = true;
-            rdbActive.Location = new Point(564, 185);
+            rdbActive.Location = new Point(648, 46);
             rdbActive.Margin = new Padding(2, 1, 2, 1);
             rdbActive.Name = "rdbActive";
             rdbActive.Size = new Size(64, 19);
@@ -328,7 +320,7 @@
             // rdbTodos
             // 
             rdbTodos.AutoSize = true;
-            rdbTodos.Location = new Point(659, 185);
+            rdbTodos.Location = new Point(743, 46);
             rdbTodos.Margin = new Padding(2, 1, 2, 1);
             rdbTodos.Name = "rdbTodos";
             rdbTodos.Size = new Size(57, 19);
@@ -340,7 +332,7 @@
             // 
             // txtActiveMode
             // 
-            txtActiveMode.Location = new Point(797, 413);
+            txtActiveMode.Location = new Point(684, 479);
             txtActiveMode.Margin = new Padding(2, 1, 2, 1);
             txtActiveMode.Name = "txtActiveMode";
             txtActiveMode.ReadOnly = true;
@@ -350,7 +342,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(878, 389);
+            label10.Location = new Point(765, 455);
             label10.Margin = new Padding(2, 0, 2, 0);
             label10.Name = "label10";
             label10.Size = new Size(39, 15);
@@ -360,7 +352,7 @@
             // btnCancelar
             // 
             btnCancelar.BackColor = Color.LightCoral;
-            btnCancelar.Location = new Point(1106, 530);
+            btnCancelar.Location = new Point(1282, 535);
             btnCancelar.Margin = new Padding(2, 1, 2, 1);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(103, 37);
@@ -373,20 +365,29 @@
             // 
             button1.BackColor = Color.AliceBlue;
             button1.Cursor = Cursors.Hand;
-            button1.Location = new Point(1101, 371);
+            button1.Location = new Point(1277, 349);
             button1.Margin = new Padding(2, 1, 2, 1);
             button1.Name = "button1";
-            button1.Size = new Size(108, 33);
+            button1.Size = new Size(108, 49);
             button1.TabIndex = 33;
             button1.Text = "Salir";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
+            // 
+            // cmbRolActual
+            // 
+            cmbRolActual.FormattingEnabled = true;
+            cmbRolActual.Location = new Point(346, 547);
+            cmbRolActual.Name = "cmbRolActual";
+            cmbRolActual.Size = new Size(110, 23);
+            cmbRolActual.TabIndex = 34;
             // 
             // FrmGestionUsuarios
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1628, 777);
+            Controls.Add(cmbRolActual);
             Controls.Add(button1);
             Controls.Add(btnCancelar);
             Controls.Add(label10);
@@ -405,7 +406,6 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(txtLogin);
-            Controls.Add(txtRol);
             Controls.Add(txtEmail);
             Controls.Add(txtNombre);
             Controls.Add(txtApellido);
@@ -444,7 +444,6 @@
         private TextBox txtEmail;
         private TextBox txtNombre;
         private TextBox txtLogin;
-        private TextBox txtRol;
         private Label label2;
         private Label label3;
         private Label label4;
@@ -462,5 +461,6 @@
         private Label label10;
         private Button btnCancelar;
         private Button button1;
+        private ComboBox cmbRolActual;
     }
 }
