@@ -5,7 +5,6 @@ namespace Services_90DI.entities
         public int IdUsuario_90DI { get; set; }
         public string NombreUsuario_90DI { get; set; } = "";
         public string Password_90DI { get; set; } = "";
-        public int IdPerfil_90DI { get; set; } = 1;
         public bool Activo_90DI { get; set; }
         public DateTime FechaAlta_90DI { get; set; }
         public string DNI_90DI { get; set; } = "";

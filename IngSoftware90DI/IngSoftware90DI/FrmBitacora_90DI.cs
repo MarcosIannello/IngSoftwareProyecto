@@ -71,7 +71,7 @@ namespace UI_90DI
 
             // Módulos tipificados
             cmbModule.Items.Clear();
-            cmbModule.Items.AddRange(new[] { "", "Usuarios", "Ventas", "Compras", "Maestro", "Perfiles", "Seguridad" });
+            cmbModule.Items.AddRange(new[] { "", "Usuarios", "Ventas", "Compras", "Maestro", "Roles", "Seguridad" });
             cmbModule.SelectedIndex = 0;
 
             // Eventos tipificados

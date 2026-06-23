@@ -130,11 +130,13 @@ namespace UI_90DI
                     }
                     else
                     {
-                        // Usuario común: no permitir acceso, cerrar sesión
+                        // Usuario común: no permitir acceso, cerrar sesión.
+                        // No se revela la causa (problema de integridad) para no exponer
+                        // información sensible del estado del sistema a un usuario no admin.
                         SessionManager_90DI.Instancia.CerrarSesion();
                         MessageBox.Show(
-                            "Se detectó un problema de integridad en el sistema.\n\nPor favor comuníquese con un administrador.",
-                            "Acceso Restringido",
+                            "No es posible iniciar sesión en este momento.\n\nPor favor, comuníquese con un administrador.",
+                            "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                         return;

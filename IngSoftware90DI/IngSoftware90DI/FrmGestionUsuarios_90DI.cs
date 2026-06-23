@@ -238,7 +238,19 @@ namespace UI_90DI
         public void GetUsers()
         {
             usersList = _users.GetAllUsers_90DI();
-            RefreshGrid(usersList);
+            AplicarFiltroGrid();
+        }
+
+        // Re-aplica el filtro de la grilla según el radio seleccionado.
+        // Se llama explícitamente (en vez de depender de CheckedChanged) porque
+        // setear rdbActive.Checked = true cuando ya estaba en true NO dispara el
+        // evento, y la grilla quedaría mostrando todos los usuarios.
+        private void AplicarFiltroGrid()
+        {
+            if (rdbTodos.Checked)
+                RefreshGrid(usersList);
+            else
+                RefreshGrid(usersList.Where(u => u.Activo_90DI).ToList());
         }
 
         // Trae el listado de roles y lo bindea al combo. ValueMember = IdRol para
@@ -303,14 +315,13 @@ namespace UI_90DI
         private void rdbActive_CheckedChanged(object sender, EventArgs e)
         {
             if (!rdbActive.Checked) return;
-            var filtered = usersList.Where(u => u.Activo_90DI).ToList();
-            RefreshGrid(filtered);
+            AplicarFiltroGrid();
         }
 
         private void rdbTodos_CheckedChanged(object sender, EventArgs e)
         {
             if (!rdbTodos.Checked) return;
-            RefreshGrid(usersList);
+            AplicarFiltroGrid();
         }
 
         // ─── Botones de acción ───────────────────────────────────────────────
@@ -373,7 +384,6 @@ namespace UI_90DI
                 Nombre_90DI        = txtNombre.Text,
                 Activo_90DI        = chkActiveUSer.Checked,
                 FechaAlta_90DI     = DateTime.Now,
-                IdPerfil_90DI      = 1, // TODO: reemplazar cuando estén desarrollados los perfiles
                 Rol_90DI           = GetSelectedRolId(), // rol elegido en el combo
                 Bloqueo_90DI       = chkBlock.Checked,
                 Password_90DI      = txtDni.Text + txtApellido.Text,  // DNI + Apellido
