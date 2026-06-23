@@ -12,7 +12,6 @@ namespace UI_90DI
 
         private UsersBLL_90DI _usuarioService = new UsersBLL_90DI();
         private User_90DI usuario = new();
-        FrmMenu_90DI menu = new FrmMenu_90DI();
 
         public FrmCambiarPassword_90DI()
         {
@@ -86,8 +85,7 @@ namespace UI_90DI
             if (resultado)
             {
                 MessageBox.Show(LanguageManager_90DI.T("pass_msg_actualizada"), LanguageManager_90DI.T("pass_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
-                menu.Show();
+                this.Close(); // vuelve al menú que quedó abierto detrás
             }
             else
             {
@@ -103,7 +101,7 @@ namespace UI_90DI
 
         private void FrmCambiarPassword_200MI_FormClosed(object sender, FormClosedEventArgs e)
         {
-            menu.Show();
+            // El menú quedó abierto detrás (ShowDialog), no hay que volver a mostrarlo.
         }
 
         private void FrmCambiarPassword_90DI_Load(object sender, EventArgs e)

@@ -30,6 +30,27 @@ namespace Capital_
         public FrmAdminFamilias()
         {
             InitializeComponent();
+
+            // Wiring de eventos (el Designer de Familias no los suscribe, a diferencia
+            // del de Roles). Debe ir antes de marcar el modo inicial para que la
+            // selección inicial dispare las cargas correspondientes.
+            rdbModoConsulta.CheckedChanged     += rdbModoConsulta_CheckedChanged;
+            rdbModificarFamilia.CheckedChanged += rdbModificarFamilia_CheckedChanged;
+            rdbCrearFamilia.CheckedChanged     += rdbCrearFamilia_CheckedChanged;
+
+            btnAgregarPatente.Click  += btnAgregarPatente_Click;
+            btnQuitarPatente.Click   += btnQuitarPatente_Click;
+            btnAplicarCambios.Click  += btnAplicarCambios_Click;
+            btnEliminarFamilia.Click += btnEliminarFamilia_Click;
+            button2.Click            += button2_Click; // Agregar Familia
+            button1.Click            += button1_Click; // Quitar Familia
+
+            lstFamilias.SelectedValueChanged         += lstFamilias_SelectedValueChanged;
+            lstPatentes.SelectedIndexChanged         += lstPatentes_SelectedIndexChanged;
+            LstFamiliasPatentes.SelectedIndexChanged += LstFamiliasPatentes_SelectedIndexChanged;
+            lstFamiliasFamilia.SelectedIndexChanged  += lstFamiliasFamilia_SelectedIndexChanged;
+            cmbFamiliasDisponibles.SelectedIndexChanged += cmbFamiliasDisponibles_SelectedIndexChanged;
+
             PatentesBd = _rolBLL.GetAllPatentes_90DI();
             rdbModoConsulta.Checked = true;
 
@@ -148,16 +169,19 @@ namespace Capital_
 
         private void rdbModificarFamilia_CheckedChanged(object sender, EventArgs e)
         {
+            if (!rdbModificarFamilia.Checked) return;
             LoadModoEdicion();
         }
 
         private void rdbCrearFamilia_CheckedChanged(object sender, EventArgs e)
         {
+            if (!rdbCrearFamilia.Checked) return;
             LoadModoCreacion();
         }
 
         private void rdbModoConsulta_CheckedChanged(object sender, EventArgs e)
         {
+            if (!rdbModoConsulta.Checked) return;
             LoadModoConsulta();
         }
 
@@ -182,6 +206,11 @@ namespace Capital_
             lstPatentes.DataSource = PatentesBd;
             lstPatentes.DisplayMember = displayMember;
             if (lstPatentes.Items.Count > 0) lstPatentes.SelectedIndex = 0;
+
+            // Sincronizar tempPatente con el ítem mostrado: al re-bindear el combo
+            // ya auto-selecciona el índice 0, por lo que SelectedIndex = 0 no dispara
+            // SelectedIndexChanged y tempPatente quedaría con la patente anterior.
+            tempPatente = lstPatentes.SelectedItem as Patente_90DI ?? new Patente_90DI();
 
             LstFamiliasPatentes.DataSource = null;
             LstFamiliasPatentes.DataSource = tempFamilia.Patentes;
@@ -378,6 +407,10 @@ namespace Capital_
             LstFamiliasPatentes.DataSource = null;
             LstFamiliasPatentes.DataSource = tempFamilia.Patentes;
             LstFamiliasPatentes.DisplayMember = displayMember;
+
+            // Sincronizar tempPatente con la selección actual de la lista de asignadas,
+            // para poder quitar varias seguidas sin tener que re-clickear.
+            tempPatente = LstFamiliasPatentes.SelectedItem as Patente_90DI ?? new Patente_90DI();
         }
 
         private void LstFamiliasPatentes_SelectedIndexChanged(object sender, EventArgs e)
