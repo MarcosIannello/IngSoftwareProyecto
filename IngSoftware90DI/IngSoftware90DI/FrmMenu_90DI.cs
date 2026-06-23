@@ -21,10 +21,10 @@ namespace UI_90DI
             // Mostrar/ocultar opciones del menú según las patentes del usuario logueado.
             AplicarPermisos();
 
-            LanguageManager_90DI.AddObserver_90DI(this);
+            LanguageManager_90DI.Current.AddObserver_90DI(this);
 
             // Aplicar el idioma actual al abrir
-            var traducciones = LanguageManager_90DI.TraduccionesActuales_90DI;
+            var traducciones = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
             if (traducciones.Count > 0)
                 UpdateLanguage_90DI(traducciones);
         }
@@ -112,7 +112,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 

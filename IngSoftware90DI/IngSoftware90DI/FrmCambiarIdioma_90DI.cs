@@ -18,8 +18,8 @@ namespace UI_90DI
             AplicarTraducciones();
             CargarIdiomas();
 
-            LanguageManager_90DI.AddObserver_90DI(this);
-            var t = LanguageManager_90DI.TraduccionesActuales_90DI;
+            LanguageManager_90DI.Current.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
@@ -46,11 +46,12 @@ namespace UI_90DI
             if (cmbIdioma.SelectedItem is Idioma_90DI idioma)
             {
                 // Notifica a los observers y actualiza el idioma de la sesión.
-                LanguageManager_90DI.NotifyAllObservers_90DI(idioma);
+                LanguageManager_90DI.Current.NotifyAllObservers_90DI(idioma);
 
-                // Persiste el idioma elegido en la BD para el usuario logueado.
+                // Persiste en BD solo si el idioma cambió (evita eventos duplicados en bitácora).
                 var session = SessionManager_90DI.Instancia;
-                if (session.SesionActiva && session.userActual.IdUsuario_90DI > 0)
+                if (session.SesionActiva && session.userActual.IdUsuario_90DI > 0 &&
+                    !string.Equals(idioma.CodigoIdioma_90DI, session.userActual.Idioma_90DI, StringComparison.OrdinalIgnoreCase))
                 {
                     _usuarioService.UpdateIdioma_90DI(session.userActual.IdUsuario_90DI, idioma.CodigoIdioma_90DI);
                     session.userActual.Idioma_90DI = idioma.CodigoIdioma_90DI;
@@ -74,7 +75,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 

@@ -54,8 +54,8 @@ namespace Capital_
             PatentesBd = _rolBLL.GetAllPatentes_90DI();
             rdbModoConsulta.Checked = true;
 
-            LanguageManager_90DI.AddObserver_90DI(this);
-            var t = LanguageManager_90DI.TraduccionesActuales_90DI;
+            LanguageManager_90DI.Current.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
@@ -79,7 +79,7 @@ namespace Capital_
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 

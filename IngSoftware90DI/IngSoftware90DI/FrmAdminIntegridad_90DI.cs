@@ -16,7 +16,7 @@ namespace Capital_
             _resultados = resultados;
 
             // Suscribirse a los cambios de idioma y aplicar el idioma actual.
-            LanguageManager_90DI.AddObserver_90DI(this);
+            LanguageManager_90DI.Current.AddObserver_90DI(this);
             AplicarTraducciones();
         }
 
@@ -183,7 +183,7 @@ namespace Capital_
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
     }

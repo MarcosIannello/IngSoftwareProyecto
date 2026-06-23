@@ -35,16 +35,17 @@
             label2 = new Label();
             label3 = new Label();
             btn_CloseApp = new Button();
-            cmbIdioma = new ComboBox();
+            btnCambiarIdioma = new Button();
             SuspendLayout();
             // 
             // Btn_Login
             // 
             Btn_Login.Cursor = Cursors.Hand;
             Btn_Login.FlatAppearance.BorderColor = Color.White;
-            Btn_Login.Location = new Point(336, 347);
+            Btn_Login.Location = new Point(181, 163);
+            Btn_Login.Margin = new Padding(2, 1, 2, 1);
             Btn_Login.Name = "Btn_Login";
-            Btn_Login.Size = new Size(150, 46);
+            Btn_Login.Size = new Size(81, 22);
             Btn_Login.TabIndex = 0;
             Btn_Login.Text = "Ingresar";
             Btn_Login.UseVisualStyleBackColor = true;
@@ -52,17 +53,19 @@
             // 
             // txt_LoginName
             // 
-            txt_LoginName.Location = new Point(385, 192);
+            txt_LoginName.Location = new Point(207, 90);
+            txt_LoginName.Margin = new Padding(2, 1, 2, 1);
             txt_LoginName.Name = "txt_LoginName";
-            txt_LoginName.Size = new Size(200, 39);
+            txt_LoginName.Size = new Size(110, 23);
             txt_LoginName.TabIndex = 1;
             // 
             // txt_loginPass
             // 
-            txt_loginPass.Location = new Point(385, 258);
+            txt_loginPass.Location = new Point(207, 121);
+            txt_loginPass.Margin = new Padding(2, 1, 2, 1);
             txt_loginPass.Name = "txt_loginPass";
             txt_loginPass.PasswordChar = '*';
-            txt_loginPass.Size = new Size(200, 39);
+            txt_loginPass.Size = new Size(110, 23);
             txt_loginPass.TabIndex = 2;
             txt_loginPass.UseSystemPasswordChar = true;
             // 
@@ -70,57 +73,63 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft YaHei", 25.875F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(294, 58);
+            label1.Location = new Point(158, 27);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(256, 89);
+            label1.Size = new Size(131, 46);
             label1.TabIndex = 3;
             label1.Text = "LOGIN";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(241, 195);
+            label2.Location = new Point(130, 91);
+            label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(121, 32);
+            label2.Size = new Size(60, 15);
             label2.TabIndex = 5;
             label2.Text = "Username";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(241, 261);
+            label3.Location = new Point(130, 122);
+            label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(111, 32);
+            label3.Size = new Size(57, 15);
             label3.TabIndex = 6;
             label3.Text = "Password";
             // 
             // btn_CloseApp
             // 
             btn_CloseApp.BackColor = Color.LightPink;
-            btn_CloseApp.Location = new Point(759, 12);
+            btn_CloseApp.Location = new Point(409, 6);
+            btn_CloseApp.Margin = new Padding(2, 1, 2, 1);
             btn_CloseApp.Name = "btn_CloseApp";
-            btn_CloseApp.Size = new Size(56, 46);
+            btn_CloseApp.Size = new Size(30, 22);
             btn_CloseApp.TabIndex = 7;
             btn_CloseApp.Text = "X";
             btn_CloseApp.UseVisualStyleBackColor = false;
             btn_CloseApp.Click += btn_CloseApp_Click;
-            //
-            // cmbIdioma
-            //
-            cmbIdioma.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbIdioma.Location = new Point(12, 12);
-            cmbIdioma.Name = "cmbIdioma";
-            cmbIdioma.Size = new Size(180, 40);
-            cmbIdioma.TabIndex = 8;
-            cmbIdioma.SelectedIndexChanged += cmbIdioma_SelectedIndexChanged;
-            //
+            // 
+            // btnCambiarIdioma
+            // 
+            btnCambiarIdioma.Cursor = Cursors.Hand;
+            btnCambiarIdioma.Location = new Point(2, 5);
+            btnCambiarIdioma.Name = "btnCambiarIdioma";
+            btnCambiarIdioma.Size = new Size(133, 23);
+            btnCambiarIdioma.TabIndex = 8;
+            btnCambiarIdioma.Text = "Cambiar Idioma";
+            btnCambiarIdioma.UseVisualStyleBackColor = true;
+            btnCambiarIdioma.Click += btnCambiarIdioma_Click;
+            // 
             // FrmLogin_90DI
-            //
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.AliceBlue;
-            ClientSize = new Size(842, 485);
-            Controls.Add(cmbIdioma);
+            ClientSize = new Size(453, 227);
+            Controls.Add(btnCambiarIdioma);
             Controls.Add(btn_CloseApp);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -129,6 +138,7 @@
             Controls.Add(txt_LoginName);
             Controls.Add(Btn_Login);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(2, 1, 2, 1);
             Name = "FrmLogin_90DI";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
@@ -146,6 +156,6 @@
         private Label label2;
         private Label label3;
         private Button btn_CloseApp;
-        private ComboBox cmbIdioma;
+        private Button btnCambiarIdioma;
     }
 }

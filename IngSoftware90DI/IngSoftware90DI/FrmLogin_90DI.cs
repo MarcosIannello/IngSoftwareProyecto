@@ -25,35 +25,26 @@ namespace UI_90DI
         {
             InitializeComponent();
 
-            // Suscribir el form como observer de los cambios de idioma.
-            LanguageManager_90DI.AddObserver_90DI(this);
+            LanguageManager_90DI.Current.AddObserver_90DI(this);
 
-            // Cargar idiomas disponibles y aplicar default (es)
-            CargarIdiomas_90DI();
+            // Aplicar el idioma actual (Español por defecto, o el que haya en sesión).
+            LanguageManager_90DI.Current.NotifyAllObservers_90DI(SessionManager_90DI.Instancia.IdiomaActual);
         }
 
-        private void CargarIdiomas_90DI()
+        private void btnCambiarIdioma_Click(object sender, EventArgs e)
         {
-            cmbIdioma.Items.Clear();
-            cmbIdioma.Items.Add(new Idioma_90DI { IdIdioma_90DI = 1, NombreIdioma_90DI = "Español", CodigoIdioma_90DI = "es" });
-            cmbIdioma.Items.Add(new Idioma_90DI { IdIdioma_90DI = 2, NombreIdioma_90DI = "English",  CodigoIdioma_90DI = "en" });
-            cmbIdioma.SelectedIndex = 0; // dispara SelectedIndexChanged → aplica Español
-        }
-
-        // el usuario selecciona un idioma del listado.
-        private void cmbIdioma_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmbIdioma.SelectedItem is Idioma_90DI idioma)
-                LanguageManager_90DI.NotifyAllObservers_90DI(idioma);
+            using var form = new FrmCambiarIdioma_90DI();
+            form.ShowDialog(this);
         }
 
         // Observer: recibe el diccionario de traducciones y actualiza los controles.
         public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
         {
-            if (traducciones.TryGetValue("login_titulo", out var titulo))    label1.Text = titulo;
-            if (traducciones.TryGetValue("login_usuario", out var usuario))  label2.Text = usuario;
-            if (traducciones.TryGetValue("login_password", out var pass))    label3.Text = pass;
-            if (traducciones.TryGetValue("login_btn_ingresar", out var btn)) Btn_Login.Text = btn;
+            if (traducciones.TryGetValue("login_titulo", out var titulo))        label1.Text = titulo;
+            if (traducciones.TryGetValue("login_usuario", out var usuario))      label2.Text = usuario;
+            if (traducciones.TryGetValue("login_password", out var pass))        label3.Text = pass;
+            if (traducciones.TryGetValue("login_btn_ingresar", out var btn))     Btn_Login.Text = btn;
+            if (traducciones.TryGetValue("login_btn_idioma", out var btnIdioma)) btnCambiarIdioma.Text = btnIdioma;
 
             CentrarTitulo_90DI();
         }
@@ -65,7 +56,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Unsubscribe_90DI(this); // remueve solo este form, no todos los observers
+            LanguageManager_90DI.Current.Unsubscribe_90DI(this); // remueve solo este form, no todos los observers
             base.OnFormClosed(e);
         }
 
@@ -147,7 +138,7 @@ namespace UI_90DI
                 // de DV innecesarios cuando el idioma no cambió.
                 string idiomaElegido = SessionManager_90DI.Instancia.IdiomaActual.CodigoIdioma_90DI;
                 if (!string.Equals(idiomaElegido, user!.Idioma_90DI, StringComparison.OrdinalIgnoreCase))
-                    _usuariosBLL.UpdateIdioma_90DI(user.IdUsuario_90DI, idiomaElegido);
+                    _usuariosBLL.UpdateIdioma_90DI(user.IdUsuario_90DI, idiomaElegido, registrarBitacora: false);
 
                 var menu = new FrmMenu_90DI();
                 menu.Show();
