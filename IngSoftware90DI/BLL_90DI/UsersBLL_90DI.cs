@@ -117,13 +117,15 @@ namespace BLL_90DI
             return result;
         }
 
-        public bool UpdateIdioma_90DI(int idUsuario, string idioma)
+        public bool UpdateIdioma_90DI(int idUsuario, string idioma, bool registrarBitacora = true)
         {
             var result = _dal.UpdateIdioma90DI(idUsuario, idioma);
             if (result)
-                // Recalcular el DV: escribir el idioma modifica la fila de User_90DI
-                // y sin esto la verificación de integridad la marcaría como corrupta.
+            {
                 _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                if (registrarBitacora)
+                    CreateLogEvent_90DI($"Cambio de idioma a '{idioma}' para usuario ID: {idUsuario}", 3);
+            }
             return result;
         }
 
