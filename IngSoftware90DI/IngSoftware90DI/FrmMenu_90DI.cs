@@ -119,6 +119,8 @@ namespace UI_90DI
 
         private void Menu200MI_FormClosed(object sender, FormClosedEventArgs e)
         {
+            // En un logout cerramos el menú a propósito: no hay que cerrar la app.
+            if (SesionUI_90DI.CerrandoPorLogout) return;
             Application.Exit();
         }
 
@@ -150,10 +152,7 @@ namespace UI_90DI
 
                 if (confirm != DialogResult.Yes) return;
 
-                _userBll.Logout_90DI();
-                var login = new FrmLogin_90DI();
-                login.Show();
-                this.Hide();
+                SesionUI_90DI.Logout_90DI(_userBll);
             }
             catch (Exception ex)
             {

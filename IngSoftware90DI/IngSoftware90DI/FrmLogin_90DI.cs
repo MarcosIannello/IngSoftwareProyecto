@@ -155,6 +155,14 @@ namespace UI_90DI
             this.Close();
         }
 
+        // Limpia los campos para una nueva sesión (al volver desde el logout).
+        public void ResetCampos_90DI()
+        {
+            txt_LoginName.Text = "";
+            txt_loginPass.Text = "";
+            txt_LoginName.Focus();
+        }
+
         private void pictureBox1_Click(object sender, EventArgs e) { }
 
         private void FrmLogin_90DI_Load(object sender, EventArgs e) { }

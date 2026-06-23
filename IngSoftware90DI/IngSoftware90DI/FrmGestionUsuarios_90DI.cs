@@ -41,13 +41,13 @@ namespace UI_90DI
             _menu = menu;
             InitializeComponent();
 
-            // Grid de solo lectura — no permite edición directa ni agregar/quitar filas
+            // Grilla de solo lectura
             dataGridUsers.ReadOnly              = true;
             dataGridUsers.AllowUserToAddRows    = false;
             dataGridUsers.AllowUserToDeleteRows = false;
             dataGridUsers.SelectionMode         = DataGridViewSelectionMode.CellSelect;
             dataGridUsers.MultiSelect           = false;
-            // Permite copiar (Ctrl+C) el valor de la celda seleccionada
+            // Para copiar la celda con Ctrl+C
             dataGridUsers.ClipboardCopyMode     = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 
             GetUsers();
@@ -154,7 +154,7 @@ namespace UI_90DI
             txtEmail.Enabled      = true;
             txtLogin.Enabled      = true;
             txtNombre.Enabled     = true;
-            cmbRolActual.Enabled  = false; // en consulta el rol no se edita
+            cmbRolActual.Enabled  = false; // en consulta el rol no se toca
             chkActiveUSer.Enabled = false;
             chkBlock.Enabled      = false;
         }
@@ -221,7 +221,7 @@ namespace UI_90DI
                 e.Handled = true;
         }
 
-        // Auto-completar Login = Nombre + Apellido en modo creación
+        // Arma el login como nombre+apellido (solo al crear)
         private void AutoFillLogin()
         {
             if (!createMode) return;
@@ -241,10 +241,8 @@ namespace UI_90DI
             AplicarFiltroGrid();
         }
 
-        // Re-aplica el filtro de la grilla según el radio seleccionado.
-        // Se llama explícitamente (en vez de depender de CheckedChanged) porque
-        // setear rdbActive.Checked = true cuando ya estaba en true NO dispara el
-        // evento, y la grilla quedaría mostrando todos los usuarios.
+        // Filtra la grilla según el radio. Lo llamamos a mano: si rdbActive ya
+        // estaba tildado, re-tildarlo no dispara el evento y quedarían todos.
         private void AplicarFiltroGrid()
         {
             if (rdbTodos.Checked)
@@ -253,8 +251,7 @@ namespace UI_90DI
                 RefreshGrid(usersList.Where(u => u.Activo_90DI).ToList());
         }
 
-        // Trae el listado de roles y lo bindea al combo. ValueMember = IdRol para
-        // poder guardar/recuperar el rol asignado al usuario por su id.
+        // Carga los roles en el combo (el value es el IdRol)
         private void LoadRoles()
         {
             rolesList = _rolesBLL.GetAllRoles_90DI();
@@ -264,7 +261,7 @@ namespace UI_90DI
             cmbRolActual.SelectedIndex = rolesList.Count > 0 ? 0 : -1;
         }
 
-        // Id del rol seleccionado en el combo (como string, igual que User_90DI.Rol_90DI).
+        // IdRol elegido en el combo, como string
         private string GetSelectedRolId()
         {
             return cmbRolActual.SelectedValue?.ToString() ?? "0";
@@ -299,7 +296,7 @@ namespace UI_90DI
             txtDni.Text           = user.DNI_90DI;
             txtLogin.Text         = user.NombreUsuario_90DI;
             txtNombre.Text        = user.Nombre_90DI;
-            // Seleccionar en el combo el rol asignado al usuario (match por IdRol)
+            // Pone el combo en el rol del usuario
             if (int.TryParse(user.Rol_90DI, out var idRolUser))
                 cmbRolActual.SelectedValue = idRolUser;
             else
@@ -406,7 +403,7 @@ namespace UI_90DI
             {
                 if (viewMode)
                 {
-                    // En modo consulta solo filtra, sin ir a BD
+                    // En consulta solo filtra, no toca la BD
                     rdbActive.Checked = false;
                     rdbTodos.Checked  = false;
                     searchByQuery();
@@ -470,7 +467,7 @@ namespace UI_90DI
             }
             catch (InvalidOperationException ex)
             {
-                // Errores de negocio (ej: DNI duplicado desde BLL)
+                // Errores de negocio (ej: DNI repetido)
                 MessageBox.Show(ex.Message, "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
