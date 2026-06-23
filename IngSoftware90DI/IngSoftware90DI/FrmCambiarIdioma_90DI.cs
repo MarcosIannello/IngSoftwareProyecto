@@ -48,9 +48,10 @@ namespace UI_90DI
                 // Notifica a los observers y actualiza el idioma de la sesión.
                 LanguageManager_90DI.Current.NotifyAllObservers_90DI(idioma);
 
-                // Persiste el idioma elegido en la BD para el usuario logueado.
+                // Persiste en BD solo si el idioma cambió (evita eventos duplicados en bitácora).
                 var session = SessionManager_90DI.Instancia;
-                if (session.SesionActiva && session.userActual.IdUsuario_90DI > 0)
+                if (session.SesionActiva && session.userActual.IdUsuario_90DI > 0 &&
+                    !string.Equals(idioma.CodigoIdioma_90DI, session.userActual.Idioma_90DI, StringComparison.OrdinalIgnoreCase))
                 {
                     _usuarioService.UpdateIdioma_90DI(session.userActual.IdUsuario_90DI, idioma.CodigoIdioma_90DI);
                     session.userActual.Idioma_90DI = idioma.CodigoIdioma_90DI;
