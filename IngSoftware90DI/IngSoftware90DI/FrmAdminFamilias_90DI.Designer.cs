@@ -60,10 +60,9 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(13, 11);
-            label1.Margin = new Padding(2, 0, 2, 0);
+            label1.Location = new Point(19, 18);
             label1.Name = "label1";
-            label1.Size = new Size(145, 15);
+            label1.Size = new Size(218, 25);
             label1.TabIndex = 0;
             label1.Text = "Administrador de Familias";
             label1.Click += label1_Click;
@@ -87,9 +86,10 @@
             frmPanelContentAdminFamilias.Controls.Add(btnQuitarPatente);
             frmPanelContentAdminFamilias.Controls.Add(btnAgregarPatente);
             frmPanelContentAdminFamilias.Controls.Add(pnlAgregarQuitarFamilias);
-            frmPanelContentAdminFamilias.Location = new Point(279, 55);
+            frmPanelContentAdminFamilias.Location = new Point(51, 33);
+            frmPanelContentAdminFamilias.Margin = new Padding(4, 5, 4, 5);
             frmPanelContentAdminFamilias.Name = "frmPanelContentAdminFamilias";
-            frmPanelContentAdminFamilias.Size = new Size(1198, 655);
+            frmPanelContentAdminFamilias.Size = new Size(1711, 1092);
             frmPanelContentAdminFamilias.TabIndex = 41;
             // 
             // btnEliminarFamilia
@@ -98,10 +98,10 @@
             btnEliminarFamilia.Cursor = Cursors.Hand;
             btnEliminarFamilia.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnEliminarFamilia.ForeColor = SystemColors.Control;
-            btnEliminarFamilia.Location = new Point(440, 147);
-            btnEliminarFamilia.Margin = new Padding(2, 1, 2, 1);
+            btnEliminarFamilia.Location = new Point(629, 245);
+            btnEliminarFamilia.Margin = new Padding(3, 2, 3, 2);
             btnEliminarFamilia.Name = "btnEliminarFamilia";
-            btnEliminarFamilia.Size = new Size(38, 25);
+            btnEliminarFamilia.Size = new Size(54, 42);
             btnEliminarFamilia.TabIndex = 55;
             btnEliminarFamilia.Text = "x";
             btnEliminarFamilia.UseVisualStyleBackColor = false;
@@ -110,60 +110,59 @@
             // lstFamiliasFamilia
             // 
             lstFamiliasFamilia.FormattingEnabled = true;
-            lstFamiliasFamilia.ItemHeight = 15;
-            lstFamiliasFamilia.Location = new Point(169, 351);
-            lstFamiliasFamilia.Margin = new Padding(2, 1, 2, 1);
+            lstFamiliasFamilia.ItemHeight = 25;
+            lstFamiliasFamilia.Location = new Point(241, 585);
+            lstFamiliasFamilia.Margin = new Padding(3, 2, 3, 2);
             lstFamiliasFamilia.Name = "lstFamiliasFamilia";
-            lstFamiliasFamilia.Size = new Size(252, 154);
+            lstFamiliasFamilia.Size = new Size(358, 254);
             lstFamiliasFamilia.TabIndex = 54;
             // 
             // pnlFamiliaNombre
             // 
             pnlFamiliaNombre.Controls.Add(label4);
             pnlFamiliaNombre.Controls.Add(txtNombreFamilia);
-            pnlFamiliaNombre.Location = new Point(131, 147);
-            pnlFamiliaNombre.Margin = new Padding(2, 1, 2, 1);
+            pnlFamiliaNombre.Location = new Point(187, 245);
+            pnlFamiliaNombre.Margin = new Padding(3, 2, 3, 2);
             pnlFamiliaNombre.Name = "pnlFamiliaNombre";
-            pnlFamiliaNombre.Size = new Size(300, 25);
+            pnlFamiliaNombre.Size = new Size(429, 42);
             pnlFamiliaNombre.TabIndex = 52;
             pnlFamiliaNombre.Visible = false;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(2, 0);
-            label4.Margin = new Padding(2, 0, 2, 0);
+            label4.Location = new Point(3, 0);
             label4.Name = "label4";
-            label4.Size = new Size(89, 15);
+            label4.Size = new Size(132, 25);
             label4.TabIndex = 0;
             label4.Text = "NombreFamilia";
             // 
             // txtNombreFamilia
             // 
-            txtNombreFamilia.Location = new Point(95, 1);
-            txtNombreFamilia.Margin = new Padding(2, 1, 2, 1);
+            txtNombreFamilia.Location = new Point(141, 2);
+            txtNombreFamilia.Margin = new Padding(3, 2, 3, 2);
             txtNombreFamilia.Name = "txtNombreFamilia";
-            txtNombreFamilia.Size = new Size(198, 23);
+            txtNombreFamilia.Size = new Size(281, 31);
             txtNombreFamilia.TabIndex = 1;
             // 
             // lstFamilias
             // 
             lstFamilias.FormattingEnabled = true;
-            lstFamilias.ItemHeight = 15;
-            lstFamilias.Location = new Point(532, 136);
-            lstFamilias.Margin = new Padding(2, 1, 2, 1);
+            lstFamilias.ItemHeight = 25;
+            lstFamilias.Location = new Point(760, 227);
+            lstFamilias.Margin = new Padding(3, 2, 3, 2);
             lstFamilias.Name = "lstFamilias";
-            lstFamilias.Size = new Size(232, 109);
+            lstFamilias.Size = new Size(330, 179);
             lstFamilias.TabIndex = 51;
             lstFamilias.Visible = false;
             // 
             // rdbModoConsulta
             // 
             rdbModoConsulta.AutoSize = true;
-            rdbModoConsulta.Location = new Point(374, 88);
-            rdbModoConsulta.Margin = new Padding(2, 1, 2, 1);
+            rdbModoConsulta.Location = new Point(534, 147);
+            rdbModoConsulta.Margin = new Padding(3, 2, 3, 2);
             rdbModoConsulta.Name = "rdbModoConsulta";
-            rdbModoConsulta.Size = new Size(107, 19);
+            rdbModoConsulta.Size = new Size(160, 29);
             rdbModoConsulta.TabIndex = 50;
             rdbModoConsulta.TabStop = true;
             rdbModoConsulta.Text = "Modo Consulta";
@@ -172,10 +171,10 @@
             // rdbCrearFamilia
             // 
             rdbCrearFamilia.AutoSize = true;
-            rdbCrearFamilia.Location = new Point(703, 88);
-            rdbCrearFamilia.Margin = new Padding(2, 1, 2, 1);
+            rdbCrearFamilia.Location = new Point(1004, 147);
+            rdbCrearFamilia.Margin = new Padding(3, 2, 3, 2);
             rdbCrearFamilia.Name = "rdbCrearFamilia";
-            rdbCrearFamilia.Size = new Size(94, 19);
+            rdbCrearFamilia.Size = new Size(137, 29);
             rdbCrearFamilia.TabIndex = 49;
             rdbCrearFamilia.TabStop = true;
             rdbCrearFamilia.Text = "Crear Familia";
@@ -184,10 +183,10 @@
             // rdbModificarFamilia
             // 
             rdbModificarFamilia.AutoSize = true;
-            rdbModificarFamilia.Location = new Point(532, 88);
-            rdbModificarFamilia.Margin = new Padding(2, 1, 2, 1);
+            rdbModificarFamilia.Location = new Point(760, 147);
+            rdbModificarFamilia.Margin = new Padding(3, 2, 3, 2);
             rdbModificarFamilia.Name = "rdbModificarFamilia";
-            rdbModificarFamilia.Size = new Size(117, 19);
+            rdbModificarFamilia.Size = new Size(171, 29);
             rdbModificarFamilia.TabIndex = 48;
             rdbModificarFamilia.TabStop = true;
             rdbModificarFamilia.Text = "Modificar Familia";
@@ -197,51 +196,49 @@
             // 
             lstPatentes.DropDownStyle = ComboBoxStyle.DropDownList;
             lstPatentes.FormattingEnabled = true;
-            lstPatentes.Location = new Point(816, 202);
-            lstPatentes.Margin = new Padding(2, 1, 2, 1);
+            lstPatentes.Location = new Point(1166, 337);
+            lstPatentes.Margin = new Padding(3, 2, 3, 2);
             lstPatentes.Name = "lstPatentes";
-            lstPatentes.Size = new Size(252, 23);
+            lstPatentes.Size = new Size(358, 33);
             lstPatentes.TabIndex = 47;
             // 
             // LstFamiliasPatentes
             // 
             LstFamiliasPatentes.FormattingEnabled = true;
-            LstFamiliasPatentes.ItemHeight = 15;
-            LstFamiliasPatentes.Location = new Point(169, 201);
-            LstFamiliasPatentes.Margin = new Padding(2, 1, 2, 1);
+            LstFamiliasPatentes.ItemHeight = 25;
+            LstFamiliasPatentes.Location = new Point(241, 335);
+            LstFamiliasPatentes.Margin = new Padding(3, 2, 3, 2);
             LstFamiliasPatentes.Name = "LstFamiliasPatentes";
-            LstFamiliasPatentes.Size = new Size(252, 154);
+            LstFamiliasPatentes.Size = new Size(358, 254);
             LstFamiliasPatentes.TabIndex = 46;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(912, 181);
-            label3.Margin = new Padding(2, 0, 2, 0);
+            label3.Location = new Point(1303, 302);
             label3.Name = "label3";
-            label3.Size = new Size(52, 15);
+            label3.Size = new Size(78, 25);
             label3.TabIndex = 45;
             label3.Text = "Patentes";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(234, 180);
-            label2.Margin = new Padding(2, 0, 2, 0);
+            label2.Location = new Point(334, 300);
             label2.Name = "label2";
-            label2.Size = new Size(109, 15);
+            label2.Size = new Size(161, 25);
             label2.TabIndex = 44;
             label2.Text = "Familia -> Patentes";
             // 
             // button5
             // 
-            button5.BackColor = Color.LightCoral;
+            button5.BackColor = Color.Red;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button5.ForeColor = SystemColors.ControlLightLight;
-            button5.Location = new Point(816, 531);
-            button5.Margin = new Padding(2, 1, 2, 1);
+            button5.Location = new Point(1166, 885);
+            button5.Margin = new Padding(3, 2, 3, 2);
             button5.Name = "button5";
-            button5.Size = new Size(250, 35);
+            button5.Size = new Size(357, 58);
             button5.TabIndex = 43;
             button5.Text = "Salir";
             button5.UseVisualStyleBackColor = false;
@@ -249,33 +246,39 @@
             // 
             // btnAplicarCambios
             // 
-            btnAplicarCambios.Location = new Point(169, 531);
-            btnAplicarCambios.Margin = new Padding(2, 1, 2, 1);
+            btnAplicarCambios.Location = new Point(241, 885);
+            btnAplicarCambios.Margin = new Padding(3, 2, 3, 2);
             btnAplicarCambios.Name = "btnAplicarCambios";
-            btnAplicarCambios.Size = new Size(250, 35);
+            btnAplicarCambios.Size = new Size(357, 58);
             btnAplicarCambios.TabIndex = 42;
             btnAplicarCambios.Text = "Aplicar";
             btnAplicarCambios.UseVisualStyleBackColor = true;
             // 
             // btnQuitarPatente
             // 
-            btnQuitarPatente.Location = new Point(594, 315);
-            btnQuitarPatente.Margin = new Padding(2, 1, 2, 1);
+            btnQuitarPatente.BackColor = Color.LightCoral;
+            btnQuitarPatente.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnQuitarPatente.ForeColor = SystemColors.ButtonHighlight;
+            btnQuitarPatente.Location = new Point(849, 525);
+            btnQuitarPatente.Margin = new Padding(3, 2, 3, 2);
             btnQuitarPatente.Name = "btnQuitarPatente";
-            btnQuitarPatente.Size = new Size(109, 35);
+            btnQuitarPatente.Size = new Size(156, 58);
             btnQuitarPatente.TabIndex = 41;
             btnQuitarPatente.Text = "Quitar Patente";
-            btnQuitarPatente.UseVisualStyleBackColor = true;
+            btnQuitarPatente.UseVisualStyleBackColor = false;
             // 
             // btnAgregarPatente
             // 
-            btnAgregarPatente.Location = new Point(594, 265);
-            btnAgregarPatente.Margin = new Padding(2, 1, 2, 1);
+            btnAgregarPatente.BackColor = Color.DarkSeaGreen;
+            btnAgregarPatente.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarPatente.ForeColor = SystemColors.ButtonHighlight;
+            btnAgregarPatente.Location = new Point(849, 442);
+            btnAgregarPatente.Margin = new Padding(3, 2, 3, 2);
             btnAgregarPatente.Name = "btnAgregarPatente";
-            btnAgregarPatente.Size = new Size(109, 35);
+            btnAgregarPatente.Size = new Size(156, 58);
             btnAgregarPatente.TabIndex = 40;
             btnAgregarPatente.Text = "Agregar Patente";
-            btnAgregarPatente.UseVisualStyleBackColor = true;
+            btnAgregarPatente.UseVisualStyleBackColor = false;
             // 
             // pnlAgregarQuitarFamilias
             // 
@@ -283,59 +286,64 @@
             pnlAgregarQuitarFamilias.Controls.Add(cmbFamiliasDisponibles);
             pnlAgregarQuitarFamilias.Controls.Add(button1);
             pnlAgregarQuitarFamilias.Controls.Add(button2);
-            pnlAgregarQuitarFamilias.Location = new Point(513, 362);
-            pnlAgregarQuitarFamilias.Margin = new Padding(2, 1, 2, 1);
+            pnlAgregarQuitarFamilias.Location = new Point(733, 603);
+            pnlAgregarQuitarFamilias.Margin = new Padding(3, 2, 3, 2);
             pnlAgregarQuitarFamilias.Name = "pnlAgregarQuitarFamilias";
-            pnlAgregarQuitarFamilias.Size = new Size(265, 142);
+            pnlAgregarQuitarFamilias.Size = new Size(379, 237);
             pnlAgregarQuitarFamilias.TabIndex = 53;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(73, 19);
-            label5.Margin = new Padding(2, 0, 2, 0);
+            label5.Location = new Point(104, 32);
             label5.Name = "label5";
-            label5.Size = new Size(114, 15);
+            label5.Size = new Size(172, 25);
             label5.TabIndex = 20;
             label5.Text = "Familias Disponibles";
             // 
             // cmbFamiliasDisponibles
             // 
             cmbFamiliasDisponibles.FormattingEnabled = true;
-            cmbFamiliasDisponibles.Location = new Point(34, 42);
-            cmbFamiliasDisponibles.Margin = new Padding(2, 1, 2, 1);
+            cmbFamiliasDisponibles.Location = new Point(49, 70);
+            cmbFamiliasDisponibles.Margin = new Padding(3, 2, 3, 2);
             cmbFamiliasDisponibles.Name = "cmbFamiliasDisponibles";
-            cmbFamiliasDisponibles.Size = new Size(204, 23);
+            cmbFamiliasDisponibles.Size = new Size(290, 33);
             cmbFamiliasDisponibles.TabIndex = 19;
             // 
             // button1
             // 
-            button1.Location = new Point(141, 81);
-            button1.Margin = new Padding(2, 1, 2, 1);
+            button1.BackColor = Color.LightCoral;
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = SystemColors.ButtonHighlight;
+            button1.Location = new Point(201, 135);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(109, 35);
+            button1.Size = new Size(156, 58);
             button1.TabIndex = 18;
             button1.Text = "Quitar Familia";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             // 
             // button2
             // 
-            button2.Location = new Point(11, 81);
-            button2.Margin = new Padding(2, 1, 2, 1);
+            button2.BackColor = Color.DarkSeaGreen;
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.ForeColor = SystemColors.ButtonHighlight;
+            button2.Location = new Point(16, 135);
+            button2.Margin = new Padding(3, 2, 3, 2);
             button2.Name = "button2";
-            button2.Size = new Size(109, 35);
+            button2.Size = new Size(156, 58);
             button2.TabIndex = 17;
             button2.Text = "Agregar Familia";
-            button2.UseVisualStyleBackColor = true;
+            button2.UseVisualStyleBackColor = false;
             // 
             // FrmAdminFamilias
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1761, 742);
+            ClientSize = new Size(1710, 1039);
             Controls.Add(frmPanelContentAdminFamilias);
             FormBorderStyle = FormBorderStyle.Fixed3D;
-            Margin = new Padding(2, 1, 2, 1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FrmAdminFamilias";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmAdminFamilias_90DI";
