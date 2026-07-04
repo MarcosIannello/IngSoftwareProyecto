@@ -17,4 +17,12 @@
     <ProjectReference Include="..\Services\Services_90DI.csproj" />
   </ItemGroup>
 
+  <!-- Config de acceso a datos: artefacto PROPIO de la capa DAL. Se copia a la salida
+       del ejecutable que la referencie, pero la pertenencia es de esta capa. -->
+  <ItemGroup>
+    <None Update="dal.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

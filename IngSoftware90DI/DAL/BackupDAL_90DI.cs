@@ -36,7 +36,7 @@ namespace DAL
                         // (proviene de config, no de input del usuario). El archivo sí va parametrizado.
                         cmd.CommandText = ResolverRuta +
                             $"BACKUP DATABASE [{_conexion.NombreBaseDatos}] " +
-                            "TO DISK = @ruta WITH FORMAT, INIT, NAME = N'Backup Capital+ (full)';";
+                            "TO DISK = @ruta WITH FORMAT, INIT, NAME = N'Backup IngSoftware_90DI (full)';";
                         cmd.CommandTimeout = 0; // un backup puede tardar más que el timeout default
                         cmd.Parameters.AddWithValue("@archivo", nombreArchivo);
                         cmd.ExecuteNonQuery();

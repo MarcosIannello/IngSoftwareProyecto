@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "IngSoftware90DI": "Server=.\\SQLEXPRESS;Database=IngSoftware90DI;Trusted_Connection=True;TrustServerCertificate=True;"
+  }
+}

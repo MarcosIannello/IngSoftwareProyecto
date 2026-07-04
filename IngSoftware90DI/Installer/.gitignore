@@ -1,0 +1,4 @@
+# Artefactos generados del instalador (no versionar)
+publish/
+Output/
+*.bacpac
