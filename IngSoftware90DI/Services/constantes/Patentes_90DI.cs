@@ -13,6 +13,7 @@ namespace Services_90DI.constantes
         public const string Bitacora     = "BITACORA";
         public const string AdminFamilia = "ADMIN_FAMILIA";
         public const string AdminRoles   = "ADMIN_ROLES";
+        public const string BackupBD     = "BACKUP_BD";
 
         // ─── Maestro ───
         public const string Clientes  = "CLIENTES";

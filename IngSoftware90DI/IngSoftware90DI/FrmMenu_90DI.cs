@@ -43,6 +43,7 @@ namespace UI_90DI
             bitacoraToolStripMenuItem.Tag         = Patentes_90DI.Bitacora;
             adminFamiliaToolStripMenuItem.Tag     = Patentes_90DI.AdminFamilia;
             adminRolesToolStripMenuItem.Tag       = Patentes_90DI.AdminRoles;
+            backupToolStripMenuItem.Tag           = Patentes_90DI.BackupBD;
 
             // ─── Maestro ───
             clientesToolStripMenuItem.Tag         = Patentes_90DI.Clientes;
@@ -100,6 +101,7 @@ namespace UI_90DI
             if (traducciones.TryGetValue("menu_bitacora", out v)) bitacoraToolStripMenuItem.Text = v;
             if (traducciones.TryGetValue("menu_admin_familia", out v)) adminFamiliaToolStripMenuItem.Text = v;
             if (traducciones.TryGetValue("menu_admin_roles", out v)) adminRolesToolStripMenuItem.Text = v;
+            if (traducciones.TryGetValue("menu_backup", out v)) backupToolStripMenuItem.Text = v;
             if (traducciones.TryGetValue("menu_maestro", out v)) maestroToolStripMenuItem.Text = v;
             if (traducciones.TryGetValue("menu_clientes", out v)) clientesToolStripMenuItem.Text = v;
             if (traducciones.TryGetValue("menu_prestamos", out v)) prestamosToolStripMenuItem.Text = v;
@@ -230,6 +232,43 @@ namespace UI_90DI
             _frmRoles.Show();
             _frmRoles.BringToFront();
             TileFormsHalfScreen();
+        }
+
+        private readonly BackupBLL_90DI _backup = new BackupBLL_90DI();
+
+        // Genera un backup del estado actual de la base. Solo visible para Admin
+        private void backupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var confirmar = MessageBox.Show(
+                LanguageManager_90DI.T("menu_backup_confirm"),
+                LanguageManager_90DI.T("menu_backup_title"),
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirmar != DialogResult.Yes)
+                return;
+
+            var cursorAnterior = Cursor.Current;
+            Cursor.Current = Cursors.WaitCursor;
+            try
+            {
+                bool ok = _backup.GenerarBackup_90DI();
+
+                MessageBox.Show(
+                    LanguageManager_90DI.T(ok ? "menu_backup_ok" : "menu_backup_error"),
+                    LanguageManager_90DI.T("menu_backup_title"),
+                    MessageBoxButtons.OK,
+                    ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, LanguageManager_90DI.T("menu_backup_title"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor.Current = cursorAnterior;
+            }
         }
 
         private void FrmMenu_90DI_Load(object sender, EventArgs e)
