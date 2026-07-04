@@ -9,6 +9,7 @@ namespace Capital_
     {
         private readonly List<ResultadoIntegridad_90DI> _resultados;
         private readonly IntegridadBLL_90DI _integridad = new IntegridadBLL_90DI();
+        private readonly BackupBLL_90DI _backup = new BackupBLL_90DI();
 
         public FrmAdminIntegridad_90DI(List<ResultadoIntegridad_90DI> resultados)
         {
@@ -91,7 +92,9 @@ namespace Capital_
             richTextBox1.AppendText(LanguageManager_90DI.T("integridad_msg_acciones"));
         }
 
-        // ─── Recuperar último backup (NO implementado todavía) ─────────────────
+        // ─── Recuperar último backup ───────────────────────────────────────────
+        // Restaura la base desde el último backup y vuelve a verificar la integridad.
+        // Si el sistema queda íntegro → cierra con OK y el login continúa al menú.
         private void BtnBackup_Click(object sender, EventArgs e)
         {
             var confirmar = MessageBox.Show(
@@ -103,12 +106,62 @@ namespace Capital_
             if (confirmar != DialogResult.Yes)
                 return;
 
-            // TODO: implementar restauración real desde backup + recálculo + re-verificación.
-            MessageBox.Show(
-                LanguageManager_90DI.T("integridad_msg_backup_no_impl"),
-                LanguageManager_90DI.T("integridad_msg_backup_no_impl_title"),
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            btnBackup.Enabled = false;
+            var cursorAnterior = Cursor.Current;
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
+            {
+                bool ok = _backup.RestaurarBackup_90DI();
+
+                if (!ok)
+                {
+                    MessageBox.Show(
+                        LanguageManager_90DI.T("integridad_msg_restore_error"),
+                        LanguageManager_90DI.T("integridad_msg_error_title"),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Re-verificar sobre la base ya restaurada.
+                var nuevos          = _integridad.Verificar_90DI();
+                var nuevosCorruptos = nuevos.Where(r => r.EsCorrupto).ToList();
+                MostrarResultados(nuevos);
+
+                if (!nuevosCorruptos.Any())
+                {
+                    MessageBox.Show(
+                        LanguageManager_90DI.T("integridad_msg_restore_ok"),
+                        LanguageManager_90DI.T("integridad_msg_recalc_ok_title"),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        string.Format(LanguageManager_90DI.T("integridad_msg_recalc_pendiente"), nuevosCorruptos.Count),
+                        LanguageManager_90DI.T("integridad_msg_advertencia_title"),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    string.Format(LanguageManager_90DI.T("integridad_msg_error_inesperado"), ex.Message),
+                    LanguageManager_90DI.T("integridad_msg_error_title"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor.Current = cursorAnterior;
+                btnBackup.Enabled = true;
+            }
         }
 
         // ─── Forzar recálculo total ────────────────────────────────────────────

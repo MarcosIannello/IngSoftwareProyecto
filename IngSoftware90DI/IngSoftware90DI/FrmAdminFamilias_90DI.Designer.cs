@@ -86,7 +86,7 @@
             frmPanelContentAdminFamilias.Controls.Add(btnQuitarPatente);
             frmPanelContentAdminFamilias.Controls.Add(btnAgregarPatente);
             frmPanelContentAdminFamilias.Controls.Add(pnlAgregarQuitarFamilias);
-            frmPanelContentAdminFamilias.Location = new Point(51, 33);
+            frmPanelContentAdminFamilias.Location = new Point(27, 26);
             frmPanelContentAdminFamilias.Margin = new Padding(4, 5, 4, 5);
             frmPanelContentAdminFamilias.Name = "frmPanelContentAdminFamilias";
             frmPanelContentAdminFamilias.Size = new Size(1711, 1092);
@@ -256,9 +256,6 @@
             // 
             // btnQuitarPatente
             // 
-            btnQuitarPatente.BackColor = Color.LightCoral;
-            btnQuitarPatente.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnQuitarPatente.ForeColor = SystemColors.ButtonHighlight;
             btnQuitarPatente.Location = new Point(849, 525);
             btnQuitarPatente.Margin = new Padding(3, 2, 3, 2);
             btnQuitarPatente.Name = "btnQuitarPatente";
@@ -269,9 +266,6 @@
             // 
             // btnAgregarPatente
             // 
-            btnAgregarPatente.BackColor = Color.DarkSeaGreen;
-            btnAgregarPatente.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAgregarPatente.ForeColor = SystemColors.ButtonHighlight;
             btnAgregarPatente.Location = new Point(849, 442);
             btnAgregarPatente.Margin = new Padding(3, 2, 3, 2);
             btnAgregarPatente.Name = "btnAgregarPatente";
@@ -312,9 +306,6 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.LightCoral;
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = SystemColors.ButtonHighlight;
             button1.Location = new Point(201, 135);
             button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
@@ -325,9 +316,6 @@
             // 
             // button2
             // 
-            button2.BackColor = Color.DarkSeaGreen;
-            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = SystemColors.ButtonHighlight;
             button2.Location = new Point(16, 135);
             button2.Margin = new Padding(3, 2, 3, 2);
             button2.Name = "button2";

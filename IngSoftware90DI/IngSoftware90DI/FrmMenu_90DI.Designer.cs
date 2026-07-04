@@ -41,6 +41,7 @@
             bitacoraToolStripMenuItem = new ToolStripMenuItem();
             adminFamiliaToolStripMenuItem = new ToolStripMenuItem();
             adminRolesToolStripMenuItem = new ToolStripMenuItem();
+            backupToolStripMenuItem = new ToolStripMenuItem();
             maestroToolStripMenuItem = new ToolStripMenuItem();
             clientesToolStripMenuItem = new ToolStripMenuItem();
             prestamosToolStripMenuItem = new ToolStripMenuItem();
@@ -113,7 +114,7 @@
             // 
             // adminToolStripMenuItem
             // 
-            adminToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionUsuariosToolStripMenuItem, bitacoraToolStripMenuItem, adminFamiliaToolStripMenuItem, adminRolesToolStripMenuItem });
+            adminToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionUsuariosToolStripMenuItem, bitacoraToolStripMenuItem, adminFamiliaToolStripMenuItem, adminRolesToolStripMenuItem, backupToolStripMenuItem });
             adminToolStripMenuItem.ForeColor = SystemColors.Control;
             adminToolStripMenuItem.Name = "adminToolStripMenuItem";
             adminToolStripMenuItem.Size = new Size(67, 23);
@@ -163,7 +164,16 @@
             adminRolesToolStripMenuItem.Size = new Size(195, 24);
             adminRolesToolStripMenuItem.Text = "Admin Roles";
             adminRolesToolStripMenuItem.Click += adminRolesToolStripMenuItem_Click;
-            // 
+            //
+            // backupToolStripMenuItem
+            //
+            backupToolStripMenuItem.BackColor = Color.Maroon;
+            backupToolStripMenuItem.ForeColor = SystemColors.ButtonFace;
+            backupToolStripMenuItem.Name = "backupToolStripMenuItem";
+            backupToolStripMenuItem.Size = new Size(195, 24);
+            backupToolStripMenuItem.Text = "Backup BD";
+            backupToolStripMenuItem.Click += backupToolStripMenuItem_Click;
+            //
             // maestroToolStripMenuItem
             // 
             maestroToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { clientesToolStripMenuItem, prestamosToolStripMenuItem, medicosToolStripMenuItem, pacientesToolStripMenuItem });
@@ -309,5 +319,6 @@
         private PictureBox pictureBox1;
         private ToolStripMenuItem adminFamiliaToolStripMenuItem;
         private ToolStripMenuItem adminRolesToolStripMenuItem;
+        private ToolStripMenuItem backupToolStripMenuItem;
     }
 }
