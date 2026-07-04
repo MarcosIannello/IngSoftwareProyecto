@@ -65,10 +65,10 @@
             // 
             btnCrear.BackColor = Color.AliceBlue;
             btnCrear.Cursor = Cursors.Hand;
-            btnCrear.Location = new Point(1277, 97);
-            btnCrear.Margin = new Padding(2, 1, 2, 1);
+            btnCrear.Location = new Point(1824, 162);
+            btnCrear.Margin = new Padding(3, 2, 3, 2);
             btnCrear.Name = "btnCrear";
-            btnCrear.Size = new Size(108, 49);
+            btnCrear.Size = new Size(154, 82);
             btnCrear.TabIndex = 0;
             btnCrear.Text = "Crear";
             btnCrear.UseVisualStyleBackColor = false;
@@ -79,10 +79,10 @@
             btnDesbloquear.BackColor = Color.AliceBlue;
             btnDesbloquear.Cursor = Cursors.Hand;
             btnDesbloquear.Enabled = false;
-            btnDesbloquear.Location = new Point(1277, 162);
-            btnDesbloquear.Margin = new Padding(2, 1, 2, 1);
+            btnDesbloquear.Location = new Point(1824, 270);
+            btnDesbloquear.Margin = new Padding(3, 2, 3, 2);
             btnDesbloquear.Name = "btnDesbloquear";
-            btnDesbloquear.Size = new Size(108, 49);
+            btnDesbloquear.Size = new Size(154, 82);
             btnDesbloquear.TabIndex = 1;
             btnDesbloquear.Text = "Desbloquear";
             btnDesbloquear.UseVisualStyleBackColor = false;
@@ -92,10 +92,10 @@
             // 
             btnModificar.BackColor = Color.AliceBlue;
             btnModificar.Cursor = Cursors.Hand;
-            btnModificar.Location = new Point(1277, 226);
-            btnModificar.Margin = new Padding(2, 1, 2, 1);
+            btnModificar.Location = new Point(1824, 377);
+            btnModificar.Margin = new Padding(3, 2, 3, 2);
             btnModificar.Name = "btnModificar";
-            btnModificar.Size = new Size(108, 49);
+            btnModificar.Size = new Size(154, 82);
             btnModificar.TabIndex = 2;
             btnModificar.Text = "Modificar";
             btnModificar.UseVisualStyleBackColor = false;
@@ -105,10 +105,10 @@
             // 
             btnActive.BackColor = Color.AliceBlue;
             btnActive.Cursor = Cursors.Hand;
-            btnActive.Location = new Point(1277, 287);
-            btnActive.Margin = new Padding(2, 1, 2, 1);
+            btnActive.Location = new Point(1824, 478);
+            btnActive.Margin = new Padding(3, 2, 3, 2);
             btnActive.Name = "btnActive";
-            btnActive.Size = new Size(108, 49);
+            btnActive.Size = new Size(154, 82);
             btnActive.TabIndex = 3;
             btnActive.Text = "Act / Desactivar";
             btnActive.UseVisualStyleBackColor = false;
@@ -117,10 +117,10 @@
             // btnAplicar
             // 
             btnAplicar.BackColor = Color.GreenYellow;
-            btnAplicar.Location = new Point(1157, 535);
-            btnAplicar.Margin = new Padding(2, 1, 2, 1);
+            btnAplicar.Location = new Point(1653, 892);
+            btnAplicar.Margin = new Padding(3, 2, 3, 2);
             btnAplicar.Name = "btnAplicar";
-            btnAplicar.Size = new Size(103, 37);
+            btnAplicar.Size = new Size(147, 62);
             btnAplicar.TabIndex = 4;
             btnAplicar.Text = "Aplicar";
             btnAplicar.UseVisualStyleBackColor = false;
@@ -129,154 +129,145 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(443, 46);
-            label1.Margin = new Padding(2, 0, 2, 0);
+            label1.Location = new Point(633, 77);
             label1.Name = "label1";
-            label1.Size = new Size(52, 15);
+            label1.Size = new Size(80, 25);
             label1.TabIndex = 7;
             label1.Text = "Usuarios";
             // 
             // dataGridUsers
             // 
             dataGridUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridUsers.Location = new Point(256, 97);
-            dataGridUsers.Margin = new Padding(2, 1, 2, 1);
+            dataGridUsers.Location = new Point(366, 162);
+            dataGridUsers.Margin = new Padding(3, 2, 3, 2);
             dataGridUsers.Name = "dataGridUsers";
             dataGridUsers.RowHeadersWidth = 82;
-            dataGridUsers.Size = new Size(997, 301);
+            dataGridUsers.Size = new Size(1424, 502);
             dataGridUsers.TabIndex = 8;
             dataGridUsers.CellClick += dataGridUsers_CellClick;
             // 
             // txtDni
             // 
-            txtDni.Location = new Point(346, 409);
-            txtDni.Margin = new Padding(2, 1, 2, 1);
+            txtDni.Location = new Point(494, 682);
+            txtDni.Margin = new Padding(3, 2, 3, 2);
             txtDni.MaxLength = 8;
             txtDni.Name = "txtDni";
-            txtDni.Size = new Size(110, 23);
+            txtDni.Size = new Size(155, 31);
             txtDni.TabIndex = 9;
             // 
             // txtApellido
             // 
-            txtApellido.Location = new Point(346, 445);
-            txtApellido.Margin = new Padding(2, 1, 2, 1);
+            txtApellido.Location = new Point(494, 742);
+            txtApellido.Margin = new Padding(3, 2, 3, 2);
             txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(110, 23);
+            txtApellido.Size = new Size(155, 31);
             txtApellido.TabIndex = 10;
             txtApellido.TextChanged += txtApellido_TextChanged;
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(346, 514);
-            txtEmail.Margin = new Padding(2, 1, 2, 1);
+            txtEmail.Location = new Point(494, 857);
+            txtEmail.Margin = new Padding(3, 2, 3, 2);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(110, 23);
+            txtEmail.Size = new Size(155, 31);
             txtEmail.TabIndex = 12;
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(346, 479);
-            txtNombre.Margin = new Padding(2, 1, 2, 1);
+            txtNombre.Location = new Point(494, 798);
+            txtNombre.Margin = new Padding(3, 2, 3, 2);
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(110, 23);
+            txtNombre.Size = new Size(155, 31);
             txtNombre.TabIndex = 11;
             txtNombre.TextChanged += txtNombre_TextChanged;
             // 
             // txtLogin
             // 
-            txtLogin.Location = new Point(346, 583);
-            txtLogin.Margin = new Padding(2, 1, 2, 1);
+            txtLogin.Location = new Point(494, 972);
+            txtLogin.Margin = new Padding(3, 2, 3, 2);
             txtLogin.Name = "txtLogin";
-            txtLogin.Size = new Size(110, 23);
+            txtLogin.Size = new Size(155, 31);
             txtLogin.TabIndex = 14;
             // 
             // label2
             // 
             label2.BorderStyle = BorderStyle.FixedSingle;
-            label2.Location = new Point(261, 409);
-            label2.Margin = new Padding(2, 0, 2, 0);
+            label2.Location = new Point(373, 682);
             label2.Name = "label2";
-            label2.Size = new Size(81, 19);
+            label2.Size = new Size(115, 30);
             label2.TabIndex = 17;
             label2.Text = "DNI";
             // 
             // label3
             // 
             label3.BorderStyle = BorderStyle.FixedSingle;
-            label3.Location = new Point(261, 445);
-            label3.Margin = new Padding(2, 0, 2, 0);
+            label3.Location = new Point(373, 742);
             label3.Name = "label3";
-            label3.Size = new Size(81, 19);
+            label3.Size = new Size(115, 30);
             label3.TabIndex = 18;
             label3.Text = "Apellido";
             // 
             // label4
             // 
             label4.BorderStyle = BorderStyle.FixedSingle;
-            label4.Location = new Point(261, 516);
-            label4.Margin = new Padding(2, 0, 2, 0);
+            label4.Location = new Point(373, 860);
             label4.Name = "label4";
-            label4.Size = new Size(81, 19);
+            label4.Size = new Size(115, 30);
             label4.TabIndex = 20;
             label4.Text = "Email";
             // 
             // label5
             // 
             label5.BorderStyle = BorderStyle.FixedSingle;
-            label5.Location = new Point(261, 479);
-            label5.Margin = new Padding(2, 0, 2, 0);
+            label5.Location = new Point(373, 798);
             label5.Name = "label5";
-            label5.Size = new Size(81, 19);
+            label5.Size = new Size(115, 30);
             label5.TabIndex = 19;
             label5.Text = "Nombre";
             // 
             // label6
             // 
             label6.BorderStyle = BorderStyle.FixedSingle;
-            label6.Location = new Point(261, 583);
-            label6.Margin = new Padding(2, 0, 2, 0);
+            label6.Location = new Point(373, 972);
             label6.Name = "label6";
-            label6.Size = new Size(81, 19);
+            label6.Size = new Size(115, 30);
             label6.TabIndex = 22;
             label6.Text = "Login";
             // 
             // label7
             // 
             label7.BorderStyle = BorderStyle.FixedSingle;
-            label7.Location = new Point(261, 549);
-            label7.Margin = new Padding(2, 0, 2, 0);
+            label7.Location = new Point(373, 915);
             label7.Name = "label7";
-            label7.Size = new Size(81, 19);
+            label7.Size = new Size(115, 30);
             label7.TabIndex = 21;
             label7.Text = "ROL";
             // 
             // label8
             // 
             label8.BorderStyle = BorderStyle.FixedSingle;
-            label8.Location = new Point(261, 659);
-            label8.Margin = new Padding(2, 0, 2, 0);
+            label8.Location = new Point(373, 1098);
             label8.Name = "label8";
-            label8.Size = new Size(81, 19);
+            label8.Size = new Size(115, 30);
             label8.TabIndex = 24;
             label8.Text = "Activo";
             // 
             // label9
             // 
             label9.BorderStyle = BorderStyle.FixedSingle;
-            label9.Location = new Point(261, 620);
-            label9.Margin = new Padding(2, 0, 2, 0);
+            label9.Location = new Point(373, 1033);
             label9.Name = "label9";
-            label9.Size = new Size(81, 19);
+            label9.Size = new Size(115, 30);
             label9.TabIndex = 23;
             label9.Text = "Blockeado";
             // 
             // chkBlock
             // 
             chkBlock.AutoSize = true;
-            chkBlock.Location = new Point(371, 620);
-            chkBlock.Margin = new Padding(2, 1, 2, 1);
+            chkBlock.Location = new Point(530, 1033);
+            chkBlock.Margin = new Padding(3, 2, 3, 2);
             chkBlock.Name = "chkBlock";
-            chkBlock.Size = new Size(55, 19);
+            chkBlock.Size = new Size(80, 29);
             chkBlock.TabIndex = 25;
             chkBlock.Text = "Block";
             chkBlock.UseVisualStyleBackColor = true;
@@ -286,10 +277,10 @@
             chkActiveUSer.AutoSize = true;
             chkActiveUSer.Checked = true;
             chkActiveUSer.CheckState = CheckState.Checked;
-            chkActiveUSer.Location = new Point(371, 659);
-            chkActiveUSer.Margin = new Padding(2, 1, 2, 1);
+            chkActiveUSer.Location = new Point(530, 1098);
+            chkActiveUSer.Margin = new Padding(3, 2, 3, 2);
             chkActiveUSer.Name = "chkActiveUSer";
-            chkActiveUSer.Size = new Size(60, 19);
+            chkActiveUSer.Size = new Size(88, 29);
             chkActiveUSer.TabIndex = 26;
             chkActiveUSer.Text = "Activo";
             chkActiveUSer.UseVisualStyleBackColor = true;
@@ -297,20 +288,19 @@
             // lblCantUsers
             // 
             lblCantUsers.AutoSize = true;
-            lblCantUsers.Location = new Point(876, 46);
-            lblCantUsers.Margin = new Padding(2, 0, 2, 0);
+            lblCantUsers.Location = new Point(1251, 77);
             lblCantUsers.Name = "lblCantUsers";
-            lblCantUsers.Size = new Size(109, 15);
+            lblCantUsers.Size = new Size(165, 25);
             lblCantUsers.TabIndex = 27;
             lblCantUsers.Text = "Cantidad Usuarios: ";
             // 
             // rdbActive
             // 
             rdbActive.AutoSize = true;
-            rdbActive.Location = new Point(648, 46);
-            rdbActive.Margin = new Padding(2, 1, 2, 1);
+            rdbActive.Location = new Point(926, 77);
+            rdbActive.Margin = new Padding(3, 2, 3, 2);
             rdbActive.Name = "rdbActive";
-            rdbActive.Size = new Size(64, 19);
+            rdbActive.Size = new Size(95, 29);
             rdbActive.TabIndex = 28;
             rdbActive.TabStop = true;
             rdbActive.Text = "Activos";
@@ -320,10 +310,10 @@
             // rdbTodos
             // 
             rdbTodos.AutoSize = true;
-            rdbTodos.Location = new Point(743, 46);
-            rdbTodos.Margin = new Padding(2, 1, 2, 1);
+            rdbTodos.Location = new Point(1061, 77);
+            rdbTodos.Margin = new Padding(3, 2, 3, 2);
             rdbTodos.Name = "rdbTodos";
-            rdbTodos.Size = new Size(57, 19);
+            rdbTodos.Size = new Size(85, 29);
             rdbTodos.TabIndex = 29;
             rdbTodos.TabStop = true;
             rdbTodos.Text = "Todos";
@@ -332,30 +322,29 @@
             // 
             // txtActiveMode
             // 
-            txtActiveMode.Location = new Point(684, 479);
-            txtActiveMode.Margin = new Padding(2, 1, 2, 1);
+            txtActiveMode.Location = new Point(977, 798);
+            txtActiveMode.Margin = new Padding(3, 2, 3, 2);
             txtActiveMode.Name = "txtActiveMode";
             txtActiveMode.ReadOnly = true;
-            txtActiveMode.Size = new Size(213, 23);
+            txtActiveMode.Size = new Size(303, 31);
             txtActiveMode.TabIndex = 30;
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(765, 455);
-            label10.Margin = new Padding(2, 0, 2, 0);
+            label10.Location = new Point(1093, 758);
             label10.Name = "label10";
-            label10.Size = new Size(39, 15);
+            label10.Size = new Size(61, 25);
             label10.TabIndex = 31;
             label10.Text = "Modo";
             // 
             // btnCancelar
             // 
             btnCancelar.BackColor = Color.LightCoral;
-            btnCancelar.Location = new Point(1282, 535);
-            btnCancelar.Margin = new Padding(2, 1, 2, 1);
+            btnCancelar.Location = new Point(1831, 892);
+            btnCancelar.Margin = new Padding(3, 2, 3, 2);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(103, 37);
+            btnCancelar.Size = new Size(147, 62);
             btnCancelar.TabIndex = 32;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = false;
@@ -365,10 +354,10 @@
             // 
             button1.BackColor = Color.AliceBlue;
             button1.Cursor = Cursors.Hand;
-            button1.Location = new Point(1277, 349);
-            button1.Margin = new Padding(2, 1, 2, 1);
+            button1.Location = new Point(1824, 582);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(108, 49);
+            button1.Size = new Size(154, 82);
             button1.TabIndex = 33;
             button1.Text = "Salir";
             button1.UseVisualStyleBackColor = false;
@@ -377,16 +366,17 @@
             // cmbRolActual
             // 
             cmbRolActual.FormattingEnabled = true;
-            cmbRolActual.Location = new Point(346, 547);
+            cmbRolActual.Location = new Point(494, 912);
+            cmbRolActual.Margin = new Padding(4, 5, 4, 5);
             cmbRolActual.Name = "cmbRolActual";
-            cmbRolActual.Size = new Size(110, 23);
+            cmbRolActual.Size = new Size(155, 33);
             cmbRolActual.TabIndex = 34;
             // 
             // FrmGestionUsuarios
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1628, 777);
+            ClientSize = new Size(1710, 1039);
             Controls.Add(cmbRolActual);
             Controls.Add(button1);
             Controls.Add(btnCancelar);
@@ -418,7 +408,7 @@
             Controls.Add(btnDesbloquear);
             Controls.Add(btnCrear);
             FormBorderStyle = FormBorderStyle.Fixed3D;
-            Margin = new Padding(2, 1, 2, 1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FrmGestionUsuarios";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "CrudUsers";

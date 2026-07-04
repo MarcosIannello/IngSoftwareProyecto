@@ -232,7 +232,7 @@
             // 
             // button5
             // 
-            button5.BackColor = Color.LightCoral;
+            button5.BackColor = Color.Red;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button5.ForeColor = SystemColors.ControlLightLight;
             button5.Location = new Point(1166, 885);
@@ -262,7 +262,7 @@
             btnQuitarPatente.Size = new Size(156, 58);
             btnQuitarPatente.TabIndex = 41;
             btnQuitarPatente.Text = "Quitar Patente";
-            btnQuitarPatente.UseVisualStyleBackColor = true;
+            btnQuitarPatente.UseVisualStyleBackColor = false;
             // 
             // btnAgregarPatente
             // 
@@ -272,7 +272,7 @@
             btnAgregarPatente.Size = new Size(156, 58);
             btnAgregarPatente.TabIndex = 40;
             btnAgregarPatente.Text = "Agregar Patente";
-            btnAgregarPatente.UseVisualStyleBackColor = true;
+            btnAgregarPatente.UseVisualStyleBackColor = false;
             // 
             // pnlAgregarQuitarFamilias
             // 
@@ -312,7 +312,7 @@
             button1.Size = new Size(156, 58);
             button1.TabIndex = 18;
             button1.Text = "Quitar Familia";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             // 
             // button2
             // 
@@ -322,7 +322,7 @@
             button2.Size = new Size(156, 58);
             button2.TabIndex = 17;
             button2.Text = "Agregar Familia";
-            button2.UseVisualStyleBackColor = true;
+            button2.UseVisualStyleBackColor = false;
             // 
             // FrmAdminFamilias
             // 
