@@ -33,11 +33,29 @@ conectarse). Instalar ESTO en la máquina destino **antes** de correr `IngSoftwa
 > es solo **`C:\...>`**. Abrí **Windows PowerShell** (idealmente *Ejecutar como administrador*).
 
 ```powershell
-Get-Service 'MSSQL$SQLEXPRESS'          # el motor debe existir y estar Running
-Get-Command sqlcmd -ErrorAction Ignore  # si no devuelve nada, FALTA sqlcmd
-Get-Command sqlpackage -ErrorAction Ignore  # si no devuelve nada, FALTA SqlPackage
+# 1) Motor SQL: listar TODAS las instancias instaladas.
+#    OJO: la instancia NO siempre se llama SQLEXPRESS.
+Get-Service | Where-Object { $_.Name -like 'MSSQL*' } | Select-Object Name, Status
+
+# 2) Herramientas
+Get-Command sqlcmd -ErrorAction Ignore       # si no devuelve nada, FALTA sqlcmd
+Get-Command sqlpackage -ErrorAction Ignore   # si no devuelve nada, FALTA SqlPackage
 ```
-Si los tres responden, el instalador va a crear la base y la app **va a loguear**.
+
+**Interpretá el nombre de la instancia y qué poner en el asistente del instalador:**
+
+| Servicio que aparece | Instancia | Qué escribir en el instalador |
+|---|---|---|
+| `MSSQL$SQLEXPRESS` | SQLEXPRESS | `.\SQLEXPRESS` |
+| `MSSQLSERVER` | (por defecto) | `.` o `localhost` |
+| `MSSQL$OTRONOMBRE` | OTRONOMBRE | `.\OTRONOMBRE` |
+
+> ⚠️ El asistente propone `.\SQLEXPRESS` por defecto, pero si tu instancia se llama distinto
+> (lo ves en el comando de arriba o en SSMS), **hay que escribir el nombre correcto** — si no,
+> no conecta y la base no se crea aunque SQL esté instalado.
+
+Si el motor aparece (con el nombre que sea) y las dos herramientas responden, el instalador
+va a crear la base y la app **va a loguear**.
 
 ### Si FALTA `sqlcmd` o `SqlPackage` — cómo instalarlos (en PowerShell admin)
 

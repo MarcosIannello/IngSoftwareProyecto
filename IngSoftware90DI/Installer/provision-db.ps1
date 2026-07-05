@@ -47,7 +47,9 @@ if (-not (Get-Command sqlpackage -ErrorAction SilentlyContinue)) {
 }
 
 # 2) ¿Se puede conectar? ¿Existe la base?
-$exists = (sqlcmd -S $Server -E -h -1 -W -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.databases WHERE name='$db'" 2>&1)
+#    -C = TrustServerCertificate: ODBC Driver 18 fuerza cifrado y no confia en el
+#    certificado autofirmado de SQL Express; sin -C la conexion falla.
+$exists = (sqlcmd -S $Server -E -C -h -1 -W -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.databases WHERE name='$db'" 2>&1)
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: no se pudo conectar a '$Server'." -ForegroundColor Red
     Write-Host "       Verifique que SQL Server Express este instalado y corriendo."
@@ -69,7 +71,7 @@ if ("$exists".Trim() -eq '0') {
 
 # 3) Red de seguridad: recalcular digitos verificadores
 Write-Host "Recalculando integridad..."
-sqlcmd -S $Server -E -d $db -Q "EXEC sp_RecalcularTodo_90DI;"
+sqlcmd -S $Server -E -C -d $db -Q "EXEC sp_RecalcularTodo_90DI;"
 
 Write-Host "== Listo ==" -ForegroundColor Green
 Fin 0

@@ -7,7 +7,6 @@
 ;    - IngSoftware90DI.bacpac       (export de la base, ver README)
 ;    - provision-db.ps1             (incluido en el repo)
 ; ============================================================================
-
 #define AppName      "IngSoftware_90DI"
 #define AppVersion   "1.0"
 #define Publisher    "UAI - Ingenieria de Software"
@@ -34,12 +33,10 @@ Source: "IngSoftware90DI.bacpac"; DestDir: "{app}\db"; Flags: ignoreversion
 Source: "provision-db.ps1";       DestDir: "{app}\db"; Flags: ignoreversion
 
 [Dirs]
-; Carpeta de backups a nivel máquina (informativa; el .bak real lo escribe SQL en su
-; propia carpeta de backups, resuelta en runtime)
 Name: "{commonappdata}\IngSoftware_90DI\Backups"
 
 [Icons]
-Name: "{group}\{#AppName}";        Filename: "{app}\{#ExeName}"
+Name: "{group}\{#AppName}";         Filename: "{app}\{#ExeName}"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#ExeName}"
 
 [Run]
@@ -49,7 +46,6 @@ Filename: "{app}\{#ExeName}"; Description: "Ejecutar {#AppName}"; Flags: nowait 
 var
   ServerPage: TInputQueryWizardPage;
 
-// Página del asistente: pide el servidor SQL destino
 procedure InitializeWizard;
 begin
   ServerPage := CreateInputQueryPage(wpSelectDir,
@@ -59,14 +55,12 @@ begin
   ServerPage.Values[0] := '.\SQLEXPRESS';
 end;
 
-// Escribe dal.settings.json (config PROPIA de la capa DAL) junto al .exe,
-// con la conexión elegida por el usuario. Es el mismo archivo que lee la DAL.
 procedure EscribirAppSettings;
 var
   Cfg, Srv: string;
 begin
   Srv := ServerPage.Values[0];
-  StringChangeEx(Srv, '\', '\\', True); // escapar backslash para JSON
+  StringChangeEx(Srv, '\', '\\', True);
   Cfg :=
     '{'#13#10 +
     '  "ConnectionStrings": {'#13#10 +
@@ -83,10 +77,10 @@ begin
   if CurStep = ssPostInstall then
   begin
     EscribirAppSettings;
-    // Aprovisionar la base: importa el bacpac si no existe + recalcula integridad
     Exec('powershell.exe',
-      '-ExecutionPolicy Bypass -File "' + ExpandConstant('{app}\db\provision-db.ps1') +
+      '-ExecutionPolicy Bypass -NoProfile -File "' + ExpandConstant('{app}\db\provision-db.ps1') +
       '" -Server "' + ServerPage.Values[0] + '"',
-      '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+      ExpandConstant('{app}\db'),
+      SW_SHOW, ewWaitUntilTerminated, ResultCode);
   end;
 end;
