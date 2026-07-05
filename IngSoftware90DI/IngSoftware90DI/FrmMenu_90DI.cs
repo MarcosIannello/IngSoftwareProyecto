@@ -234,40 +234,12 @@ namespace UI_90DI
             TileFormsHalfScreen();
         }
 
-        private readonly BackupBLL_90DI _backup = new BackupBLL_90DI();
-
-        // Genera un backup del estado actual de la base. Solo visible para Admin
+        // Abre el diálogo de gestión de backup (generar / aplicar último). Solo visible para Admin.
         private void backupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var confirmar = MessageBox.Show(
-                LanguageManager_90DI.T("menu_backup_confirm"),
-                LanguageManager_90DI.T("menu_backup_title"),
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (confirmar != DialogResult.Yes)
-                return;
-
-            var cursorAnterior = Cursor.Current;
-            Cursor.Current = Cursors.WaitCursor;
-            try
+            using (var frm = new FrmBackup_90DI())
             {
-                bool ok = _backup.GenerarBackup_90DI();
-
-                MessageBox.Show(
-                    LanguageManager_90DI.T(ok ? "menu_backup_ok" : "menu_backup_error"),
-                    LanguageManager_90DI.T("menu_backup_title"),
-                    MessageBoxButtons.OK,
-                    ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, LanguageManager_90DI.T("menu_backup_title"),
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                Cursor.Current = cursorAnterior;
+                frm.ShowDialog(this);
             }
         }
 

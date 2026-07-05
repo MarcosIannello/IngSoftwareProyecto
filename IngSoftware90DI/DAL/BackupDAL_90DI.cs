@@ -91,6 +91,36 @@ namespace DAL
             }
         }
 
+        // Devuelve la fecha/hora de creación del último backup full de la base, o null si
+        // todavía no se generó ninguno. Se consulta el historial de msdb (backupset), que
+        // registra cada backup que produce esta app; type = 'D' => backup full de datos.
+        // Se usa para informarle al Admin a qué momento volvería la base si restaura.
+        public DateTime? ObtenerFechaUltimoBackup_90DI()
+        {
+            try
+            {
+                using (var con = _conexion.GetConnection("master"))
+                {
+                    con.Open();
+                    using (var cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText =
+                            "SELECT MAX(bs.backup_finish_date) " +
+                            "FROM msdb.dbo.backupset bs " +
+                            "WHERE bs.database_name = @db AND bs.type = 'D';";
+                        cmd.Parameters.AddWithValue("@db", _conexion.NombreBaseDatos);
+                        var result = cmd.ExecuteScalar();
+                        return result == null || result == DBNull.Value ? null : (DateTime)result;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "[BackupDAL] ObtenerFechaUltimoBackup_90DI");
+                return null;
+            }
+        }
+
         private static void Ejecutar(SqlConnection con, string sql)
         {
             using (var cmd = con.CreateCommand())

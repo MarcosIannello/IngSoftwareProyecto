@@ -35,5 +35,12 @@ namespace BLL_90DI
             var archivo = nombreArchivo ?? ArchivoBackupPorDefecto;
             return _dal.Restore_90DI(archivo);
         }
+
+        // Fecha/hora de creación del último backup disponible, o null si nunca se generó uno.
+        // Sirve para mostrarle al Admin a qué estado volvería la base al restaurar.
+        public DateTime? ObtenerFechaUltimoBackup_90DI()
+        {
+            return _dal.ObtenerFechaUltimoBackup_90DI();
+        }
     }
 }
