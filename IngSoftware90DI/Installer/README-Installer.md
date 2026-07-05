@@ -26,12 +26,45 @@ conectarse). Instalar ESTO en la máquina destino **antes** de correr `IngSoftwa
 > estándar y válido para un sistema cliente-servidor.
 
 ### Cómo verificar los prerrequisitos en la máquina destino
+
+> ⚠️ **Estos comandos van SÍ o SÍ en PowerShell, NO en CMD (Símbolo del sistema).**
+> `Get-Service` / `Get-Command` son comandos de PowerShell y en CMD dan "no se reconoce".
+> Cómo saber dónde estás: el prompt de PowerShell empieza con **`PS C:\...>`**; el de CMD
+> es solo **`C:\...>`**. Abrí **Windows PowerShell** (idealmente *Ejecutar como administrador*).
+
 ```powershell
-Get-Service 'MSSQL$SQLEXPRESS'   # el motor debe existir y estar Running
-sqlcmd -?                        # debe existir el comando
-sqlpackage /version              # debe existir el comando
+Get-Service 'MSSQL$SQLEXPRESS'          # el motor debe existir y estar Running
+Get-Command sqlcmd -ErrorAction Ignore  # si no devuelve nada, FALTA sqlcmd
+Get-Command sqlpackage -ErrorAction Ignore  # si no devuelve nada, FALTA SqlPackage
 ```
 Si los tres responden, el instalador va a crear la base y la app **va a loguear**.
+
+### Si FALTA `sqlcmd` o `SqlPackage` — cómo instalarlos (en PowerShell admin)
+
+**sqlcmd** (elegí una):
+```powershell
+# Opción A (recomendada, rápida): con winget
+winget install --id Microsoft.Sqlcmd -e
+
+# Opción B: instalando SSMS (trae sqlcmd incluido)
+winget install --id Microsoft.SQLServerManagementStudio -e
+```
+
+**SqlPackage** (elegí una):
+```powershell
+# Opción A (recomendada): como herramienta global de .NET (requiere el .NET SDK)
+dotnet tool install --global microsoft.sqlpackage
+
+# Si no está el .NET SDK, instalalo primero:
+winget install --id Microsoft.DotNet.SDK.8 -e
+
+# Opción B: SqlPackage standalone (sin .NET SDK) — descarga ZIP de Microsoft:
+#   https://learn.microsoft.com/sql/tools/sqlpackage/sqlpackage-download
+#   Descomprimir y agregar la carpeta al PATH (o usar la ruta completa del .exe).
+```
+
+> ⚠️ Después de instalar, **cerrá y reabrí PowerShell** para que tome el PATH nuevo, y
+> volvé a correr los `Get-Command` de arriba para confirmar que ahora sí responden.
 
 ---
 
