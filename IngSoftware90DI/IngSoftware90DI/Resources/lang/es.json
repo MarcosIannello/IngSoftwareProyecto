@@ -125,6 +125,10 @@
   "familias_msg_error_eliminar": "Error al eliminar la familia.",
   "familias_msg_exito_title": "Éxito",
   "familias_msg_error_title": "Error",
+  "familias_msg_patente_dup": "La patente \"{0}\" ya está asignada directamente y también pertenece a la subfamilia \"{1}\".\nQuitá la patente directa o la subfamilia para evitar redundancia.",
+  "familias_msg_patente_dup_title": "Patente redundante",
+  "familias_msg_subfamilia_dup": "La patente \"{0}\" aparece en las subfamilias \"{1}\" y \"{2}\".\nCada patente debe pertenecer a una sola subfamilia.",
+  "familias_msg_subfamilia_dup_title": "Conflicto entre subfamilias",
 
   "roles_title": "Administrador Roles",
   "roles_lbl_nombre": "Nombre Rol",
@@ -153,6 +157,10 @@
   "roles_msg_error_eliminar": "Error al eliminar el rol.",
   "roles_msg_exito_title": "Éxito",
   "roles_msg_error_title": "Error",
+  "roles_msg_patente_dup": "La patente \"{0}\" ya está cubierta por la familia \"{1}\".\nQuitá la patente directa o la familia para evitar redundancia.",
+  "roles_msg_patente_dup_title": "Patente redundante",
+  "roles_msg_familia_dup": "La patente \"{0}\" aparece en las familias \"{1}\" y \"{2}\".\nCada patente debe pertenecer a una sola familia dentro del rol.",
+  "roles_msg_familia_dup_title": "Conflicto entre familias",
 
   "bitacora_lbl_header": "BITACORA EVENTOS  |  Registros: ",
   "bitacora_lbl_login": "Login",

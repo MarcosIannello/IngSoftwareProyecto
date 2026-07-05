@@ -125,6 +125,10 @@
   "familias_msg_error_eliminar": "Error deleting the family.",
   "familias_msg_exito_title": "Success",
   "familias_msg_error_title": "Error",
+  "familias_msg_patente_dup": "Permission \"{0}\" is already directly assigned and also belongs to sub-family \"{1}\".\nRemove the direct permission or the sub-family to avoid redundancy.",
+  "familias_msg_patente_dup_title": "Redundant permission",
+  "familias_msg_subfamilia_dup": "Permission \"{0}\" appears in both sub-families \"{1}\" and \"{2}\".\nEach permission must belong to only one sub-family.",
+  "familias_msg_subfamilia_dup_title": "Sub-family conflict",
 
   "roles_title": "Role Management",
   "roles_lbl_nombre": "Role Name",
@@ -153,6 +157,10 @@
   "roles_msg_error_eliminar": "Error deleting the role.",
   "roles_msg_exito_title": "Success",
   "roles_msg_error_title": "Error",
+  "roles_msg_patente_dup": "Permission \"{0}\" is already covered by family \"{1}\".\nRemove the direct permission or the family to avoid redundancy.",
+  "roles_msg_patente_dup_title": "Redundant permission",
+  "roles_msg_familia_dup": "Permission \"{0}\" appears in both families \"{1}\" and \"{2}\".\nEach permission must belong to only one family within the role.",
+  "roles_msg_familia_dup_title": "Family conflict",
 
   "bitacora_lbl_header": "EVENTS LOG  |  Records: ",
   "bitacora_lbl_login": "Login",

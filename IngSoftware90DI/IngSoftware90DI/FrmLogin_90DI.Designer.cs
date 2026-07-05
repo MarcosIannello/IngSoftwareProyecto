@@ -35,7 +35,6 @@
             label2 = new Label();
             label3 = new Label();
             btn_CloseApp = new Button();
-            btnCambiarIdioma = new Button();
             SuspendLayout();
             // 
             // Btn_Login
@@ -111,25 +110,13 @@
             btn_CloseApp.Text = "X";
             btn_CloseApp.UseVisualStyleBackColor = false;
             btn_CloseApp.Click += btn_CloseApp_Click;
-            // 
-            // btnCambiarIdioma
-            // 
-            btnCambiarIdioma.Cursor = Cursors.Hand;
-            btnCambiarIdioma.Location = new Point(2, 5);
-            btnCambiarIdioma.Name = "btnCambiarIdioma";
-            btnCambiarIdioma.Size = new Size(133, 23);
-            btnCambiarIdioma.TabIndex = 8;
-            btnCambiarIdioma.Text = "Cambiar Idioma";
-            btnCambiarIdioma.UseVisualStyleBackColor = true;
-            btnCambiarIdioma.Click += btnCambiarIdioma_Click;
-            // 
+            //
             // FrmLogin_90DI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.AliceBlue;
             ClientSize = new Size(453, 227);
-            Controls.Add(btnCambiarIdioma);
             Controls.Add(btn_CloseApp);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -156,6 +143,5 @@
         private Label label2;
         private Label label3;
         private Button btn_CloseApp;
-        private Button btnCambiarIdioma;
     }
 }

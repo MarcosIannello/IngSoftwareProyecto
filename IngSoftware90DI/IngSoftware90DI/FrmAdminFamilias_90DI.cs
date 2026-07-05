@@ -199,6 +199,17 @@ namespace Capital_
             if (tempPatente == null || tempPatente.IdPatente_90DI == 0) return;
             if (tempFamilia.Patentes.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI)) return;
 
+            // Bloquear si la patente ya está cubierta por alguna subfamilia asignada
+            var hijaConflicto = FamiliasHijas.FirstOrDefault(f => f.Patentes.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI));
+            if (hijaConflicto != null)
+            {
+                MessageBox.Show(
+                    string.Format(LanguageManager_90DI.T("familias_msg_patente_dup"), tempPatente.Nombre_90DI, hijaConflicto.Nombre_90DI),
+                    LanguageManager_90DI.T("familias_msg_patente_dup_title"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             tempFamilia.Patentes.Add(tempPatente);
             PatentesBd.Remove(tempPatente);
 
@@ -217,6 +228,35 @@ namespace Capital_
             LstFamiliasPatentes.DisplayMember = displayMember;
         }
 
+        // Retorna mensaje de error si hay patentes redundantes entre directas y subfamilias,
+        // o entre subfamilias entre sí. Null = sin conflicto.
+        private string? ValidarRedundanciaFamilia()
+        {
+            // Patente directa vs subfamilia
+            foreach (var hija in FamiliasHijas)
+            {
+                foreach (var p in hija.Patentes)
+                {
+                    if (tempFamilia.Patentes.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
+                        return string.Format(LanguageManager_90DI.T("familias_msg_patente_dup"), p.Nombre_90DI, hija.Nombre_90DI);
+                }
+            }
+            // Patente compartida entre dos subfamilias
+            for (int i = 0; i < FamiliasHijas.Count; i++)
+            {
+                var idsI = FamiliasHijas[i].Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
+                for (int j = i + 1; j < FamiliasHijas.Count; j++)
+                {
+                    foreach (var p in FamiliasHijas[j].Patentes)
+                    {
+                        if (idsI.Contains(p.IdPatente_90DI))
+                            return string.Format(LanguageManager_90DI.T("familias_msg_subfamilia_dup"), p.Nombre_90DI, FamiliasHijas[i].Nombre_90DI, FamiliasHijas[j].Nombre_90DI);
+                    }
+                }
+            }
+            return null;
+        }
+
         private void btnAplicarCambios_Click(object sender, EventArgs e)
         {
             bool response = false;
@@ -230,6 +270,12 @@ namespace Capital_
                 if (tempFamilia.Patentes.Count == 0 && FamiliasHijas.Count == 0)
                 {
                     MessageBox.Show(LanguageManager_90DI.T("familias_msg_contenido_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                var conflicto = ValidarRedundanciaFamilia();
+                if (conflicto != null)
+                {
+                    MessageBox.Show(conflicto, LanguageManager_90DI.T("familias_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 string nombreTrim = txtNombreFamilia.Text.Trim();
@@ -260,6 +306,12 @@ namespace Capital_
                 if (tempFamilia.Patentes.Count == 0 && FamiliasHijas.Count == 0)
                 {
                     MessageBox.Show(LanguageManager_90DI.T("familias_msg_contenido_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                var conflictoMod = ValidarRedundanciaFamilia();
+                if (conflictoMod != null)
+                {
+                    MessageBox.Show(conflictoMod, LanguageManager_90DI.T("familias_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 string nombreTrim = txtNombreFamilia.Text.Trim();
@@ -313,8 +365,10 @@ namespace Capital_
             LstFamiliasPatentes.DataSource = tempFamilia.Patentes;
             LstFamiliasPatentes.DisplayMember = displayMember;
 
-            // mostrar sub-familias
-            FamiliasHijas = tempFamilia.SubFamilias.ToList();
+            // mostrar sub-familias — cargar cada una completa para tener sus Patentes disponibles
+            FamiliasHijas = tempFamilia.SubFamilias
+                .Select(f => _rolBLL.GetFamiliaCompleta_90DI(f.IdFamilia_90DI) ?? f)
+                .ToList();
             lstFamiliasFamilia.DataSource = null;
             lstFamiliasFamilia.DataSource = FamiliasHijas;
             lstFamiliasFamilia.DisplayMember = displayMember;
@@ -349,10 +403,38 @@ namespace Capital_
             if (ComboFamilia == null || ComboFamilia.IdFamilia_90DI == 0) return;
             if (FamiliasHijas.Any(f => f.IdFamilia_90DI == ComboFamilia.IdFamilia_90DI)) return;
 
-            // Necesitamos la familia completa para que Patentes esté cargado
-            // y RefrescarPatentesDisponibles pueda excluirlas correctamente
             var familiaCompleta = _rolBLL.GetFamiliaCompleta_90DI(ComboFamilia.IdFamilia_90DI);
             if (familiaCompleta == null) return;
+
+            // Bloquear si la subfamilia contiene una patente ya asignada directamente
+            foreach (var p in familiaCompleta.Patentes)
+            {
+                if (tempFamilia.Patentes.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
+                {
+                    MessageBox.Show(
+                        string.Format(LanguageManager_90DI.T("familias_msg_patente_dup"), p.Nombre_90DI, familiaCompleta.Nombre_90DI),
+                        LanguageManager_90DI.T("familias_msg_patente_dup_title"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            // Bloquear si la subfamilia comparte una patente con otra subfamilia ya agregada
+            foreach (var hija in FamiliasHijas)
+            {
+                var idsHija = hija.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
+                foreach (var p in familiaCompleta.Patentes)
+                {
+                    if (idsHija.Contains(p.IdPatente_90DI))
+                    {
+                        MessageBox.Show(
+                            string.Format(LanguageManager_90DI.T("familias_msg_subfamilia_dup"), p.Nombre_90DI, hija.Nombre_90DI, familiaCompleta.Nombre_90DI),
+                            LanguageManager_90DI.T("familias_msg_subfamilia_dup_title"),
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+            }
 
             FamiliasHijas.Add(familiaCompleta);
             lstFamiliasFamilia.DataSource = null;
@@ -362,18 +444,14 @@ namespace Capital_
             RefrescarPatentesDisponibles();
         }
 
-        // Filtra lstPatentes quitando patentes ya usadas en familias hijas asignadas
+        // Muestra todas las patentes excepto las ya asignadas directamente a la familia.
+        // Las patentes de subfamilias siguen visibles: el warning se dispara al intentar agregarlas.
         private void RefrescarPatentesDisponibles()
         {
-            var idsEnFamiliaActual = tempFamilia.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
-            var idsEnFamiliasHijas = FamiliasHijas
-                .SelectMany(f => f.Patentes)
-                .Select(p => p.IdPatente_90DI)
-                .ToHashSet();
+            var idsDirectos = tempFamilia.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
 
             PatentesBd = _rolBLL.GetAllPatentes_90DI()
-                .Where(p => !idsEnFamiliaActual.Contains(p.IdPatente_90DI)
-                         && !idsEnFamiliasHijas.Contains(p.IdPatente_90DI))
+                .Where(p => !idsDirectos.Contains(p.IdPatente_90DI))
                 .ToList();
 
             lstPatentes.DataSource = null;

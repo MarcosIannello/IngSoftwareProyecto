@@ -31,20 +31,13 @@ namespace UI_90DI
             LanguageManager_90DI.Current.NotifyAllObservers_90DI(SessionManager_90DI.Instancia.IdiomaActual);
         }
 
-        private void btnCambiarIdioma_Click(object sender, EventArgs e)
-        {
-            using var form = new FrmCambiarIdioma_90DI();
-            form.ShowDialog(this);
-        }
-
         // Observer: recibe el diccionario de traducciones y actualiza los controles.
         public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
         {
-            if (traducciones.TryGetValue("login_titulo", out var titulo))        label1.Text = titulo;
-            if (traducciones.TryGetValue("login_usuario", out var usuario))      label2.Text = usuario;
-            if (traducciones.TryGetValue("login_password", out var pass))        label3.Text = pass;
-            if (traducciones.TryGetValue("login_btn_ingresar", out var btn))     Btn_Login.Text = btn;
-            if (traducciones.TryGetValue("login_btn_idioma", out var btnIdioma)) btnCambiarIdioma.Text = btnIdioma;
+            if (traducciones.TryGetValue("login_titulo", out var titulo))    label1.Text    = titulo;
+            if (traducciones.TryGetValue("login_usuario", out var usuario))  label2.Text    = usuario;
+            if (traducciones.TryGetValue("login_password", out var pass))    label3.Text    = pass;
+            if (traducciones.TryGetValue("login_btn_ingresar", out var btn)) Btn_Login.Text = btn;
 
             CentrarTitulo_90DI();
         }
@@ -134,11 +127,17 @@ namespace UI_90DI
                     }
                 }
 
-                // Solo si difiere del que ya tiene en BD: evita un UPDATE y un recálculo
-                // de DV innecesarios cuando el idioma no cambió.
-                string idiomaElegido = SessionManager_90DI.Instancia.IdiomaActual.CodigoIdioma_90DI;
-                if (!string.Equals(idiomaElegido, user!.Idioma_90DI, StringComparison.OrdinalIgnoreCase))
-                    _usuariosBLL.UpdateIdioma_90DI(user.IdUsuario_90DI, idiomaElegido, registrarBitacora: false);
+                // Aplicar el idioma guardado del usuario: notifica a todos los observers
+                // (incluye este form) antes de abrir el menú.
+                if (!string.IsNullOrEmpty(user!.Idioma_90DI))
+                {
+                    var idiomaUsuario = new Idioma_90DI
+                    {
+                        CodigoIdioma_90DI = user.Idioma_90DI,
+                        NombreIdioma_90DI = user.Idioma_90DI == "en" ? "English" : "Español"
+                    };
+                    LanguageManager_90DI.Current.NotifyAllObservers_90DI(idiomaUsuario);
+                }
 
                 var menu = new FrmMenu_90DI();
                 menu.Show();
