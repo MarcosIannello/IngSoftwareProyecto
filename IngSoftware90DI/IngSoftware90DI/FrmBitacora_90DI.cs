@@ -311,7 +311,7 @@ namespace UI_90DI
 
         private void FrmBitacora_90DI_Load(object sender, EventArgs e)
         {
-
+            UI_90DI.LayoutHelper_90DI.AjustarAPantalla_90DI(this);
         }
     }
 }

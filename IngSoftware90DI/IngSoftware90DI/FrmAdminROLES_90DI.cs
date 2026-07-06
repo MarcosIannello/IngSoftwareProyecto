@@ -421,7 +421,10 @@ namespace Capital_
         private void button5_Click(object sender, EventArgs e) => this.Hide();
 
         private void label2_Click(object sender, EventArgs e) { }
-        private void FrmAdminROLES_90DI_Load(object sender, EventArgs e) { }
+        private void FrmAdminROLES_90DI_Load(object sender, EventArgs e)
+        {
+            UI_90DI.LayoutHelper_90DI.AjustarAPantalla_90DI(this);
+        }
 
         private void btnEliminarRol_Click(object sender, EventArgs e)
         {

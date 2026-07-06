@@ -85,7 +85,7 @@ namespace Capital_
 
         private void FrmAdminRoles_90DI_Load(object sender, EventArgs e)
         {
-
+            UI_90DI.LayoutHelper_90DI.AjustarAPantalla_90DI(this);
         }
 
         //Carga lst con patentes de bd (creacion / edicion)

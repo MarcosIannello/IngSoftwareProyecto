@@ -21,8 +21,6 @@ namespace DAL
             DECLARE @ruta NVARCHAR(600) = @dir + @archivo;";
 
         // Genera un backup completo (.bak) en la carpeta de backups del servidor SQL.
-        // WITH FORMAT, INIT => archivo único: cada backup pisa al anterior.
-        // Se conecta a master porque el BACKUP no depende de la base de datos actual.
         public bool Backup_90DI(string nombreArchivo)
         {
             try
@@ -51,9 +49,7 @@ namespace DAL
             }
         }
 
-        // Restaura la base desde el .bak. El RESTORE necesita acceso EXCLUSIVO: se pone
-        // la base en SINGLE_USER (con rollback inmediato de las demás conexiones),
-        // se restaura con REPLACE y se la devuelve a MULTI_USER. Todo desde master.
+        // Restaura la base desde el .bak. El RESTORE necesita acceso EXCLUSIVO
         public bool Restore_90DI(string nombreArchivo)
         {
             var db = _conexion.NombreBaseDatos;
@@ -91,10 +87,7 @@ namespace DAL
             }
         }
 
-        // Devuelve la fecha/hora de creación del último backup full de la base, o null si
-        // todavía no se generó ninguno. Se consulta el historial de msdb (backupset), que
-        // registra cada backup que produce esta app; type = 'D' => backup full de datos.
-        // Se usa para informarle al Admin a qué momento volvería la base si restaura.
+        // Devuelve la fecha/hora de creación del último backup full de la base, o null si todavía no se generó ninguno.
         public DateTime? ObtenerFechaUltimoBackup_90DI()
         {
             try

@@ -96,7 +96,10 @@ namespace UI_90DI
             base.OnFormClosed(e);
         }
 
-        private void CrudUsers_Load(object sender, EventArgs e) { }
+        private void CrudUsers_Load(object sender, EventArgs e)
+        {
+            UI_90DI.LayoutHelper_90DI.AjustarAPantalla_90DI(this);
+        }
         private void radioButton1_CheckedChanged(object sender, EventArgs e) { }
         private void textBox4_TextChanged(object sender, EventArgs e) { }
 
