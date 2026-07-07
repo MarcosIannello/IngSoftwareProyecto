@@ -22,8 +22,15 @@ OutputBaseFilename=IngSoftware_90DI
 Compression=lzma2
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64compatible
-PrivilegesRequired=admin
+; Instalación POR USUARIO: no requiere administrador (para máquinas de facultad sin admin).
+; Con "lowest", los constantes {autopf}, {autodesktop}, {autoappdata}, {group} resuelven
+; automáticamente a ubicaciones del usuario (no Program Files / no ProgramData).
+PrivilegesRequired=lowest
 WizardStyle=modern
+; Ícono del propio instalador (.exe de setup). Ruta relativa a este .iss.
+SetupIconFile=..\IngSoftware90DI\Resources\favicon.ico
+; Ícono que se muestra en "Agregar o quitar programas"
+UninstallDisplayIcon={app}\{#ExeName}
 
 [Files]
 ; Aplicación publicada (self-contained: incluye el runtime .NET)
@@ -31,13 +38,16 @@ Source: "publish\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ig
 ; Base de datos inicial (esquema + datos + SP) y script de aprovisionamiento
 Source: "IngSoftware90DI.bacpac"; DestDir: "{app}\db"; Flags: ignoreversion
 Source: "provision-db.ps1";       DestDir: "{app}\db"; Flags: ignoreversion
+; SqlPackage EMPAQUETADO (para no depender de que esté instalado en la máquina).
+; Requiere que en Installer\SqlPackage\ estén los archivos del SqlPackage standalone.
+Source: "SqlPackage\*"; DestDir: "{app}\SqlPackage"; Flags: recursesubdirs createallsubdirs ignoreversion
 
 [Dirs]
-Name: "{commonappdata}\IngSoftware_90DI\Backups"
+Name: "{autoappdata}\IngSoftware_90DI\Backups"
 
 [Icons]
-Name: "{group}\{#AppName}";         Filename: "{app}\{#ExeName}"
-Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#ExeName}"
+Name: "{group}\{#AppName}";     Filename: "{app}\{#ExeName}"; IconFilename: "{app}\{#ExeName}"
+Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#ExeName}"; IconFilename: "{app}\{#ExeName}"
 
 [Run]
 Filename: "{app}\{#ExeName}"; Description: "Ejecutar {#AppName}"; Flags: nowait postinstall skipifsilent

@@ -1,5 +1,6 @@
 using BLL_90DI;
 using Services_90DI;
+using Services_90DI.constantes;
 using iText.Kernel.Colors;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
@@ -63,15 +64,21 @@ namespace UI_90DI
 
         private void ConfigurarCombos()
         {
+            // Combos no editables
+            cmbLevel.DropDownStyle  = ComboBoxStyle.DropDownList;
+            cmbModule.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmdEvent.DropDownStyle  = ComboBoxStyle.DropDownList;
+
             // Criticidad 1 (más importante) a 5 (menos importante)
             cmbLevel.Items.Clear();
             cmbLevel.Items.Add("");
             for (int i = 1; i <= 5; i++) cmbLevel.Items.Add(i.ToString());
             cmbLevel.SelectedIndex = 0;
 
-            // Módulos tipificados
+            // Módulos tipificados: única fuente de verdad (Modulos_90DI)
             cmbModule.Items.Clear();
-            cmbModule.Items.AddRange(new[] { "", "Usuarios", "Ventas", "Compras", "Maestro", "Roles", "Seguridad" });
+            cmbModule.Items.Add("");
+            cmbModule.Items.AddRange(Modulos_90DI.Todos);
             cmbModule.SelectedIndex = 0;
 
             // Eventos tipificados

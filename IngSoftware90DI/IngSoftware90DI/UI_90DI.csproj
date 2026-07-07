@@ -9,6 +9,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- DPI consistente entre máquinas (escalado 125%/150% en notebooks) -->
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <!-- Ícono embebido en el .exe (los atajos lo heredan). Debe existir el archivo. -->
+    <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

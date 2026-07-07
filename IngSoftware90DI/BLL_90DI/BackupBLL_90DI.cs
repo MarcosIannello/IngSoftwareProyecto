@@ -22,7 +22,7 @@ namespace BLL_90DI
             var ok = _dal.Backup_90DI(archivo);
 
             if (ok)
-                Bitacora.CreateLogEvent_90DI("Backup de base de datos generado", "Backup", 1);
+                Bitacora.CreateLogEvent_90DI("Backup de base de datos generado", Modulos_90DI.Backup, 1);
 
             return ok;
         }

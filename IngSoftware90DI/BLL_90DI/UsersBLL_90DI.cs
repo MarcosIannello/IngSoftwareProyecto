@@ -16,6 +16,8 @@ namespace BLL_90DI
         private const int MAX_INTENTOS = 3;
 
         private int _intentos = 0;
+        // Último usuario que se intentó loguear: si cambia, se reinicia el contador.
+        private string? _lastUsername;
 
         public UsersBLL_90DI() { }
 
@@ -36,6 +38,14 @@ namespace BLL_90DI
 
         public User_90DI? Login_90DI(string username, string password)
         {
+            // Los intentos fallidos son POR USUARIO: si cambia el usuario que se intenta
+            // loguear, el contador se reinicia
+            if (!string.Equals(username, _lastUsername, StringComparison.OrdinalIgnoreCase))
+            {
+                _intentos = 0;
+                _lastUsername = username;
+            }
+
             var user = getUserByUsername(username);
 
             if(user != null && user.Bloqueo_90DI)
@@ -55,7 +65,7 @@ namespace BLL_90DI
                         Login_90DI = user.NombreUsuario_90DI,
                         Fecha_90DI = DateTime.Now,
                         Hora_90DI = DateTime.Now.TimeOfDay,
-                        Modulo_90DI = "Login",
+                        Modulo_90DI = Modulos_90DI.Login,
                         Evento_90DI = "Inicio de sesion exitoso",
                         Criticidad_90DI = 1
                     });
@@ -83,10 +93,6 @@ namespace BLL_90DI
         public void Logout_90DI()
         {
             var username = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI;
-
-            // El registro en bitácora es best-effort: si falla (BD/integridad), NO debe
-            // impedir el cierre de sesión. Antes, un error acá relanzaba la excepción y
-            // la UI no cambiaba al login → parecía que "no deslogueaba".
             try
             {
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
@@ -94,7 +100,7 @@ namespace BLL_90DI
                     Login_90DI = username,
                     Fecha_90DI = DateTime.Now,
                     Hora_90DI = DateTime.Now.TimeOfDay,
-                    Modulo_90DI = "Login",
+                    Modulo_90DI = Modulos_90DI.Login,
                     Evento_90DI = "Cierre de sesion",
                     Criticidad_90DI = 1
                 });
@@ -179,12 +185,14 @@ namespace BLL_90DI
             }
         }
 
-        public bool UnblockUser_90DI(int idUsuario)
+        public bool UnblockUser_90DI(User_90DI user)
         {
-            var response = _dal.UnblockUser90DI(idUsuario);
+            var response = _dal.UnblockUser90DI(user.IdUsuario_90DI);
             if (response)
             {
-                CreateLogEvent_90DI("Usuario desbloqueado: " + SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI, 3);
+                // Al desbloquear, la contraseña vuelve a su valor inicial (DNI + Apellido)
+                _dal.UpdatePassword90DI(user.IdUsuario_90DI, getHashPassword_90DI(user.DNI_90DI + user.Apellidos_90DI));
+                CreateLogEvent_90DI("Usuario desbloqueado y contraseña reseteada: " + user.NombreUsuario_90DI, 3);
                 _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
             }
             return response;
@@ -246,7 +254,7 @@ namespace BLL_90DI
                 Login_90DI = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
                 Fecha_90DI = DateTime.Now,
                 Hora_90DI = DateTime.Now.TimeOfDay,
-                Modulo_90DI = "Usuarios",
+                Modulo_90DI = Modulos_90DI.Usuarios,
                 Evento_90DI = evento,
                 Criticidad_90DI = criticidad
             });

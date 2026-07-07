@@ -256,7 +256,8 @@ namespace UI_90DI
 
         // Carga los roles en el combo (el value es el IdRol)
         private void LoadRoles()
-        {
+        {   
+            cmbRolActual.DropDownStyle = ComboBoxStyle.DropDownList; // Combo de rol: solo selección
             rolesList = _rolesBLL.GetAllRoles_90DI();
             cmbRolActual.DisplayMember = "Nombre_90DI";
             cmbRolActual.ValueMember   = "IdRol_90DI";
@@ -444,7 +445,7 @@ namespace UI_90DI
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question);
                     if (confirm != DialogResult.Yes) return;
-                    response = _users.UnblockUser_90DI(temp.IdUsuario_90DI);
+                    response = _users.UnblockUser_90DI(temp);
                     GetUsers();
                 }
                 else if (activateMode)

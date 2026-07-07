@@ -1,5 +1,6 @@
 using DAL;
 using Services_90DI.entities;
+using Services_90DI.constantes;
 
 namespace BLL_90DI
 {
@@ -33,7 +34,7 @@ namespace BLL_90DI
             var response = _dal.RecalcularTodo_90DI();
 
             if (response)
-                Bitacora.CreateLogEvent_90DI("Recálculo total de integridad completado", "Integridad", 1);
+                Bitacora.CreateLogEvent_90DI("Recálculo total de integridad completado", Modulos_90DI.Integridad, 1);
 
             return response;
         }

@@ -214,6 +214,7 @@
   "pass_msg_campos_obligatorios": "Todos los campos son obligatorios.",
   "pass_msg_pass_incorrecta": "La contraseña actual es incorrecta.",
   "pass_msg_pass_corta": "La nueva contraseña debe tener al menos 8 caracteres.",
+  "pass_msg_pass_igual": "La nueva contraseña debe ser distinta a la actual.",
   "pass_msg_pass_no_coincide": "La nueva contraseña y su confirmación no coinciden.",
   "pass_msg_actualizada": "Contraseña actualizada correctamente.",
   "pass_msg_error_actualizar": "Error al actualizar la contraseña. Por favor, intente nuevamente.",

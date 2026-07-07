@@ -73,6 +73,13 @@ namespace UI_90DI
                 return;
             }
 
+            if (txtNewPass.Text == txtPassActual.Text)
+            {
+                MessageBox.Show(LanguageManager_90DI.T("pass_msg_pass_igual"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNewPass.Focus();
+                return;
+            }
+
             if (txtNewPass.Text != txtConfirmNewPass.Text)
             {
                 MessageBox.Show(LanguageManager_90DI.T("pass_msg_pass_no_coincide"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);

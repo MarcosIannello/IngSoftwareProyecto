@@ -38,7 +38,7 @@ namespace BLL
                     Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
-                    Modulo_90DI     = "Familias",
+                    Modulo_90DI     = Modulos_90DI.Familias,
                     Evento_90DI     = $"Alta familia: {familia.Nombre_90DI}",
                     Criticidad_90DI = 1
                 });
@@ -98,7 +98,7 @@ namespace BLL
                     Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
-                    Modulo_90DI     = "Roles",
+                    Modulo_90DI     = Modulos_90DI.Roles,
                     Evento_90DI     = $"Alta rol: {rol.Nombre_90DI}",
                     Criticidad_90DI = 1
                 });
@@ -117,7 +117,7 @@ namespace BLL
                     Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
-                    Modulo_90DI     = "Roles",
+                    Modulo_90DI     = Modulos_90DI.Roles,
                     Evento_90DI     = $"Modificación rol ID {rol.IdRol_90DI}: {rol.Nombre_90DI}",
                     Criticidad_90DI = 1
                 });
@@ -144,7 +144,7 @@ namespace BLL
                     Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
-                    Modulo_90DI     = "Familias",
+                    Modulo_90DI     = Modulos_90DI.Familias,
                     Evento_90DI     = $"Baja familia ID {idFamilia}: {nombreFamilia}",
                     Criticidad_90DI = 2
                 });
@@ -163,7 +163,7 @@ namespace BLL
                     Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
-                    Modulo_90DI     = "Roles",
+                    Modulo_90DI     = Modulos_90DI.Roles,
                     Evento_90DI     = $"Baja rol ID {idRol}: {nombreRol}",
                     Criticidad_90DI = 2
                 });
@@ -182,7 +182,7 @@ namespace BLL
                     Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
-                    Modulo_90DI     = "Familias",
+                    Modulo_90DI     = Modulos_90DI.Familias,
                     Evento_90DI     = $"Modificación familia ID {familia.IdFamilia_90DI}: {familia.Nombre_90DI}",
                     Criticidad_90DI = 1
                 });

@@ -214,6 +214,7 @@
   "pass_msg_campos_obligatorios": "All fields are required.",
   "pass_msg_pass_incorrecta": "Current password is incorrect.",
   "pass_msg_pass_corta": "New password must be at least 8 characters long.",
+  "pass_msg_pass_igual": "New password must be different from the current one.",
   "pass_msg_pass_no_coincide": "New password and confirmation do not match.",
   "pass_msg_actualizada": "Password updated successfully.",
   "pass_msg_error_actualizar": "Error updating password. Please try again.",
