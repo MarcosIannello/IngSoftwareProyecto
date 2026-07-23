@@ -4,16 +4,21 @@
 #  - Siempre recalcula los dígitos verificadores como red de seguridad.
 #  Lo invoca el instalador (IngSoftware_90DI.iss) en el paso post-install.
 #
+#  SILENCIOSO: corre en ventana OCULTA, sin mensajes ni pausas (no muestra nada
+#  al usuario). Todo el detalle queda en un LOG por si hay que diagnosticar.
+#  Sale con código 0 si todo salió bien, o 1 si hubo un error → el instalador
+#  decide qué mostrar.
+#
 #  AUTOSUFICIENTE: usa el SqlPackage EMPAQUETADO junto a la app (..\SqlPackage\)
 #  y consulta SQL con .NET (System.Data.SqlClient, incluido en Windows PowerShell),
 #  así NO depende de que estén instalados sqlcmd ni SqlPackage en la máquina.
 #  Único prerrequisito: SQL Server (y una login con permisos para crear la base).
-#
-#  La ventana NO se cierra sola (espera ENTER) y deja un log para diagnóstico.
 # ============================================================================
 param(
     [string]$Server = ".\SQLEXPRESS"
 )
+
+$ErrorActionPreference = "Stop"
 
 $db     = "IngSoftware90DI"
 $bacpac = Join-Path $PSScriptRoot "IngSoftware90DI.bacpac"
@@ -27,15 +32,6 @@ if (-not (Test-Path $sqlPackage)) {
 }
 
 Start-Transcript -Path $log -Force | Out-Null
-
-function Fin([int]$code) {
-    Write-Host ""
-    Write-Host "Log guardado en: $log"
-    Stop-Transcript | Out-Null
-    Write-Host "Presione ENTER para cerrar..." -ForegroundColor Yellow
-    Read-Host | Out-Null
-    exit $code
-}
 
 # Ejecuta SQL con .NET (sin sqlcmd). Devuelve el escalar si $scalar, o $null.
 function Invoke-Sql([string]$sql, [string]$database = "master", [bool]$scalar = $false) {
@@ -53,46 +49,40 @@ function Invoke-Sql([string]$sql, [string]$database = "master", [bool]$scalar = 
     finally { $con.Close() }
 }
 
-Write-Host "== Aprovisionamiento de base ($db en $Server) =="
-
-# 1) SqlPackage disponible (empaquetado o en PATH)
-if (-not (Test-Path $sqlPackage)) {
-    Write-Host "ERROR: no se encontró SqlPackage (ni empaquetado en ..\SqlPackage\ ni en el PATH)." -ForegroundColor Red
-    Fin 1
-}
-
-# 2) ¿Se puede conectar? ¿Existe la base? (con .NET, sin sqlcmd)
 try {
-    $existe = Invoke-Sql "SELECT COUNT(*) FROM sys.databases WHERE name = '$db'" "master" $true
-}
-catch {
-    Write-Host "ERROR: no se pudo conectar a '$Server'. Verifique que SQL Server esté corriendo" -ForegroundColor Red
-    Write-Host "       y que su usuario tenga permisos en esa instancia."
-    Write-Host $_.Exception.Message
-    Fin 1
-}
+    Write-Output "== Aprovisionamiento de base ($db en $Server) =="
 
-if ([int]$existe -eq 0) {
-    Write-Host "La base no existe. Importando desde el .bacpac ..."
-    & $sqlPackage /Action:Import /SourceFile:"$bacpac" /TargetServerName:"$Server" /TargetDatabaseName:"$db" /TargetTrustServerCertificate:True
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "ERROR: falló el import del .bacpac." -ForegroundColor Red
-        Fin 1
+    if (-not (Test-Path $sqlPackage)) {
+        throw "No se encontró SqlPackage (ni empaquetado en ..\SqlPackage\ ni en el PATH)."
     }
-    Write-Host "Base creada correctamente." -ForegroundColor Green
-}
-else {
-    Write-Host "La base '$db' ya existe. Se omite el import."
-}
 
-# 3) Red de seguridad: recalcular dígitos verificadores (con .NET, sin sqlcmd)
-Write-Host "Recalculando integridad..."
-try {
-    Invoke-Sql "EXEC sp_RecalcularTodo_90DI;" $db | Out-Null
+    # ¿Existe la base? (con .NET, sin sqlcmd)
+    $existe = Invoke-Sql "SELECT COUNT(*) FROM sys.databases WHERE name = '$db'" "master" $true
+
+    if ([int]$existe -eq 0) {
+        Write-Output "La base no existe. Importando desde el .bacpac ..."
+        & $sqlPackage /Action:Import /SourceFile:"$bacpac" /TargetServerName:"$Server" /TargetDatabaseName:"$db" /TargetTrustServerCertificate:True
+        if ($LASTEXITCODE -ne 0) { throw "Falló el import del .bacpac (código $LASTEXITCODE)." }
+        Write-Output "Base creada correctamente."
+    }
+    else {
+        Write-Output "La base '$db' ya existe. Se omite el import."
+    }
+
+    # Red de seguridad: recalcular dígitos verificadores (con .NET, sin sqlcmd)
+    try {
+        Invoke-Sql "EXEC sp_RecalcularTodo_90DI;" $db | Out-Null
+    }
+    catch {
+        Write-Output "ADVERTENCIA: no se pudo recalcular integridad: $($_.Exception.Message)"
+    }
+
+    Write-Output "== Listo =="
+    Stop-Transcript | Out-Null
+    exit 0
 }
 catch {
-    Write-Host "ADVERTENCIA: no se pudo recalcular integridad: $($_.Exception.Message)" -ForegroundColor Yellow
+    Write-Output "ERROR: $($_.Exception.Message)"
+    Stop-Transcript | Out-Null
+    exit 1
 }
-
-Write-Host "== Listo ==" -ForegroundColor Green
-Fin 0
