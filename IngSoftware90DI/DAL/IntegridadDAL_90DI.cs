@@ -37,8 +37,9 @@ namespace DAL
             }
         }
 
-        // Recalcula el dígito verificador de TODAS las tablas con espejo DV_ de una sola vez.
+        // Recalcula el dígito verificador de TODAS las tablas registradas en RegistroDV_90DI.
         // Solo debe ser llamado por un administrador (setup inicial, migración, corrección autorizada).
+        // La BD (RegistroDV_90DI) es la fuente autoritativa de qué tablas están bajo DV.
         public bool RecalcularTodo_90DI()
         {
             try
@@ -62,7 +63,7 @@ namespace DAL
             }
         }
 
-        // Verifica la integridad de todas las tablas con espejo DV_ sin persistir.
+        // Verifica la integridad de todas las tablas del catálogo de integridad sin persistir.
         // Retorna TODOS los resultados (INTEGRO + CORRUPTO + ERROR) con drill-down
         // a fila y columna afectada cuando hay corrupción.
         // Se llama al iniciar sesión.

@@ -27,8 +27,8 @@ namespace BLL_90DI
             return true;
         }
 
-        // Recalcula todas las tablas con espejo DV_ de la BD. Solo Admin forzar.
-        // Registra el evento en bitácora cuando el recálculo fue exitoso.
+        // Recalcula todas las tablas del registro DV (RegistroDV_90DI es la fuente).
+        // Solo Admin forzar. Registra el evento en bitácora cuando el recálculo fue exitoso.
         public bool RecalcularTodo_90DI()
         {
             var response = _dal.RecalcularTodo_90DI();
