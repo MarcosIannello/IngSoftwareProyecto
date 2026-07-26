@@ -96,7 +96,7 @@ namespace UI_90DI
             base.OnFormClosed(e);
         }
 
-        private void CrudUsers_Load(object sender, EventArgs e)
+        private void FrmGestionUsuarios_90DI_Load(object sender, EventArgs e)
         {
             UI_90DI.LayoutHelper_90DI.AjustarAPantalla_90DI(this);
         }
@@ -493,7 +493,7 @@ namespace UI_90DI
             this.Close();
         }
 
-        private void CrudUsers_FormClosed(object sender, FormClosedEventArgs e)
+        private void FrmGestionUsuarios_90DI_FormClosed(object sender, FormClosedEventArgs e)
         {
             _menu.Show();
         }

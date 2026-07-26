@@ -12,3 +12,6 @@ obj/
 
 # NLog
 *.log
+
+# macOS
+.DS_Store

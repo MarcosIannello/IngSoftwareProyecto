@@ -411,10 +411,10 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "FrmGestionUsuarios";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "CrudUsers";
+            Text = "Gestión de Usuarios";
             WindowState = FormWindowState.Maximized;
-            FormClosed += CrudUsers_FormClosed;
-            Load += CrudUsers_Load;
+            FormClosed += FrmGestionUsuarios_90DI_FormClosed;
+            Load += FrmGestionUsuarios_90DI_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridUsers).EndInit();
             ResumeLayout(false);
             PerformLayout();

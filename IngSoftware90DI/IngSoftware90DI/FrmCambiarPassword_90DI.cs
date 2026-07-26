@@ -106,7 +106,7 @@ namespace UI_90DI
             textBox1.Enabled = false;
         }
 
-        private void FrmCambiarPassword_200MI_FormClosed(object sender, FormClosedEventArgs e)
+        private void FrmCambiarPassword_90DI_FormClosed(object sender, FormClosedEventArgs e)
         {
             // El menú quedó abierto detrás (ShowDialog), no hay que volver a mostrarlo.
         }

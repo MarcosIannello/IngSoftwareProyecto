@@ -306,9 +306,9 @@
             Margin = new Padding(2, 1, 2, 1);
             Name = "FrmBitacora_90DI";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmBitacora";
+            Text = "Bitácora de Eventos";
             WindowState = FormWindowState.Maximized;
-            FormClosed += CrudUsers_FormClosed;
+            FormClosed += FrmBitacora_90DI_FormClosed;
             Load += FrmBitacora_90DI_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridEvents).EndInit();
             ResumeLayout(false);

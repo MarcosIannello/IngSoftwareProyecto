@@ -261,8 +261,8 @@
             Margin = new Padding(2, 1, 2, 1);
             Name = "FrmMenu_90DI";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Menu200MI";
-            FormClosed += Menu200MI_FormClosed;
+            Text = "Capital+";
+            FormClosed += FrmMenu_90DI_FormClosed;
             Load += FrmMenu_90DI_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -273,31 +273,6 @@
 
         #endregion
 
-        private Panel panel1;
-        private Button btnReportsNode;
-        private Button btnMasterNode;
-        private Button btnAdminNode;
-        private Button btnUsersNode;
-        private Label label1;
-        private Panel UserPanel;
-        private Button btnCambiarIdioma;
-        private Button btnChangePassword;
-        private Button btnLogoutMenu;
-        private Button btnLoginMenu;
-        private Panel panelAdmin;
-        private Button btnBitacora;
-        private Button btnUnblockUser;
-        private Button btnAbmUsers;
-        private Button btnGestionUsuarios;
-        private Panel panelMaestro;
-        private Button button1;
-        private Button button6;
-        private Panel panelReportes;
-        private Button button7;
-        private Button button10;
-        private Label label2;
-        private Button button5;
-        private Button button4;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem usuariosToolStripMenuItem;
         private ToolStripMenuItem loginToolStripMenuItem;
