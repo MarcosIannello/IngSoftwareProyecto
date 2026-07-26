@@ -140,8 +140,8 @@
             Margin = new Padding(2, 1, 2, 1);
             Name = "FrmCambiarPassword_90DI";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "CambiarPassword";
-            FormClosed += FrmCambiarPassword_200MI_FormClosed;
+            Text = "Cambiar Contraseña";
+            FormClosed += FrmCambiarPassword_90DI_FormClosed;
             Load += FrmCambiarPassword_90DI_Load;
             ResumeLayout(false);
             PerformLayout();

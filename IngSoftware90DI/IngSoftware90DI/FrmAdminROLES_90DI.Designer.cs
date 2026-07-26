@@ -373,7 +373,7 @@
             Margin = new Padding(2, 1, 2, 1);
             Name = "FrmAdminROLES_90DI";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmAdminRoles_90DI";
+            Text = "Gestión de Roles";
             WindowState = FormWindowState.Maximized;
             Load += FrmAdminROLES_90DI_Load;
             pnlAdminRolesContent.ResumeLayout(false);

@@ -339,9 +339,9 @@
             Margin = new Padding(2, 1, 2, 1);
             Name = "FrmAdminFamilias";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmAdminFamilias_90DI";
+            Text = "Gestión de Familias";
             WindowState = FormWindowState.Maximized;
-            Load += FrmAdminRoles_90DI_Load;
+            Load += FrmAdminFamilias_90DI_Load;
             frmPanelContentAdminFamilias.ResumeLayout(false);
             frmPanelContentAdminFamilias.PerformLayout();
             pnlFamiliaNombre.ResumeLayout(false);

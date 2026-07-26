@@ -163,7 +163,7 @@ namespace UI_90DI
             this.Close();
         }
 
-        private void CrudUsers_FormClosed(object sender, FormClosedEventArgs e)
+        private void FrmBitacora_90DI_FormClosed(object sender, FormClosedEventArgs e)
         {
             _menu.Show();
         }

@@ -83,7 +83,7 @@ namespace Capital_
             base.OnFormClosed(e);
         }
 
-        private void FrmAdminRoles_90DI_Load(object sender, EventArgs e)
+        private void FrmAdminFamilias_90DI_Load(object sender, EventArgs e)
         {
             UI_90DI.LayoutHelper_90DI.AjustarAPantalla_90DI(this);
         }
