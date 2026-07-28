@@ -59,6 +59,10 @@ const
 var
   ServerPage: TWizardPage;
   ServerCombo: TNewComboBox;
+  DirPage: TWizardPage;
+  DirEdit: TNewEdit;
+  DirBrowseBtn: TNewButton;
+  SelectedDir: string;
 
 // Agrega val al array solo si no está ya (case-insensitive).
 procedure AgregarUnico(var arr: TArrayOfString; const val: string);
@@ -116,13 +120,53 @@ begin
     Result := '.\SQLEXPRESS';
 end;
 
+// Evento: click en "Examinar...". BrowseForFolder es una función nativa de
+// Inno Setup (abre el diálogo de carpeta de Windows); el tercer parámetro
+// habilita el botón "Crear nueva carpeta".
+procedure DirBrowseBtnClick(Sender: TObject);
+var
+  Dir: string;
+begin
+  Dir := DirEdit.Text;
+  if BrowseForFolder('Seleccionar carpeta de instalación:', Dir, True) then
+    DirEdit.Text := Dir;
+end;
+
 procedure InitializeWizard;
 var
   instancias: TArrayOfString;
   i: Integer;
-  lbl: TNewStaticText;
+  lbl, lblDir: TNewStaticText;
 begin
-  ServerPage := CreateCustomPage(wpSelectDir,
+  // ===== PÁGINA 1: Selección de carpeta de instalación =====
+  DirPage := CreateCustomPage(wpWelcome,
+    'Carpeta de instalación', 'Dónde deseas instalar IngSoftware_90DI');
+
+  lblDir := TNewStaticText.Create(DirPage);
+  lblDir.Parent := DirPage.Surface;
+  lblDir.Left := 0;
+  lblDir.Top := ScaleY(8);
+  lblDir.AutoSize := True;
+  lblDir.Caption := 'Carpeta destino:';
+
+  DirEdit := TNewEdit.Create(DirPage);
+  DirEdit.Parent := DirPage.Surface;
+  DirEdit.Left := 0;
+  DirEdit.Top := lblDir.Top + lblDir.Height + ScaleY(6);
+  DirEdit.Width := DirPage.SurfaceWidth - ScaleX(80);
+  DirEdit.Text := ExpandConstant('{autopf}\IngSoftware_90DI');
+
+  DirBrowseBtn := TNewButton.Create(DirPage);
+  DirBrowseBtn.Parent := DirPage.Surface;
+  DirBrowseBtn.Left := DirEdit.Left + DirEdit.Width + ScaleX(8);
+  DirBrowseBtn.Top := DirEdit.Top;
+  DirBrowseBtn.Width := ScaleX(70);
+  DirBrowseBtn.Height := DirEdit.Height;
+  DirBrowseBtn.Caption := 'Examinar...';
+  DirBrowseBtn.OnClick := @DirBrowseBtnClick;
+
+  // ===== PÁGINA 2: Base de datos (instancia SQL) =====
+  ServerPage := CreateCustomPage(DirPage.ID,
     'Base de datos', 'Instancia de SQL Server');
 
   lbl := TNewStaticText.Create(ServerPage);
@@ -130,7 +174,7 @@ begin
   lbl.Left := 0;
   lbl.Top := ScaleY(8);
   lbl.AutoSize := True;
-  lbl.Caption := 'Instancia:';
+  lbl.Caption := 'Instancia SQL:';
 
   ServerCombo := TNewComboBox.Create(ServerPage);
   ServerCombo.Parent := ServerPage.Surface;
@@ -163,6 +207,41 @@ begin
     '  }'#13#10 +
     '}';
   SaveStringToFile(ExpandConstant('{app}\dal.settings.json'), Cfg, False);
+end;
+
+// La página built-in de destino (wpSelectDir) queda reemplazada por DirPage.
+function ShouldSkipPage(PageID: Integer): Boolean;
+begin
+  Result := (PageID = wpSelectDir);
+end;
+
+function NextButtonClick(CurPageID: Integer): Boolean;
+begin
+  Result := True;
+
+  if CurPageID = DirPage.ID then
+  begin
+    SelectedDir := Trim(DirEdit.Text);
+
+    if SelectedDir = '' then
+    begin
+      MsgBox('Indicá una carpeta de instalación.', mbError, MB_OK);
+      Result := False;
+      Exit;
+    end;
+
+    // Ruta absoluta con unidad (C:\...); evita rutas relativas o inválidas.
+    if (Length(SelectedDir) < 3) or (SelectedDir[2] <> ':') or (SelectedDir[3] <> '\') then
+    begin
+      MsgBox('La ruta debe ser absoluta, por ejemplo C:\IngSoftware_90DI', mbError, MB_OK);
+      Result := False;
+      Exit;
+    end;
+
+    // {app} se resuelve desde WizardForm.DirEdit: hay que volcarlo ACÁ,
+    // antes de instalar (en ssInstall ya sería tarde y se ignoraría).
+    WizardForm.DirEdit.Text := SelectedDir;
+  end;
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
