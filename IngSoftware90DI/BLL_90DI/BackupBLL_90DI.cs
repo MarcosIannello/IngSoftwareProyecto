@@ -12,7 +12,7 @@ namespace BLL_90DI
         public BackupBLL_90DI() { }
 
         // Nombre de archivo por defecto del backup (la carpeta la resuelve el servidor SQL).
-        public static string ArchivoBackupPorDefecto => BackupConfig_90DI.NombreArchivoBackup;
+        public static string ArchivoBackupPorDefecto => BackupConfig_90DI.NombreArchivoBackup_90DI;
 
         // Genera un backup del estado actual de la base. Lo dispara el Admin desde el menú.
         // Registra el evento en bitácora si el backup fue exitoso.

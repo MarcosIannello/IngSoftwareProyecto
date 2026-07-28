@@ -17,7 +17,7 @@ namespace UI_90DI
         {
             InitializeComponent();
 
-            usuario = _usuarioService.getUserByUsername(SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI);
+            usuario = _usuarioService.GetUserByUsername_90DI(SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI);
 
             if (usuario != null)
             {
@@ -25,12 +25,12 @@ namespace UI_90DI
             }
             else
             {
-                MessageBox.Show(LanguageManager_90DI.T("pass_msg_error_actualizar"), LanguageManager_90DI.T("pass_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("pass_msg_error_actualizar"), LanguageManager_90DI.T_90DI("pass_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
 
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
-            var t = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
@@ -45,7 +45,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 
@@ -55,34 +55,34 @@ namespace UI_90DI
                 string.IsNullOrWhiteSpace(txtNewPass.Text) ||
                 string.IsNullOrWhiteSpace(txtConfirmNewPass.Text))
             {
-                MessageBox.Show(LanguageManager_90DI.T("pass_msg_campos_obligatorios"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("pass_msg_campos_obligatorios"), LanguageManager_90DI.T_90DI("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!_usuarioService.VerifyPassword_90DI(txtPassActual.Text, usuario.Password_90DI))
             {
-                MessageBox.Show(LanguageManager_90DI.T("pass_msg_pass_incorrecta"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("pass_msg_pass_incorrecta"), LanguageManager_90DI.T_90DI("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPassActual.Focus();
                 return;
             }
 
             if (txtNewPass.Text.Length < 8)
             {
-                MessageBox.Show(LanguageManager_90DI.T("pass_msg_pass_corta"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("pass_msg_pass_corta"), LanguageManager_90DI.T_90DI("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNewPass.Focus();
                 return;
             }
 
             if (txtNewPass.Text == txtPassActual.Text)
             {
-                MessageBox.Show(LanguageManager_90DI.T("pass_msg_pass_igual"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("pass_msg_pass_igual"), LanguageManager_90DI.T_90DI("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNewPass.Focus();
                 return;
             }
 
             if (txtNewPass.Text != txtConfirmNewPass.Text)
             {
-                MessageBox.Show(LanguageManager_90DI.T("pass_msg_pass_no_coincide"), LanguageManager_90DI.T("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("pass_msg_pass_no_coincide"), LanguageManager_90DI.T_90DI("pass_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtConfirmNewPass.Focus();
                 return;
             }
@@ -91,12 +91,12 @@ namespace UI_90DI
 
             if (resultado)
             {
-                MessageBox.Show(LanguageManager_90DI.T("pass_msg_actualizada"), LanguageManager_90DI.T("pass_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("pass_msg_actualizada"), LanguageManager_90DI.T_90DI("pass_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close(); // vuelve al menú que quedó abierto detrás
             }
             else
             {
-                MessageBox.Show(LanguageManager_90DI.T("pass_msg_error_actualizar"), LanguageManager_90DI.T("pass_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("pass_msg_error_actualizar"), LanguageManager_90DI.T_90DI("pass_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

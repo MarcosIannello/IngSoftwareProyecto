@@ -18,17 +18,17 @@ namespace UI_90DI
             AplicarTraducciones();
             CargarIdiomas();
 
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
-            var t = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
         private void AplicarTraducciones()
         {
-            Text = LanguageManager_90DI.T("idioma_form_titulo");
-            lblSeleccionar.Text = LanguageManager_90DI.T("idioma_lbl_seleccionar");
-            btnAplicar.Text = LanguageManager_90DI.T("idioma_btn_aplicar");
-            btnCancelar.Text = LanguageManager_90DI.T("idioma_btn_cancelar");
+            Text = LanguageManager_90DI.T_90DI("idioma_form_titulo");
+            lblSeleccionar.Text = LanguageManager_90DI.T_90DI("idioma_lbl_seleccionar");
+            btnAplicar.Text = LanguageManager_90DI.T_90DI("idioma_btn_aplicar");
+            btnCancelar.Text = LanguageManager_90DI.T_90DI("idioma_btn_cancelar");
         }
 
         private void CargarIdiomas()
@@ -37,7 +37,7 @@ namespace UI_90DI
             cmbIdioma.Items.Add(new Idioma_90DI { IdIdioma_90DI = 2, NombreIdioma_90DI = "English", CodigoIdioma_90DI = "en" });
 
             // Pre-seleccionar el idioma activo
-            var codigoActual = Service_90DI.SessionManager_90DI.Instancia.IdiomaActual.CodigoIdioma_90DI;
+            var codigoActual = Service_90DI.SessionManager_90DI.Instancia_90DI.IdiomaActual_90DI.CodigoIdioma_90DI;
             cmbIdioma.SelectedIndex = codigoActual == "en" ? 1 : 0;
         }
 
@@ -46,15 +46,15 @@ namespace UI_90DI
             if (cmbIdioma.SelectedItem is Idioma_90DI idioma)
             {
                 // Notifica a los observers y actualiza el idioma de la sesión.
-                LanguageManager_90DI.Current.NotifyAllObservers_90DI(idioma);
+                LanguageManager_90DI.Current_90DI.NotifyAllObservers_90DI(idioma);
 
                 // Persiste en BD solo si el idioma cambió (evita eventos duplicados en bitácora).
-                var session = SessionManager_90DI.Instancia;
-                if (session.SesionActiva && session.userActual.IdUsuario_90DI > 0 &&
-                    !string.Equals(idioma.CodigoIdioma_90DI, session.userActual.Idioma_90DI, StringComparison.OrdinalIgnoreCase))
+                var session = SessionManager_90DI.Instancia_90DI;
+                if (session.SesionActiva_90DI && session.userActual_90DI.IdUsuario_90DI > 0 &&
+                    !string.Equals(idioma.CodigoIdioma_90DI, session.userActual_90DI.Idioma_90DI, StringComparison.OrdinalIgnoreCase))
                 {
-                    _usuarioService.UpdateIdioma_90DI(session.userActual.IdUsuario_90DI, idioma.CodigoIdioma_90DI);
-                    session.userActual.Idioma_90DI = idioma.CodigoIdioma_90DI;
+                    _usuarioService.UpdateIdioma_90DI(session.userActual_90DI.IdUsuario_90DI, idioma.CodigoIdioma_90DI);
+                    session.userActual_90DI.Idioma_90DI = idioma.CodigoIdioma_90DI;
                 }
             }
             Close();
@@ -75,7 +75,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 

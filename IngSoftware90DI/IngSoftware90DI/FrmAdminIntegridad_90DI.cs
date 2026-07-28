@@ -17,7 +17,7 @@ namespace Capital_
             _resultados = resultados;
 
             // Suscribirse a los cambios de idioma y aplicar el idioma actual.
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
             AplicarTraducciones();
         }
 
@@ -29,10 +29,10 @@ namespace Capital_
         // Aplica los textos estáticos (título y botones) en el idioma activo.
         private void AplicarTraducciones()
         {
-            Text                          = LanguageManager_90DI.T("integridad_form_titulo");
-            btnForzarIntegridadAdmin.Text = LanguageManager_90DI.T("integridad_btn_reparar");
-            btnBackup.Text                = LanguageManager_90DI.T("integridad_btn_backup");
-            btnSalir.Text                 = LanguageManager_90DI.T("integridad_btn_cancelar");
+            Text                          = LanguageManager_90DI.T_90DI("integridad_form_titulo");
+            btnForzarIntegridadAdmin.Text = LanguageManager_90DI.T_90DI("integridad_btn_reparar");
+            btnBackup.Text                = LanguageManager_90DI.T_90DI("integridad_btn_backup");
+            btnSalir.Text                 = LanguageManager_90DI.T_90DI("integridad_btn_cancelar");
         }
 
         // Observer: al cambiar el idioma reaplica textos y vuelve a renderizar el detalle.
@@ -56,7 +56,7 @@ namespace Capital_
                 return;
 
             richTextBox1.SelectionColor = Color.OrangeRed;
-            richTextBox1.AppendText(string.Format(LanguageManager_90DI.T("integridad_msg_detectados"), problemas.Count) + "\n");
+            richTextBox1.AppendText(string.Format(LanguageManager_90DI.T_90DI("integridad_msg_detectados"), problemas.Count) + "\n");
             richTextBox1.SelectionColor = Color.Silver;
             richTextBox1.AppendText(new string('═', 65) + "\n\n");
 
@@ -66,22 +66,22 @@ namespace Capital_
                 if (r.EsError)
                 {
                     richTextBox1.SelectionColor = Color.Magenta;
-                    richTextBox1.AppendText($"  ?  {r.NombreTabla_90DI,-30} {LanguageManager_90DI.T("integridad_lbl_error")}\n");
+                    richTextBox1.AppendText($"  ?  {r.NombreTabla_90DI,-30} {LanguageManager_90DI.T_90DI("integridad_lbl_error")}\n");
                     continue;
                 }
 
                 richTextBox1.SelectionColor = Color.Red;
-                richTextBox1.AppendText($"  ✘  {r.NombreTabla_90DI,-30} {LanguageManager_90DI.T("integridad_lbl_corrupto")}");
+                richTextBox1.AppendText($"  ✘  {r.NombreTabla_90DI,-30} {LanguageManager_90DI.T_90DI("integridad_lbl_corrupto")}");
 
                 if (r.FilaAfectada_90DI != null)
                 {
                     richTextBox1.SelectionColor = Color.Orange;
-                    richTextBox1.AppendText($"\n       ↳ {LanguageManager_90DI.T("integridad_lbl_fila")}  : {r.FilaAfectada_90DI}");
+                    richTextBox1.AppendText($"\n       ↳ {LanguageManager_90DI.T_90DI("integridad_lbl_fila")}  : {r.FilaAfectada_90DI}");
                 }
                 if (r.ColumnaAfectada_90DI != null)
                 {
                     richTextBox1.SelectionColor = Color.Orange;
-                    richTextBox1.AppendText($"\n       ↳ {LanguageManager_90DI.T("integridad_lbl_celda")} : {r.ColumnaAfectada_90DI}");
+                    richTextBox1.AppendText($"\n       ↳ {LanguageManager_90DI.T_90DI("integridad_lbl_celda")} : {r.ColumnaAfectada_90DI}");
                 }
                 richTextBox1.AppendText("\n");
             }
@@ -89,7 +89,7 @@ namespace Capital_
             richTextBox1.SelectionColor = Color.Silver;
             richTextBox1.AppendText("\n" + new string('─', 65) + "\n");
             richTextBox1.SelectionColor = Color.White;
-            richTextBox1.AppendText(LanguageManager_90DI.T("integridad_msg_acciones"));
+            richTextBox1.AppendText(LanguageManager_90DI.T_90DI("integridad_msg_acciones"));
         }
 
         // ─── Recuperar último backup ───────────────────────────────────────────
@@ -98,8 +98,8 @@ namespace Capital_
         private void BtnBackup_Click(object sender, EventArgs e)
         {
             var confirmar = MessageBox.Show(
-                LanguageManager_90DI.T("integridad_msg_backup_confirm"),
-                LanguageManager_90DI.T("integridad_msg_backup_title"),
+                LanguageManager_90DI.T_90DI("integridad_msg_backup_confirm"),
+                LanguageManager_90DI.T_90DI("integridad_msg_backup_title"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -117,8 +117,8 @@ namespace Capital_
                 if (!ok)
                 {
                     MessageBox.Show(
-                        LanguageManager_90DI.T("integridad_msg_restore_error"),
-                        LanguageManager_90DI.T("integridad_msg_error_title"),
+                        LanguageManager_90DI.T_90DI("integridad_msg_restore_error"),
+                        LanguageManager_90DI.T_90DI("integridad_msg_error_title"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
@@ -132,8 +132,8 @@ namespace Capital_
                 if (!nuevosCorruptos.Any())
                 {
                     MessageBox.Show(
-                        LanguageManager_90DI.T("integridad_msg_restore_ok"),
-                        LanguageManager_90DI.T("integridad_msg_recalc_ok_title"),
+                        LanguageManager_90DI.T_90DI("integridad_msg_restore_ok"),
+                        LanguageManager_90DI.T_90DI("integridad_msg_recalc_ok_title"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
@@ -143,8 +143,8 @@ namespace Capital_
                 else
                 {
                     MessageBox.Show(
-                        string.Format(LanguageManager_90DI.T("integridad_msg_recalc_pendiente"), nuevosCorruptos.Count),
-                        LanguageManager_90DI.T("integridad_msg_advertencia_title"),
+                        string.Format(LanguageManager_90DI.T_90DI("integridad_msg_recalc_pendiente"), nuevosCorruptos.Count),
+                        LanguageManager_90DI.T_90DI("integridad_msg_advertencia_title"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
                 }
@@ -152,8 +152,8 @@ namespace Capital_
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    string.Format(LanguageManager_90DI.T("integridad_msg_error_inesperado"), ex.Message),
-                    LanguageManager_90DI.T("integridad_msg_error_title"),
+                    string.Format(LanguageManager_90DI.T_90DI("integridad_msg_error_inesperado"), ex.Message),
+                    LanguageManager_90DI.T_90DI("integridad_msg_error_title"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -170,7 +170,7 @@ namespace Capital_
         private void BtnForzarIntegridadAdmin_Click(object sender, EventArgs e)
         {
             btnForzarIntegridadAdmin.Enabled = false;
-            btnForzarIntegridadAdmin.Text = LanguageManager_90DI.T("integridad_btn_recalculando");
+            btnForzarIntegridadAdmin.Text = LanguageManager_90DI.T_90DI("integridad_btn_recalculando");
 
             try
             {
@@ -179,8 +179,8 @@ namespace Capital_
                 if (!ok)
                 {
                     MessageBox.Show(
-                        LanguageManager_90DI.T("integridad_msg_recalc_error"),
-                        LanguageManager_90DI.T("integridad_msg_error_title"),
+                        LanguageManager_90DI.T_90DI("integridad_msg_recalc_error"),
+                        LanguageManager_90DI.T_90DI("integridad_msg_error_title"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
@@ -194,8 +194,8 @@ namespace Capital_
                 {
                     // Sistema limpio → continuar al menú
                     MessageBox.Show(
-                        LanguageManager_90DI.T("integridad_msg_recalc_ok"),
-                        LanguageManager_90DI.T("integridad_msg_recalc_ok_title"),
+                        LanguageManager_90DI.T_90DI("integridad_msg_recalc_ok"),
+                        LanguageManager_90DI.T_90DI("integridad_msg_recalc_ok_title"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
@@ -205,8 +205,8 @@ namespace Capital_
                 else
                 {
                     MessageBox.Show(
-                        string.Format(LanguageManager_90DI.T("integridad_msg_recalc_pendiente"), nuevosCorruptos.Count),
-                        LanguageManager_90DI.T("integridad_msg_advertencia_title"),
+                        string.Format(LanguageManager_90DI.T_90DI("integridad_msg_recalc_pendiente"), nuevosCorruptos.Count),
+                        LanguageManager_90DI.T_90DI("integridad_msg_advertencia_title"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
                 }
@@ -214,29 +214,29 @@ namespace Capital_
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    string.Format(LanguageManager_90DI.T("integridad_msg_error_inesperado"), ex.Message),
-                    LanguageManager_90DI.T("integridad_msg_error_title"),
+                    string.Format(LanguageManager_90DI.T_90DI("integridad_msg_error_inesperado"), ex.Message),
+                    LanguageManager_90DI.T_90DI("integridad_msg_error_title"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             finally
             {
                 btnForzarIntegridadAdmin.Enabled = true;
-                btnForzarIntegridadAdmin.Text = LanguageManager_90DI.T("integridad_btn_reparar");
+                btnForzarIntegridadAdmin.Text = LanguageManager_90DI.T_90DI("integridad_btn_reparar");
             }
         }
 
         // ─── Salir / cerrar sesión (siempre vuelve al login) ──────────────────
         private void button2_Click(object sender, EventArgs e)
         {
-            SessionManager_90DI.Instancia.CerrarSesion();
+            SessionManager_90DI.Instancia_90DI.CerrarSesion_90DI();
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
     }

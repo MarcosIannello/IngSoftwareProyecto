@@ -10,7 +10,7 @@ namespace DAL
 
         public UserDAL_90DI() { }
 
-        public List<User_90DI> GetAllUsers90DI()
+        public List<User_90DI> GetAllUsers_90DI()
         {
             var result = new List<User_90DI>();
             try
@@ -110,7 +110,7 @@ namespace DAL
             }
         }
 
-        public List<User_90DI> SearchUsers90DI(string? dni = null, string? apellidos = null, string? nombre = null, string? email = null, string? rol = null, string? login = null)
+        public List<User_90DI> SearchUsers_90DI(string? dni = null, string? apellidos = null, string? nombre = null, string? email = null, string? rol = null, string? login = null)
         {
             var result = new List<User_90DI>();
             try
@@ -172,7 +172,7 @@ namespace DAL
             return result;
         }
 
-        public bool CreateUser90DI(User_90DI usuario)
+        public bool CreateUser_90DI(User_90DI usuario)
         {
             if (string.IsNullOrWhiteSpace(usuario.NombreUsuario_90DI))
                 throw new ArgumentException("El nombre de usuario no puede estar vacío.");
@@ -220,7 +220,7 @@ namespace DAL
             }
         }
 
-        public bool UpdateUser90DI(User_90DI usuario)
+        public bool UpdateUser_90DI(User_90DI usuario)
         {
             try
             {
@@ -260,7 +260,7 @@ namespace DAL
             }
         }
 
-        public bool UpdateIdioma90DI(int idUsuario, string idioma)
+        public bool UpdateIdioma_90DI(int idUsuario, string idioma)
         {
             try
             {
@@ -290,7 +290,7 @@ namespace DAL
             }
         }
 
-        public bool UpdatePassword90DI(int idUsuario, string hashPassword)
+        public bool UpdatePassword_90DI(int idUsuario, string hashPassword)
         {
             try
             {
@@ -320,7 +320,7 @@ namespace DAL
             }
         }
 
-        public bool blockUser90DI(int idUsuario)
+        public bool BlockUser_90DI(int idUsuario)
         {
             try
             {
@@ -349,7 +349,7 @@ namespace DAL
             }
         }
 
-        public bool UnblockUser90DI(int idUsuario)
+        public bool UnblockUser_90DI(int idUsuario)
         {
             try
             {
@@ -378,7 +378,7 @@ namespace DAL
             }
         }
 
-        public bool ActivateUser90DI(int idUsuario)
+        public bool ActivateUser_90DI(int idUsuario)
         {
             try
             {
@@ -407,7 +407,7 @@ namespace DAL
             }
         }
 
-        public bool DesactivateUser90DI(int idUsuario)
+        public bool DesactivateUser_90DI(int idUsuario)
         {
             try
             {

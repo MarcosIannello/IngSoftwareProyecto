@@ -26,7 +26,7 @@ namespace BLL_90DI
         {
             return CreateLogEvent_90DI(new Event_90DI
             {
-                Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                Login_90DI      = SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI,
                 Fecha_90DI      = DateTime.Now,
                 Hora_90DI       = DateTime.Now.TimeOfDay,
                 Modulo_90DI     = modulo,

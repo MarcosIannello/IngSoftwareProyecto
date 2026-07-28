@@ -54,8 +54,8 @@ namespace Capital_
             PatentesBd = _rolBLL.GetAllPatentes_90DI();
             rdbModoConsulta.Checked = true;
 
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
-            var t = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
@@ -79,7 +79,7 @@ namespace Capital_
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 
@@ -197,20 +197,20 @@ namespace Capital_
         private void btnAgregarPatente_Click(object sender, EventArgs e)
         {
             if (tempPatente == null || tempPatente.IdPatente_90DI == 0) return;
-            if (tempFamilia.Patentes.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI)) return;
+            if (tempFamilia.Patentes_90DI.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI)) return;
 
             // Bloquear si la patente ya está cubierta por alguna subfamilia asignada
-            var hijaConflicto = FamiliasHijas.FirstOrDefault(f => f.Patentes.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI));
+            var hijaConflicto = FamiliasHijas.FirstOrDefault(f => f.Patentes_90DI.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI));
             if (hijaConflicto != null)
             {
                 MessageBox.Show(
-                    string.Format(LanguageManager_90DI.T("familias_msg_patente_dup"), tempPatente.Nombre_90DI, hijaConflicto.Nombre_90DI),
-                    LanguageManager_90DI.T("familias_msg_patente_dup_title"),
+                    string.Format(LanguageManager_90DI.T_90DI("familias_msg_patente_dup"), tempPatente.Nombre_90DI, hijaConflicto.Nombre_90DI),
+                    LanguageManager_90DI.T_90DI("familias_msg_patente_dup_title"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            tempFamilia.Patentes.Add(tempPatente);
+            tempFamilia.Patentes_90DI.Add(tempPatente);
             PatentesBd.Remove(tempPatente);
 
             lstPatentes.DataSource = null;
@@ -224,7 +224,7 @@ namespace Capital_
             tempPatente = lstPatentes.SelectedItem as Patente_90DI ?? new Patente_90DI();
 
             LstFamiliasPatentes.DataSource = null;
-            LstFamiliasPatentes.DataSource = tempFamilia.Patentes;
+            LstFamiliasPatentes.DataSource = tempFamilia.Patentes_90DI;
             LstFamiliasPatentes.DisplayMember = displayMember;
         }
 
@@ -235,22 +235,22 @@ namespace Capital_
             // Patente directa vs subfamilia
             foreach (var hija in FamiliasHijas)
             {
-                foreach (var p in hija.Patentes)
+                foreach (var p in hija.Patentes_90DI)
                 {
-                    if (tempFamilia.Patentes.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
-                        return string.Format(LanguageManager_90DI.T("familias_msg_patente_dup"), p.Nombre_90DI, hija.Nombre_90DI);
+                    if (tempFamilia.Patentes_90DI.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
+                        return string.Format(LanguageManager_90DI.T_90DI("familias_msg_patente_dup"), p.Nombre_90DI, hija.Nombre_90DI);
                 }
             }
             // Patente compartida entre dos subfamilias
             for (int i = 0; i < FamiliasHijas.Count; i++)
             {
-                var idsI = FamiliasHijas[i].Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
+                var idsI = FamiliasHijas[i].Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
                 for (int j = i + 1; j < FamiliasHijas.Count; j++)
                 {
-                    foreach (var p in FamiliasHijas[j].Patentes)
+                    foreach (var p in FamiliasHijas[j].Patentes_90DI)
                     {
                         if (idsI.Contains(p.IdPatente_90DI))
-                            return string.Format(LanguageManager_90DI.T("familias_msg_subfamilia_dup"), p.Nombre_90DI, FamiliasHijas[i].Nombre_90DI, FamiliasHijas[j].Nombre_90DI);
+                            return string.Format(LanguageManager_90DI.T_90DI("familias_msg_subfamilia_dup"), p.Nombre_90DI, FamiliasHijas[i].Nombre_90DI, FamiliasHijas[j].Nombre_90DI);
                     }
                 }
             }
@@ -264,18 +264,18 @@ namespace Capital_
             {
                 if (string.IsNullOrWhiteSpace(txtNombreFamilia.Text))
                 {
-                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_nombre_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("familias_msg_nombre_empty"), LanguageManager_90DI.T_90DI("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (tempFamilia.Patentes.Count == 0 && FamiliasHijas.Count == 0)
+                if (tempFamilia.Patentes_90DI.Count == 0 && FamiliasHijas.Count == 0)
                 {
-                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_contenido_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("familias_msg_contenido_empty"), LanguageManager_90DI.T_90DI("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 var conflicto = ValidarRedundanciaFamilia();
                 if (conflicto != null)
                 {
-                    MessageBox.Show(conflicto, LanguageManager_90DI.T("familias_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(conflicto, LanguageManager_90DI.T_90DI("familias_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 string nombreTrim = txtNombreFamilia.Text.Trim();
@@ -283,35 +283,35 @@ namespace Capital_
                     .Any(f => f.Nombre_90DI.Equals(nombreTrim, StringComparison.OrdinalIgnoreCase));
                 if (nombreDuplicado)
                 {
-                    MessageBox.Show(string.Format(LanguageManager_90DI.T("familias_msg_nombre_dup"), nombreTrim), LanguageManager_90DI.T("familias_msg_nombre_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format(LanguageManager_90DI.T_90DI("familias_msg_nombre_dup"), nombreTrim), LanguageManager_90DI.T_90DI("familias_msg_nombre_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 tempFamilia.Nombre_90DI = nombreTrim;
-                tempFamilia.SubFamilias = FamiliasHijas;
+                tempFamilia.SubFamilias_90DI = FamiliasHijas;
                 response = _rolBLL.CreateFamilia_90DI(tempFamilia);
 
                 if (response)
-                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_creada"), LanguageManager_90DI.T("familias_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("familias_msg_creada"), LanguageManager_90DI.T_90DI("familias_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_error_crear"), LanguageManager_90DI.T("familias_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("familias_msg_error_crear"), LanguageManager_90DI.T_90DI("familias_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             if (rdbModificarFamilia.Checked)
             {
                 if (string.IsNullOrWhiteSpace(txtNombreFamilia.Text))
                 {
-                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_nombre_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("familias_msg_nombre_empty"), LanguageManager_90DI.T_90DI("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (tempFamilia.Patentes.Count == 0 && FamiliasHijas.Count == 0)
+                if (tempFamilia.Patentes_90DI.Count == 0 && FamiliasHijas.Count == 0)
                 {
-                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_contenido_empty"), LanguageManager_90DI.T("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("familias_msg_contenido_empty"), LanguageManager_90DI.T_90DI("familias_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 var conflictoMod = ValidarRedundanciaFamilia();
                 if (conflictoMod != null)
                 {
-                    MessageBox.Show(conflictoMod, LanguageManager_90DI.T("familias_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(conflictoMod, LanguageManager_90DI.T_90DI("familias_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 string nombreTrim = txtNombreFamilia.Text.Trim();
@@ -320,16 +320,16 @@ namespace Capital_
                            && f.IdFamilia_90DI != tempFamilia.IdFamilia_90DI);
                 if (nombreDuplicado)
                 {
-                    MessageBox.Show(string.Format(LanguageManager_90DI.T("familias_msg_nombre_dup2"), nombreTrim), LanguageManager_90DI.T("familias_msg_nombre_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format(LanguageManager_90DI.T_90DI("familias_msg_nombre_dup2"), nombreTrim), LanguageManager_90DI.T_90DI("familias_msg_nombre_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 tempFamilia.Nombre_90DI = nombreTrim;
-                tempFamilia.SubFamilias = FamiliasHijas;
+                tempFamilia.SubFamilias_90DI = FamiliasHijas;
                 response = _rolBLL.UpdateFamilia_90DI(tempFamilia);
                 if (response)
-                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_modificada"), LanguageManager_90DI.T("familias_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("familias_msg_modificada"), LanguageManager_90DI.T_90DI("familias_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    MessageBox.Show(LanguageManager_90DI.T("familias_msg_error_modificar"), LanguageManager_90DI.T("familias_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("familias_msg_error_modificar"), LanguageManager_90DI.T_90DI("familias_msg_error_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             rdbModoConsulta.Checked = true;
@@ -362,11 +362,11 @@ namespace Capital_
 
             // mostrar patentes de la familia
             LstFamiliasPatentes.DataSource = null;
-            LstFamiliasPatentes.DataSource = tempFamilia.Patentes;
+            LstFamiliasPatentes.DataSource = tempFamilia.Patentes_90DI;
             LstFamiliasPatentes.DisplayMember = displayMember;
 
             // mostrar sub-familias — cargar cada una completa para tener sus Patentes disponibles
-            FamiliasHijas = tempFamilia.SubFamilias
+            FamiliasHijas = tempFamilia.SubFamilias_90DI
                 .Select(f => _rolBLL.GetFamiliaCompleta_90DI(f.IdFamilia_90DI) ?? f)
                 .ToList();
             lstFamiliasFamilia.DataSource = null;
@@ -378,7 +378,7 @@ namespace Capital_
             if (rdbModificarFamilia.Checked)
             {
                 // filtrar patentes que ya pertenecen a la familia
-                var idsEnFamilia = tempFamilia.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
+                var idsEnFamilia = tempFamilia.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
                 PatentesBd = _rolBLL.GetAllPatentes_90DI()
                     .Where(p => !idsEnFamilia.Contains(p.IdPatente_90DI))
                     .ToList();
@@ -407,13 +407,13 @@ namespace Capital_
             if (familiaCompleta == null) return;
 
             // Bloquear si la subfamilia contiene una patente ya asignada directamente
-            foreach (var p in familiaCompleta.Patentes)
+            foreach (var p in familiaCompleta.Patentes_90DI)
             {
-                if (tempFamilia.Patentes.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
+                if (tempFamilia.Patentes_90DI.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
                 {
                     MessageBox.Show(
-                        string.Format(LanguageManager_90DI.T("familias_msg_patente_dup"), p.Nombre_90DI, familiaCompleta.Nombre_90DI),
-                        LanguageManager_90DI.T("familias_msg_patente_dup_title"),
+                        string.Format(LanguageManager_90DI.T_90DI("familias_msg_patente_dup"), p.Nombre_90DI, familiaCompleta.Nombre_90DI),
+                        LanguageManager_90DI.T_90DI("familias_msg_patente_dup_title"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -422,14 +422,14 @@ namespace Capital_
             // Bloquear si la subfamilia comparte una patente con otra subfamilia ya agregada
             foreach (var hija in FamiliasHijas)
             {
-                var idsHija = hija.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
-                foreach (var p in familiaCompleta.Patentes)
+                var idsHija = hija.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
+                foreach (var p in familiaCompleta.Patentes_90DI)
                 {
                     if (idsHija.Contains(p.IdPatente_90DI))
                     {
                         MessageBox.Show(
-                            string.Format(LanguageManager_90DI.T("familias_msg_subfamilia_dup"), p.Nombre_90DI, hija.Nombre_90DI, familiaCompleta.Nombre_90DI),
-                            LanguageManager_90DI.T("familias_msg_subfamilia_dup_title"),
+                            string.Format(LanguageManager_90DI.T_90DI("familias_msg_subfamilia_dup"), p.Nombre_90DI, hija.Nombre_90DI, familiaCompleta.Nombre_90DI),
+                            LanguageManager_90DI.T_90DI("familias_msg_subfamilia_dup_title"),
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -448,7 +448,7 @@ namespace Capital_
         // Las patentes de subfamilias siguen visibles: el warning se dispara al intentar agregarlas.
         private void RefrescarPatentesDisponibles()
         {
-            var idsDirectos = tempFamilia.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
+            var idsDirectos = tempFamilia.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
 
             PatentesBd = _rolBLL.GetAllPatentes_90DI()
                 .Where(p => !idsDirectos.Contains(p.IdPatente_90DI))
@@ -475,7 +475,7 @@ namespace Capital_
         {
             if (tempPatente == null || tempPatente.IdPatente_90DI == 0) return;
 
-            tempFamilia.Patentes.Remove(tempPatente);
+            tempFamilia.Patentes_90DI.Remove(tempPatente);
             PatentesBd.Add(tempPatente);  // devuelve la patente al listado disponible
 
             lstPatentes.DataSource = null;
@@ -483,7 +483,7 @@ namespace Capital_
             lstPatentes.DisplayMember = displayMember;
 
             LstFamiliasPatentes.DataSource = null;
-            LstFamiliasPatentes.DataSource = tempFamilia.Patentes;
+            LstFamiliasPatentes.DataSource = tempFamilia.Patentes_90DI;
             LstFamiliasPatentes.DisplayMember = displayMember;
 
             // Sincronizar tempPatente con la selección actual de la lista de asignadas,
@@ -520,16 +520,16 @@ namespace Capital_
             if (_rolBLL.FamiliaEstaEnRol_90DI(tempFamilia.IdFamilia_90DI))
             {
                 MessageBox.Show(
-                    string.Format(LanguageManager_90DI.T("familias_msg_en_rol"), tempFamilia.Nombre_90DI),
-                    LanguageManager_90DI.T("familias_msg_en_rol_title"),
+                    string.Format(LanguageManager_90DI.T_90DI("familias_msg_en_rol"), tempFamilia.Nombre_90DI),
+                    LanguageManager_90DI.T_90DI("familias_msg_en_rol_title"),
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 return;
             }
 
             var confirm = MessageBox.Show(
-                string.Format(LanguageManager_90DI.T("familias_msg_confirm_eliminar"), tempFamilia.Nombre_90DI),
-                LanguageManager_90DI.T("familias_msg_confirm_eliminar_title"),
+                string.Format(LanguageManager_90DI.T_90DI("familias_msg_confirm_eliminar"), tempFamilia.Nombre_90DI),
+                LanguageManager_90DI.T_90DI("familias_msg_confirm_eliminar_title"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
 
@@ -537,8 +537,8 @@ namespace Capital_
 
             bool response = _rolBLL.DeleteFamilia_90DI(tempFamilia.IdFamilia_90DI, tempFamilia.Nombre_90DI);
             MessageBox.Show(
-                response ? LanguageManager_90DI.T("familias_msg_eliminada") : LanguageManager_90DI.T("familias_msg_error_eliminar"),
-                response ? LanguageManager_90DI.T("familias_msg_exito_title") : LanguageManager_90DI.T("familias_msg_error_title"),
+                response ? LanguageManager_90DI.T_90DI("familias_msg_eliminada") : LanguageManager_90DI.T_90DI("familias_msg_error_eliminar"),
+                response ? LanguageManager_90DI.T_90DI("familias_msg_exito_title") : LanguageManager_90DI.T_90DI("familias_msg_error_title"),
                 MessageBoxButtons.OK,
                 response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 

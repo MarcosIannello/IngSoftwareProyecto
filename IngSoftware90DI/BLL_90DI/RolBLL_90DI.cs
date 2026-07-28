@@ -35,7 +35,7 @@ namespace BLL
             {
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
                 {
-                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Login_90DI      = SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
                     Modulo_90DI     = Modulos_90DI.Familias,
@@ -61,12 +61,12 @@ namespace BLL
             if (rol == null) return patentes;
 
             // Patentes asignadas directamente al rol
-            foreach (var p in rol.Patentes)
+            foreach (var p in rol.Patentes_90DI)
                 patentes.Add(p.Nombre_90DI.Trim());
 
             // Patentes heredadas de cada familia (con recursión sobre subfamilias)
             var visitadas = new HashSet<int>();
-            foreach (var f in rol.Familias)
+            foreach (var f in rol.Familias_90DI)
                 AgregarPatentesFamilia_90DI(f.IdFamilia_90DI, patentes, visitadas);
 
             return patentes;
@@ -81,10 +81,10 @@ namespace BLL
             var familia = _dal.GetFamiliaCompleta_90DI(idFamilia);
             if (familia == null) return;
 
-            foreach (var p in familia.Patentes)
+            foreach (var p in familia.Patentes_90DI)
                 patentes.Add(p.Nombre_90DI.Trim());
 
-            foreach (var sub in familia.SubFamilias)
+            foreach (var sub in familia.SubFamilias_90DI)
                 AgregarPatentesFamilia_90DI(sub.IdFamilia_90DI, patentes, visitadas);
         }
 
@@ -95,7 +95,7 @@ namespace BLL
             {
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
                 {
-                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Login_90DI      = SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
                     Modulo_90DI     = Modulos_90DI.Roles,
@@ -114,7 +114,7 @@ namespace BLL
             {
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
                 {
-                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Login_90DI      = SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
                     Modulo_90DI     = Modulos_90DI.Roles,
@@ -131,17 +131,17 @@ namespace BLL
         public bool DeleteFamilia_90DI(int idFamilia, string nombreFamilia)
         {
             var familia = _dal.GetFamiliaCompleta_90DI(idFamilia);
-            bool tienePatentes    = familia?.Patentes.Count > 0;
-            bool tieneSubFamilias = familia?.SubFamilias.Count > 0;
+            bool tienePatentes    = familia?.Patentes_90DI.Count > 0;
+            bool tieneSubFamilias = familia?.SubFamilias_90DI.Count > 0;
             bool tieneRoles       = _dal.GetAllRoles_90DI()
-                                        .Any(r => r.Familias.Any(f => f.IdFamilia_90DI == idFamilia));
+                                        .Any(r => r.Familias_90DI.Any(f => f.IdFamilia_90DI == idFamilia));
 
             var result = _dal.DeleteFamilia_90DI(idFamilia, tienePatentes, tieneSubFamilias, tieneRoles);
             if (result)
             {
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
                 {
-                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Login_90DI      = SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
                     Modulo_90DI     = Modulos_90DI.Familias,
@@ -160,7 +160,7 @@ namespace BLL
             {
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
                 {
-                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Login_90DI      = SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
                     Modulo_90DI     = Modulos_90DI.Roles,
@@ -179,7 +179,7 @@ namespace BLL
             {
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
                 {
-                    Login_90DI      = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                    Login_90DI      = SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI,
                     Fecha_90DI      = DateTime.Now,
                     Hora_90DI       = DateTime.Now.TimeOfDay,
                     Modulo_90DI     = Modulos_90DI.Familias,

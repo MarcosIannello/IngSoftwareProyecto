@@ -32,8 +32,8 @@ namespace UI_90DI
             ConfigurarCombos();
             CargarEventos();
 
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
-            var t = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
@@ -56,7 +56,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 
@@ -115,7 +115,7 @@ namespace UI_90DI
         private void RefreshGrid(List<Event_90DI> list)
         {
             dataGridEvents.DataSource = list;
-            lblCantUsers.Text = LanguageManager_90DI.T("bitacora_lbl_header") + list.Count;
+            lblCantUsers.Text = LanguageManager_90DI.T_90DI("bitacora_lbl_header") + list.Count;
         }
 
         // ─── Filtro ───────────────────────────────────────────────────────────
@@ -150,7 +150,7 @@ namespace UI_90DI
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            ExportarPDF90DI();
+            ExportarPDF_90DI();
         }
 
         // ─── Exportar PDF ─────────────────────────────────────────────────────
@@ -203,7 +203,7 @@ namespace UI_90DI
         {
             if (e.RowIndex < 0) return;
             selectedItem = (Event_90DI)dataGridEvents.CurrentRow.DataBoundItem;
-            var user = _usersService.getUserByUsername(selectedItem.Login_90DI);
+            var user = _usersService.GetUserByUsername_90DI(selectedItem.Login_90DI);
 
             if (user == null) return;
 
@@ -211,7 +211,7 @@ namespace UI_90DI
             txtLastName.Text = user.Apellidos_90DI;
         }
 
-        private void ExportarPDF90DI()
+        private void ExportarPDF_90DI()
         {
             // Obtener datos actuales del grid
             var eventos = dataGridEvents.DataSource as List<Event_90DI>;

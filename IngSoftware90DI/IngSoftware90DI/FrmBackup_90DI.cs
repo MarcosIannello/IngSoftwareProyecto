@@ -21,19 +21,19 @@ namespace UI_90DI
             AplicarTraducciones();
             RefrescarUltimoBackup();
 
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
-            var t = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
         private void AplicarTraducciones()
         {
-            Text = LanguageManager_90DI.T("backup_form_titulo");
-            lblUltimoTitulo.Text = LanguageManager_90DI.T("backup_lbl_ultimo");
-            lblInfo.Text = LanguageManager_90DI.T("backup_lbl_info");
-            btnGenerar.Text = LanguageManager_90DI.T("backup_btn_generar");
-            btnAplicar.Text = LanguageManager_90DI.T("backup_btn_aplicar");
-            btnCerrar.Text = LanguageManager_90DI.T("backup_btn_cerrar");
+            Text = LanguageManager_90DI.T_90DI("backup_form_titulo");
+            lblUltimoTitulo.Text = LanguageManager_90DI.T_90DI("backup_lbl_ultimo");
+            lblInfo.Text = LanguageManager_90DI.T_90DI("backup_lbl_info");
+            btnGenerar.Text = LanguageManager_90DI.T_90DI("backup_btn_generar");
+            btnAplicar.Text = LanguageManager_90DI.T_90DI("backup_btn_aplicar");
+            btnCerrar.Text = LanguageManager_90DI.T_90DI("backup_btn_cerrar");
         }
 
         // Consulta la fecha del último backup y actualiza el label. Si no hay ninguno,
@@ -49,7 +49,7 @@ namespace UI_90DI
             }
             else
             {
-                lblUltimoFecha.Text = LanguageManager_90DI.T("backup_lbl_sin_backup");
+                lblUltimoFecha.Text = LanguageManager_90DI.T_90DI("backup_lbl_sin_backup");
                 btnAplicar.Enabled = false;
             }
         }
@@ -58,8 +58,8 @@ namespace UI_90DI
         private void BtnGenerar_Click(object sender, EventArgs e)
         {
             var confirmar = MessageBox.Show(
-                LanguageManager_90DI.T("menu_backup_confirm"),
-                LanguageManager_90DI.T("backup_form_titulo"),
+                LanguageManager_90DI.T_90DI("menu_backup_confirm"),
+                LanguageManager_90DI.T_90DI("backup_form_titulo"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -71,8 +71,8 @@ namespace UI_90DI
                 bool ok = _backup.GenerarBackup_90DI();
 
                 MessageBox.Show(
-                    LanguageManager_90DI.T(ok ? "menu_backup_ok" : "menu_backup_error"),
-                    LanguageManager_90DI.T("backup_form_titulo"),
+                    LanguageManager_90DI.T_90DI(ok ? "menu_backup_ok" : "menu_backup_error"),
+                    LanguageManager_90DI.T_90DI("backup_form_titulo"),
                     MessageBoxButtons.OK,
                     ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
@@ -88,20 +88,20 @@ namespace UI_90DI
             if (!fecha.HasValue)
             {
                 MessageBox.Show(
-                    LanguageManager_90DI.T("backup_restore_sin_backup"),
-                    LanguageManager_90DI.T("backup_form_titulo"),
+                    LanguageManager_90DI.T_90DI("backup_restore_sin_backup"),
+                    LanguageManager_90DI.T_90DI("backup_form_titulo"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 RefrescarUltimoBackup();
                 return;
             }
 
             var mensaje = string.Format(
-                LanguageManager_90DI.T("backup_restore_confirm"),
+                LanguageManager_90DI.T_90DI("backup_restore_confirm"),
                 fecha.Value.ToString(FormatoFecha));
 
             var confirmar = MessageBox.Show(
                 mensaje,
-                LanguageManager_90DI.T("backup_form_titulo"),
+                LanguageManager_90DI.T_90DI("backup_form_titulo"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
 
@@ -113,8 +113,8 @@ namespace UI_90DI
                 bool ok = _backup.RestaurarBackup_90DI();
 
                 MessageBox.Show(
-                    LanguageManager_90DI.T(ok ? "backup_restore_ok" : "backup_restore_error"),
-                    LanguageManager_90DI.T("backup_form_titulo"),
+                    LanguageManager_90DI.T_90DI(ok ? "backup_restore_ok" : "backup_restore_error"),
+                    LanguageManager_90DI.T_90DI("backup_form_titulo"),
                     MessageBoxButtons.OK,
                     ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
@@ -141,7 +141,7 @@ namespace UI_90DI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, LanguageManager_90DI.T("backup_form_titulo"),
+                MessageBox.Show(ex.Message, LanguageManager_90DI.T_90DI("backup_form_titulo"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -168,7 +168,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
     }

@@ -21,10 +21,10 @@ namespace UI_90DI
             // Mostrar/ocultar opciones del menú según las patentes del usuario logueado.
             AplicarPermisos();
 
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
 
             // Aplicar el idioma actual al abrir
-            var traducciones = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
+            var traducciones = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
             if (traducciones.Count > 0)
                 UpdateLanguage_90DI(traducciones);
         }
@@ -83,7 +83,7 @@ namespace UI_90DI
 
            
             bool visible = mi.Tag is not string patente
-                           || SessionManager_90DI.Instancia.TienePatente_90DI(patente);
+                           || SessionManager_90DI.Instancia_90DI.TienePatente_90DI(patente);
             mi.Visible = visible;
             return visible;
         }
@@ -114,7 +114,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 
@@ -147,8 +147,8 @@ namespace UI_90DI
             try
             {
                 var confirm = MessageBox.Show(
-                    LanguageManager_90DI.T("menu_msg_logout_text"),
-                    LanguageManager_90DI.T("menu_msg_logout_title"),
+                    LanguageManager_90DI.T_90DI("menu_msg_logout_text"),
+                    LanguageManager_90DI.T_90DI("menu_msg_logout_title"),
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 

@@ -21,19 +21,9 @@ namespace BLL_90DI
 
         public UsersBLL_90DI() { }
 
-        // Si el email ya está en texto plano (usuarios migrados)
-        private static string TryDecryptEmail(string email)
+        public User_90DI? GetUserByUsername_90DI(string Username)
         {
-            try { return SecurityService_90DI.ReversibleDecrypt_90DI(email); }
-            catch { return email; }
-        }
-
-        public User_90DI? getUserByUsername(string Username)
-        {
-            var user = _dal.GetUserByUsername_90DI(Username);
-            if (user != null && !string.IsNullOrEmpty(user.Email_90DI))
-                user.Email_90DI = TryDecryptEmail(user.Email_90DI);
-            return user;
+            return _dal.GetUserByUsername_90DI(Username);
         }
 
         public User_90DI? Login_90DI(string username, string password)
@@ -46,7 +36,7 @@ namespace BLL_90DI
                 _lastUsername = username;
             }
 
-            var user = getUserByUsername(username);
+            var user = GetUserByUsername_90DI(username);
 
             if(user != null && user.Bloqueo_90DI)
             {
@@ -55,7 +45,7 @@ namespace BLL_90DI
 
             if (user != null)
             {
-                if (SecurityService_90DI.Verify90DI(password, user.Password_90DI))
+                if (SecurityService_90DI.Verify_90DI(password, user.Password_90DI))
                 {
                     _intentos = 0; // login exitoso: resetea el contador de intentos fallidos
 
@@ -79,7 +69,7 @@ namespace BLL_90DI
 
                     if (_intentos >= MAX_INTENTOS)
                     {
-                        _dal.blockUser90DI(user.IdUsuario_90DI);
+                        _dal.BlockUser_90DI(user.IdUsuario_90DI);
                         _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
                         return new User_90DI { Bloqueo_90DI = true };
                     }
@@ -92,7 +82,7 @@ namespace BLL_90DI
 
         public void Logout_90DI()
         {
-            var username = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI;
+            var username = SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI;
             try
             {
                 _bitacora.CreateLogEvent_90DI(new Event_90DI
@@ -108,13 +98,13 @@ namespace BLL_90DI
             catch { /* el registro es best-effort; no debe abortar el logout */ }
 
             // Cerrar la sesión SIEMPRE: es lo crítico del logout.
-            SessionManager_90DI.Instancia.CerrarSesion();
+            SessionManager_90DI.Instancia_90DI.CerrarSesion_90DI();
         }
 
         public bool updatePassword_90DI(int idUsuario, string password)
         {
             var hashPassword = getHashPassword_90DI(password);
-            var result = _dal.UpdatePassword90DI(idUsuario, hashPassword);
+            var result = _dal.UpdatePassword_90DI(idUsuario, hashPassword);
             if (result)
             {
                 CreateLogEvent_90DI("Contraseña actualizada para el usuario ID: " + idUsuario, 2);
@@ -125,7 +115,7 @@ namespace BLL_90DI
 
         public bool UpdateIdioma_90DI(int idUsuario, string idioma, bool registrarBitacora = true)
         {
-            var result = _dal.UpdateIdioma90DI(idUsuario, idioma);
+            var result = _dal.UpdateIdioma_90DI(idUsuario, idioma);
             if (result)
             {
                 _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
@@ -137,37 +127,31 @@ namespace BLL_90DI
 
         public string getHashPassword_90DI(string password)
         {
-            return SecurityService_90DI.HashPassword90DI(password);
+            return SecurityService_90DI.HashPassword_90DI(password);
         }
 
         public bool VerifyPassword_90DI(string password, string storedHash)
         {
-            return SecurityService_90DI.Verify90DI(password, storedHash);
+            return SecurityService_90DI.Verify_90DI(password, storedHash);
         }
 
         public List<User_90DI> GetAllUsers_90DI()
         {
-            var users = _dal.GetAllUsers90DI();
-            foreach (var u in users)
-                if (!string.IsNullOrEmpty(u.Email_90DI))
-                    u.Email_90DI = TryDecryptEmail(u.Email_90DI);
-            return users;
+            return _dal.GetAllUsers_90DI();
         }
 
         public bool CreateUser_90DI(User_90DI user)
         {
             try
             {
-                var todosLosUsuarios = _dal.GetAllUsers90DI();
+                var todosLosUsuarios = _dal.GetAllUsers_90DI();
                 bool dniDuplicado = todosLosUsuarios.Any(u => u.DNI_90DI.Trim() == user.DNI_90DI.Trim());
                 if (dniDuplicado)
                     throw new InvalidOperationException($"El DNI '{user.DNI_90DI}' ya pertenece a otro usuario registrado.");
 
                 user.Password_90DI = getHashPassword_90DI(user.Password_90DI);
-                if (!string.IsNullOrEmpty(user.Email_90DI))
-                    user.Email_90DI = SecurityService_90DI.ReversibleEncrypt_90DI(user.Email_90DI);
 
-                var response = _dal.CreateUser90DI(user);
+                var response = _dal.CreateUser_90DI(user);
                 if (response)
                 {
                     CreateLogEvent_90DI("Usuario creado exitosamente: " + user.NombreUsuario_90DI, 2);
@@ -187,11 +171,11 @@ namespace BLL_90DI
 
         public bool UnblockUser_90DI(User_90DI user)
         {
-            var response = _dal.UnblockUser90DI(user.IdUsuario_90DI);
+            var response = _dal.UnblockUser_90DI(user.IdUsuario_90DI);
             if (response)
             {
                 // Al desbloquear, la contraseña vuelve a su valor inicial (DNI + Apellido)
-                _dal.UpdatePassword90DI(user.IdUsuario_90DI, getHashPassword_90DI(user.DNI_90DI + user.Apellidos_90DI));
+                _dal.UpdatePassword_90DI(user.IdUsuario_90DI, getHashPassword_90DI(user.DNI_90DI + user.Apellidos_90DI));
                 CreateLogEvent_90DI("Usuario desbloqueado y contraseña reseteada: " + user.NombreUsuario_90DI, 3);
                 _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
             }
@@ -202,16 +186,13 @@ namespace BLL_90DI
         {
             try
             {
-                var todosLosUsuarios = _dal.GetAllUsers90DI();
+                var todosLosUsuarios = _dal.GetAllUsers_90DI();
                 bool dniDuplicado = todosLosUsuarios.Any(u => u.DNI_90DI.Trim() == user.DNI_90DI.Trim()
                                                            && u.IdUsuario_90DI != user.IdUsuario_90DI);
                 if (dniDuplicado)
                     throw new InvalidOperationException($"El DNI '{user.DNI_90DI}' ya pertenece a otro usuario registrado.");
 
-                if (!string.IsNullOrEmpty(user.Email_90DI))
-                    user.Email_90DI = SecurityService_90DI.ReversibleEncrypt_90DI(user.Email_90DI);
-
-                var response = _dal.UpdateUser90DI(user);
+                var response = _dal.UpdateUser_90DI(user);
                 if (response)
                 {
                     CreateLogEvent_90DI("Usuario actualizado exitosamente: " + user.NombreUsuario_90DI, 2);
@@ -234,12 +215,12 @@ namespace BLL_90DI
             bool response;
             if (user.Activo_90DI)
             {
-                response = _dal.DesactivateUser90DI(user.IdUsuario_90DI);
+                response = _dal.DesactivateUser_90DI(user.IdUsuario_90DI);
                 if (response) CreateLogEvent_90DI("Usuario desactivado: " + user.NombreUsuario_90DI, 1);
             }
             else
             {
-                response = _dal.ActivateUser90DI(user.IdUsuario_90DI);
+                response = _dal.ActivateUser_90DI(user.IdUsuario_90DI);
                 if (response) CreateLogEvent_90DI("Usuario activado: " + user.NombreUsuario_90DI, 1);
             }
             if (response)
@@ -251,7 +232,7 @@ namespace BLL_90DI
         {
             _bitacora.CreateLogEvent_90DI(new Event_90DI
             {
-                Login_90DI = SessionManager_90DI.Instancia.userActual.NombreUsuario_90DI,
+                Login_90DI = SessionManager_90DI.Instancia_90DI.userActual_90DI.NombreUsuario_90DI,
                 Fecha_90DI = DateTime.Now,
                 Hora_90DI = DateTime.Now.TimeOfDay,
                 Modulo_90DI = Modulos_90DI.Usuarios,

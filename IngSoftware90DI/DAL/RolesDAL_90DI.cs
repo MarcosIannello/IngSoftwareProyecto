@@ -57,11 +57,11 @@ namespace DAL
 
                 reader.NextResult();
                 while (reader.Read())
-                    rol.Familias.Add(MapFamilia(reader));
+                    rol.Familias_90DI.Add(MapFamilia(reader));
 
                 reader.NextResult();
                 while (reader.Read())
-                    rol.Patentes.Add(MapPatente(reader));
+                    rol.Patentes_90DI.Add(MapPatente(reader));
 
                 return rol;
             }
@@ -86,11 +86,11 @@ namespace DAL
 
                 reader.NextResult();
                 while (reader.Read())
-                    familia.Patentes.Add(MapPatente(reader));
+                    familia.Patentes_90DI.Add(MapPatente(reader));
 
                 reader.NextResult();
                 while (reader.Read())
-                    familia.SubFamilias.Add(MapFamilia(reader));
+                    familia.SubFamilias_90DI.Add(MapFamilia(reader));
 
                 return familia;
             }
@@ -181,7 +181,7 @@ namespace DAL
                 int idRol = Convert.ToInt32(scalar);
 
                 // 2 — insertar patentes sueltas
-                foreach (var p in rol.Patentes)
+                foreach (var p in rol.Patentes_90DI)
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText =
@@ -195,7 +195,7 @@ namespace DAL
                 }
 
                 // 3 — insertar familias
-                foreach (var f in rol.Familias)
+                foreach (var f in rol.Familias_90DI)
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText =
@@ -253,7 +253,7 @@ namespace DAL
                 if (scalar == null) return false;
                 int idFamilia = Convert.ToInt32(scalar);
 
-                foreach (var patente in familia.Patentes)
+                foreach (var patente in familia.Patentes_90DI)
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText =
@@ -266,7 +266,7 @@ namespace DAL
                     cmd.ExecuteNonQuery();
                 }
 
-                foreach (var hija in familia.SubFamilias)
+                foreach (var hija in familia.SubFamilias_90DI)
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText =
@@ -369,7 +369,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@id", rol.IdRol_90DI);
                 cmd.ExecuteNonQuery();
 
-                foreach (var p in rol.Patentes)
+                foreach (var p in rol.Patentes_90DI)
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText = "INSERT INTO Rol_Patente_90DI (IdRol_90DI, IdPatente_90DI) VALUES (@idRol, @idPatente)";
@@ -383,7 +383,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@id", rol.IdRol_90DI);
                 cmd.ExecuteNonQuery();
 
-                foreach (var f in rol.Familias)
+                foreach (var f in rol.Familias_90DI)
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText = "INSERT INTO Rol_Familia_90DI (IdRol_90DI, IdFamilia_90DI) VALUES (@idRol, @idFamilia)";
@@ -422,7 +422,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@id", familia.IdFamilia_90DI);
                 cmd.ExecuteNonQuery();
 
-                foreach (var patente in familia.Patentes)
+                foreach (var patente in familia.Patentes_90DI)
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText =
@@ -440,7 +440,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@id", familia.IdFamilia_90DI);
                 cmd.ExecuteNonQuery();
 
-                foreach (var hija in familia.SubFamilias)
+                foreach (var hija in familia.SubFamilias_90DI)
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText =

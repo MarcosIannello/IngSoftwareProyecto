@@ -25,10 +25,10 @@ namespace UI_90DI
         {
             InitializeComponent();
 
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
 
             // Aplicar el idioma actual (Español por defecto, o el que haya en sesión).
-            LanguageManager_90DI.Current.NotifyAllObservers_90DI(SessionManager_90DI.Instancia.IdiomaActual);
+            LanguageManager_90DI.Current_90DI.NotifyAllObservers_90DI(SessionManager_90DI.Instancia_90DI.IdiomaActual_90DI);
         }
 
         // Observer: recibe el diccionario de traducciones y actualiza los controles.
@@ -49,7 +49,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this); // remueve solo este form, no todos los observers
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this); // remueve solo este form, no todos los observers
             base.OnFormClosed(e);
         }
 
@@ -66,7 +66,7 @@ namespace UI_90DI
                 User_90DI? user;
 #if DEBUG
                 if (txt_LoginName.Text == "." && txt_loginPass.Text == ".")
-                    user = _usuariosBLL.getUserByUsername("admin");
+                    user = _usuariosBLL.GetUserByUsername_90DI("admin");
                 else
                     user = _usuariosBLL.Login_90DI(txt_LoginName.Text, txt_loginPass.Text);
 #else
@@ -81,7 +81,7 @@ namespace UI_90DI
                 }
 
 
-                var login = SessionManager_90DI.Instancia.Login_90DI(user);
+                var login = SessionManager_90DI.Instancia_90DI.Login_90DI(user);
 
                 if (!login)
                 {
@@ -91,7 +91,7 @@ namespace UI_90DI
 
                 // Cargar las patentes efectivas del usuario en la sesión 
                 int idRol = int.TryParse(user!.Rol_90DI, out var r) ? r : 0;
-                SessionManager_90DI.Instancia.PatentesActivas = _rolesBLL.GetPatentesEfectivas_90DI(idRol);
+                SessionManager_90DI.Instancia_90DI.PatentesActivas_90DI = _rolesBLL.GetPatentesEfectivas_90DI(idRol);
 
                 // Verificacion de integridad del sistema ANTES de cualquier escritura
                 var resultados = _integridad.Verificar_90DI();
@@ -101,7 +101,7 @@ namespace UI_90DI
                 {
                     // Solo un administrador (tiene la patente correspondiente) puede ver
                     // y reparar la integridad. El usuario común queda sin acceso.
-                    bool esAdmin = SessionManager_90DI.Instancia.TienePatente_90DI(PATENTE_ADMIN_INTEGRIDAD);
+                    bool esAdmin = SessionManager_90DI.Instancia_90DI.TienePatente_90DI(PATENTE_ADMIN_INTEGRIDAD);
 
                     if (esAdmin)
                     {
@@ -117,7 +117,7 @@ namespace UI_90DI
                         // Usuario común: no permitir acceso, cerrar sesión.
                         // No se revela la causa (problema de integridad) para no exponer
                         // información sensible del estado del sistema a un usuario no admin.
-                        SessionManager_90DI.Instancia.CerrarSesion();
+                        SessionManager_90DI.Instancia_90DI.CerrarSesion_90DI();
                         MessageBox.Show(
                             "No es posible iniciar sesión en este momento.\n\nPor favor, comuníquese con un administrador.",
                             "Error",
@@ -136,7 +136,7 @@ namespace UI_90DI
                         CodigoIdioma_90DI = user.Idioma_90DI,
                         NombreIdioma_90DI = user.Idioma_90DI == "en" ? "English" : "Español"
                     };
-                    LanguageManager_90DI.Current.NotifyAllObservers_90DI(idiomaUsuario);
+                    LanguageManager_90DI.Current_90DI.NotifyAllObservers_90DI(idiomaUsuario);
                 }
 
                 var menu = new FrmMenu_90DI();

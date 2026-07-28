@@ -10,6 +10,6 @@ namespace Services_90DI.constantes
         //
         // Archivo único: cada backup pisa al anterior (WITH INIT) y la restauración por
         // falla de integridad siempre usa este mismo archivo.
-        public const string NombreArchivoBackup = "IngSoftware90DI_backup.bak";
+        public const string NombreArchivoBackup_90DI = "IngSoftware90DI_backup.bak";
     }
 }

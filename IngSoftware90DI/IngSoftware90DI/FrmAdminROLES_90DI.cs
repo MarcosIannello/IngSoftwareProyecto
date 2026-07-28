@@ -38,8 +38,8 @@ namespace Capital_
 
             rdbModoConsulta.Checked = true; // ahora sí dispara LoadModoConsulta → CargarCmbRoles
 
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
-            var t = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
@@ -61,7 +61,7 @@ namespace Capital_
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 
@@ -116,7 +116,7 @@ namespace Capital_
 
         private void CargarCmbPatentes()
         {
-            var idsAsignados = tempRol.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
+            var idsAsignados = tempRol.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
             cmbPatentesDisponibles.DataSource = null;
             cmbPatentesDisponibles.DataSource = _rolBLL.GetAllPatentes_90DI()
                                                           .Where(p => !idsAsignados.Contains(p.IdPatente_90DI))
@@ -126,7 +126,7 @@ namespace Capital_
 
         private void CargarCmbFamilias()
         {
-            var idsAsignados = tempRol.Familias.Select(f => f.IdFamilia_90DI).ToHashSet();
+            var idsAsignados = tempRol.Familias_90DI.Select(f => f.IdFamilia_90DI).ToHashSet();
             cmbFamiliasDisponibles.DataSource = null;
             cmbFamiliasDisponibles.DataSource = _rolBLL.GetAllFamilias_90DI()
                                                           .Where(f => !idsAsignados.Contains(f.IdFamilia_90DI))
@@ -137,11 +137,11 @@ namespace Capital_
         private void RefrescarListasAsignadas()
         {
             LstPatentesAsignadas.DataSource = null;
-            LstPatentesAsignadas.DataSource = tempRol.Patentes;
+            LstPatentesAsignadas.DataSource = tempRol.Patentes_90DI;
             LstPatentesAsignadas.DisplayMember = _dm;
 
             LstFamiliasAsignadas.DataSource = null;
-            LstFamiliasAsignadas.DataSource = tempRol.Familias;
+            LstFamiliasAsignadas.DataSource = tempRol.Familias_90DI;
             LstFamiliasAsignadas.DisplayMember = _dm;
 
             CargarCmbPatentes();
@@ -187,11 +187,11 @@ namespace Capital_
             txtNombreRol.Text = tempRol.Nombre_90DI;
 
             LstPatentesAsignadas.DataSource = null;
-            LstPatentesAsignadas.DataSource = tempRol.Patentes;
+            LstPatentesAsignadas.DataSource = tempRol.Patentes_90DI;
             LstPatentesAsignadas.DisplayMember = _dm;
 
             LstFamiliasAsignadas.DataSource = null;
-            LstFamiliasAsignadas.DataSource = tempRol.Familias;
+            LstFamiliasAsignadas.DataSource = tempRol.Familias_90DI;
             LstFamiliasAsignadas.DisplayMember = _dm;
 
             CargarCmbPatentes();
@@ -213,12 +213,12 @@ namespace Capital_
         // Devuelve todos los IdPatente de una familia: directas + las de cada subfamilia.
         private HashSet<int> GetIdsPatentesCompletos(Familia_90DI familiaCompleta)
         {
-            var ids = familiaCompleta.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
-            foreach (var sub in familiaCompleta.SubFamilias)
+            var ids = familiaCompleta.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
+            foreach (var sub in familiaCompleta.SubFamilias_90DI)
             {
                 var subCompleta = _rolBLL.GetFamiliaCompleta_90DI(sub.IdFamilia_90DI);
                 if (subCompleta != null)
-                    foreach (var p in subCompleta.Patentes)
+                    foreach (var p in subCompleta.Patentes_90DI)
                         ids.Add(p.IdPatente_90DI);
             }
             return ids;
@@ -229,24 +229,24 @@ namespace Capital_
         private void btnAgregarPatente_Click(object sender, EventArgs e)
         {
             if (tempPatente.IdPatente_90DI == 0) return;
-            if (tempRol.Patentes.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI)) return;
+            if (tempRol.Patentes_90DI.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI)) return;
 
             // Bloquear si la patente ya está cubierta por alguna familia (o subfamilia) asignada al rol
-            foreach (var familia in tempRol.Familias)
+            foreach (var familia in tempRol.Familias_90DI)
             {
                 var completa = _rolBLL.GetFamiliaCompleta_90DI(familia.IdFamilia_90DI);
                 if (completa == null) continue;
                 if (GetIdsPatentesCompletos(completa).Contains(tempPatente.IdPatente_90DI))
                 {
                     MessageBox.Show(
-                        string.Format(LanguageManager_90DI.T("roles_msg_patente_dup"), tempPatente.Nombre_90DI, familia.Nombre_90DI),
-                        LanguageManager_90DI.T("roles_msg_patente_dup_title"),
+                        string.Format(LanguageManager_90DI.T_90DI("roles_msg_patente_dup"), tempPatente.Nombre_90DI, familia.Nombre_90DI),
+                        LanguageManager_90DI.T_90DI("roles_msg_patente_dup_title"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
 
-            tempRol.Patentes.Add(tempPatente);
+            tempRol.Patentes_90DI.Add(tempPatente);
             RefrescarListasAsignadas();
         }
 
@@ -254,7 +254,7 @@ namespace Capital_
         {
             if (LstPatentesAsignadas.SelectedItem is not Patente_90DI p) return;
 
-            tempRol.Patentes.Remove(p);
+            tempRol.Patentes_90DI.Remove(p);
             RefrescarListasAsignadas();
         }
 
@@ -263,7 +263,7 @@ namespace Capital_
         private void btnAgregarFamilia_Click(object sender, EventArgs e)
         {
             if (tempFamilia.IdFamilia_90DI == 0) return;
-            if (tempRol.Familias.Any(f => f.IdFamilia_90DI == tempFamilia.IdFamilia_90DI)) return;
+            if (tempRol.Familias_90DI.Any(f => f.IdFamilia_90DI == tempFamilia.IdFamilia_90DI)) return;
 
             var familiaCompleta = _rolBLL.GetFamiliaCompleta_90DI(tempFamilia.IdFamilia_90DI);
             if (familiaCompleta == null) return;
@@ -272,41 +272,41 @@ namespace Capital_
             var idsNueva = GetIdsPatentesCompletos(familiaCompleta);
 
             // Bloquear si alguna patente de la nueva familia ya está asignada directamente al rol
-            foreach (var p in familiaCompleta.Patentes.Concat(
-                familiaCompleta.SubFamilias
-                    .SelectMany(s => _rolBLL.GetFamiliaCompleta_90DI(s.IdFamilia_90DI)?.Patentes ?? Enumerable.Empty<Patente_90DI>())))
+            foreach (var p in familiaCompleta.Patentes_90DI.Concat(
+                familiaCompleta.SubFamilias_90DI
+                    .SelectMany(s => _rolBLL.GetFamiliaCompleta_90DI(s.IdFamilia_90DI)?.Patentes_90DI ?? Enumerable.Empty<Patente_90DI>())))
             {
-                if (tempRol.Patentes.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
+                if (tempRol.Patentes_90DI.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
                 {
                     MessageBox.Show(
-                        string.Format(LanguageManager_90DI.T("roles_msg_patente_dup"), p.Nombre_90DI, familiaCompleta.Nombre_90DI),
-                        LanguageManager_90DI.T("roles_msg_patente_dup_title"),
+                        string.Format(LanguageManager_90DI.T_90DI("roles_msg_patente_dup"), p.Nombre_90DI, familiaCompleta.Nombre_90DI),
+                        LanguageManager_90DI.T_90DI("roles_msg_patente_dup_title"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
 
             // Bloquear si la nueva familia comparte patentes con otra familia ya asignada al rol
-            foreach (var otraFamilia in tempRol.Familias)
+            foreach (var otraFamilia in tempRol.Familias_90DI)
             {
                 var otraCompleta = _rolBLL.GetFamiliaCompleta_90DI(otraFamilia.IdFamilia_90DI);
                 if (otraCompleta == null) continue;
                 var idsOtra = GetIdsPatentesCompletos(otraCompleta);
-                var pConflicto = familiaCompleta.Patentes
-                    .Concat(familiaCompleta.SubFamilias
-                        .SelectMany(s => _rolBLL.GetFamiliaCompleta_90DI(s.IdFamilia_90DI)?.Patentes ?? Enumerable.Empty<Patente_90DI>()))
+                var pConflicto = familiaCompleta.Patentes_90DI
+                    .Concat(familiaCompleta.SubFamilias_90DI
+                        .SelectMany(s => _rolBLL.GetFamiliaCompleta_90DI(s.IdFamilia_90DI)?.Patentes_90DI ?? Enumerable.Empty<Patente_90DI>()))
                     .FirstOrDefault(p => idsOtra.Contains(p.IdPatente_90DI));
                 if (pConflicto != null)
                 {
                     MessageBox.Show(
-                        string.Format(LanguageManager_90DI.T("roles_msg_familia_dup"), pConflicto.Nombre_90DI, otraFamilia.Nombre_90DI, familiaCompleta.Nombre_90DI),
-                        LanguageManager_90DI.T("roles_msg_familia_dup_title"),
+                        string.Format(LanguageManager_90DI.T_90DI("roles_msg_familia_dup"), pConflicto.Nombre_90DI, otraFamilia.Nombre_90DI, familiaCompleta.Nombre_90DI),
+                        LanguageManager_90DI.T_90DI("roles_msg_familia_dup_title"),
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
 
-            tempRol.Familias.Add(tempFamilia);
+            tempRol.Familias_90DI.Add(tempFamilia);
             RefrescarListasAsignadas();
         }
 
@@ -314,7 +314,7 @@ namespace Capital_
         {
             if (LstFamiliasAsignadas.SelectedItem is not Familia_90DI f) return;
 
-            tempRol.Familias.Remove(f);
+            tempRol.Familias_90DI.Remove(f);
             RefrescarListasAsignadas();
         }
 
@@ -324,29 +324,29 @@ namespace Capital_
         // por alguna familia, o si dos familias comparten una patente. Null = OK.
         private string? ValidarRedundanciaRol()
         {
-            var familiasCompletas = tempRol.Familias
+            var familiasCompletas = tempRol.Familias_90DI
                 .Select(f => _rolBLL.GetFamiliaCompleta_90DI(f.IdFamilia_90DI))
                 .Where(f => f != null)
                 .ToList();
 
             foreach (var familia in familiasCompletas)
             {
-                foreach (var p in familia!.Patentes)
+                foreach (var p in familia!.Patentes_90DI)
                 {
-                    if (tempRol.Patentes.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
-                        return string.Format(LanguageManager_90DI.T("roles_msg_patente_dup"), p.Nombre_90DI, familia.Nombre_90DI);
+                    if (tempRol.Patentes_90DI.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
+                        return string.Format(LanguageManager_90DI.T_90DI("roles_msg_patente_dup"), p.Nombre_90DI, familia.Nombre_90DI);
                 }
             }
 
             for (int i = 0; i < familiasCompletas.Count; i++)
             {
-                var idsI = familiasCompletas[i]!.Patentes.Select(p => p.IdPatente_90DI).ToHashSet();
+                var idsI = familiasCompletas[i]!.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
                 for (int j = i + 1; j < familiasCompletas.Count; j++)
                 {
-                    foreach (var p in familiasCompletas[j]!.Patentes)
+                    foreach (var p in familiasCompletas[j]!.Patentes_90DI)
                     {
                         if (idsI.Contains(p.IdPatente_90DI))
-                            return string.Format(LanguageManager_90DI.T("roles_msg_familia_dup"), p.Nombre_90DI, familiasCompletas[i]!.Nombre_90DI, familiasCompletas[j]!.Nombre_90DI);
+                            return string.Format(LanguageManager_90DI.T_90DI("roles_msg_familia_dup"), p.Nombre_90DI, familiasCompletas[i]!.Nombre_90DI, familiasCompletas[j]!.Nombre_90DI);
                     }
                 }
             }
@@ -363,18 +363,18 @@ namespace Capital_
             {
                 if (string.IsNullOrWhiteSpace(txtNombreRol.Text))
                 {
-                    MessageBox.Show(LanguageManager_90DI.T("roles_msg_nombre_empty"), LanguageManager_90DI.T("roles_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("roles_msg_nombre_empty"), LanguageManager_90DI.T_90DI("roles_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (tempRol.Patentes.Count == 0 && tempRol.Familias.Count == 0)
+                if (tempRol.Patentes_90DI.Count == 0 && tempRol.Familias_90DI.Count == 0)
                 {
-                    MessageBox.Show(LanguageManager_90DI.T("roles_msg_contenido_empty"), LanguageManager_90DI.T("roles_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("roles_msg_contenido_empty"), LanguageManager_90DI.T_90DI("roles_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 var conflicto = ValidarRedundanciaRol();
                 if (conflicto != null)
                 {
-                    MessageBox.Show(conflicto, LanguageManager_90DI.T("roles_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(conflicto, LanguageManager_90DI.T_90DI("roles_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 string nombreTrim = txtNombreRol.Text.Trim();
@@ -382,34 +382,34 @@ namespace Capital_
                     .Any(r => r.Nombre_90DI.Equals(nombreTrim, StringComparison.OrdinalIgnoreCase));
                 if (nombreDuplicado)
                 {
-                    MessageBox.Show(string.Format(LanguageManager_90DI.T("roles_msg_nombre_dup"), nombreTrim), LanguageManager_90DI.T("roles_msg_nombre_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format(LanguageManager_90DI.T_90DI("roles_msg_nombre_dup"), nombreTrim), LanguageManager_90DI.T_90DI("roles_msg_nombre_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 tempRol.Nombre_90DI = nombreTrim;
                 response = _rolBLL.CreateRol_90DI(tempRol);
                 MessageBox.Show(
-                    response ? LanguageManager_90DI.T("roles_msg_creado") : LanguageManager_90DI.T("roles_msg_error_crear"),
-                    response ? LanguageManager_90DI.T("roles_msg_exito_title") : LanguageManager_90DI.T("roles_msg_error_title"),
+                    response ? LanguageManager_90DI.T_90DI("roles_msg_creado") : LanguageManager_90DI.T_90DI("roles_msg_error_crear"),
+                    response ? LanguageManager_90DI.T_90DI("roles_msg_exito_title") : LanguageManager_90DI.T_90DI("roles_msg_error_title"),
                     MessageBoxButtons.OK, response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
             }
 
             if (rdbModificarFamilia.Checked)
             {
-                if (tempRol.Patentes.Count == 0 && tempRol.Familias.Count == 0)
+                if (tempRol.Patentes_90DI.Count == 0 && tempRol.Familias_90DI.Count == 0)
                 {
-                    MessageBox.Show(LanguageManager_90DI.T("roles_msg_contenido_empty"), LanguageManager_90DI.T("roles_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("roles_msg_contenido_empty"), LanguageManager_90DI.T_90DI("roles_msg_nombre_empty_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 var conflictoMod = ValidarRedundanciaRol();
                 if (conflictoMod != null)
                 {
-                    MessageBox.Show(conflictoMod, LanguageManager_90DI.T("roles_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(conflictoMod, LanguageManager_90DI.T_90DI("roles_msg_patente_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 response = _rolBLL.UpdateRol_90DI(tempRol);
                 MessageBox.Show(
-                    response ? LanguageManager_90DI.T("roles_msg_modificado") : LanguageManager_90DI.T("roles_msg_error_modificar"),
-                    response ? LanguageManager_90DI.T("roles_msg_exito_title") : LanguageManager_90DI.T("roles_msg_error_title"),
+                    response ? LanguageManager_90DI.T_90DI("roles_msg_modificado") : LanguageManager_90DI.T_90DI("roles_msg_error_modificar"),
+                    response ? LanguageManager_90DI.T_90DI("roles_msg_exito_title") : LanguageManager_90DI.T_90DI("roles_msg_error_title"),
                     MessageBoxButtons.OK, response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
             }
 
@@ -431,8 +431,8 @@ namespace Capital_
             if (cmbRolActual.SelectedItem is not Rol_90DI rol) return;
 
             var confirm = MessageBox.Show(
-                string.Format(LanguageManager_90DI.T("roles_msg_confirm_eliminar"), rol.Nombre_90DI),
-                LanguageManager_90DI.T("roles_msg_confirm_eliminar_title"),
+                string.Format(LanguageManager_90DI.T_90DI("roles_msg_confirm_eliminar"), rol.Nombre_90DI),
+                LanguageManager_90DI.T_90DI("roles_msg_confirm_eliminar_title"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
 
@@ -440,8 +440,8 @@ namespace Capital_
 
             bool response = _rolBLL.DeleteRol_90DI(rol.IdRol_90DI, rol.Nombre_90DI);
             MessageBox.Show(
-                response ? LanguageManager_90DI.T("roles_msg_eliminado") : LanguageManager_90DI.T("roles_msg_error_eliminar"),
-                response ? LanguageManager_90DI.T("roles_msg_exito_title") : LanguageManager_90DI.T("roles_msg_error_title"),
+                response ? LanguageManager_90DI.T_90DI("roles_msg_eliminado") : LanguageManager_90DI.T_90DI("roles_msg_error_eliminar"),
+                response ? LanguageManager_90DI.T_90DI("roles_msg_exito_title") : LanguageManager_90DI.T_90DI("roles_msg_error_title"),
                 MessageBoxButtons.OK,
                 response ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 

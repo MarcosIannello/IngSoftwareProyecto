@@ -4,25 +4,25 @@ namespace Service_90DI
 {
     public sealed class SessionManager_90DI
     {
-        private static SessionManager_90DI? _instancia = null;
+        private static SessionManager_90DI? _instancia_90DI = null;
 
-        private static readonly object _lock = new();
+        private static readonly object _lock_90DI = new();
 
-        public User_90DI userActual = new User_90DI();
+        public User_90DI userActual_90DI = new User_90DI();
 
-        public bool SesionActiva { get; private set; }
+        public bool SesionActiva_90DI { get; private set; }
 
         // Patentes efectivas del usuario logueado (nombres). Se cargan en el Login
         // y se usan para mostrar/ocultar opciones del menú. Case-insensitive.
-        public HashSet<string> PatentesActivas { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+        public HashSet<string> PatentesActivas_90DI { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 
         // True si el usuario tiene la patente indicada en su sesión.
         public bool TienePatente_90DI(string nombrePatente) =>
-            PatentesActivas.Contains(nombrePatente);
+            PatentesActivas_90DI.Contains(nombrePatente);
 
         // Idioma activo de la sesión. Se elige en el Login (antes de autenticar)
         // y persiste para las pantallas posteriores. Default: Español.
-        public Idioma_90DI IdiomaActual { get; set; } = new Idioma_90DI
+        public Idioma_90DI IdiomaActual_90DI { get; set; } = new Idioma_90DI
         {
             IdIdioma_90DI = 1,
             NombreIdioma_90DI = "Español",
@@ -31,28 +31,28 @@ namespace Service_90DI
 
         private SessionManager_90DI() { }
 
-        public static SessionManager_90DI Instancia
+        public static SessionManager_90DI Instancia_90DI
         {
             get
             {
-                if (_instancia == null)
+                if (_instancia_90DI == null)
                 {
-                    lock (_lock)
+                    lock (_lock_90DI)
                     {
-                        if (_instancia == null)
+                        if (_instancia_90DI == null)
                         {
-                            _instancia = new SessionManager_90DI();
+                            _instancia_90DI = new SessionManager_90DI();
                         }
                     }
                 }
-                return _instancia;
+                return _instancia_90DI;
             }
         }
 
         public bool Login_90DI(User_90DI? user = null)
         {
-           
-                if (SesionActiva)
+
+                if (SesionActiva_90DI)
                     throw new InvalidOperationException("Ya hay una sesion activa. Cerrala antes de iniciar otra.");
 
                 if (user == null)
@@ -64,15 +64,15 @@ namespace Service_90DI
                 if (user.Activo_90DI == false)
                     throw new InvalidOperationException("El usuario no esta activo, Comuniquese con el Admin.");
 
-                this.userActual = user;
-                this.SesionActiva = true;
+                this.userActual_90DI = user;
+                this.SesionActiva_90DI = true;
 
                 return true;
         }
 
-        public void CerrarSesion()
+        public void CerrarSesion_90DI()
         {
-            _instancia = null;
+            _instancia_90DI = null;
         }
     }
 }

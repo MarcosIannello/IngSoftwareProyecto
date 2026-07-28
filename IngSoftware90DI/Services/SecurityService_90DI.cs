@@ -38,14 +38,14 @@ namespace Services_90DI
             return Encoding.UTF8.GetString(plainText);
         }
 
-        public static string HashPassword90DI(string password)
+        public static string HashPassword_90DI(string password)
         {
             var salt = RandomNumberGenerator.GetBytes(16);
             var hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, 350_000, HashAlgorithmName.SHA256, 32);
             return $"{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
         }
 
-        public static bool Verify90DI(string password, string storedHash)
+        public static bool Verify_90DI(string password, string storedHash)
         {
             var parts = storedHash.Split('.');
             var salt = Convert.FromBase64String(parts[0]);

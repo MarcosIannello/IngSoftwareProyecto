@@ -56,10 +56,10 @@ namespace UI_90DI
             CleanForm();
             rdbActive.Checked = true;
             btnCancelar.Enabled = false;
-            txtActiveMode.Text = LanguageManager_90DI.T(_modoKey);
+            txtActiveMode.Text = LanguageManager_90DI.T_90DI(_modoKey);
 
-            LanguageManager_90DI.Current.AddObserver_90DI(this);
-            var t = LanguageManager_90DI.Current.TraduccionesActuales_90DI;
+            LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
+            var t = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
             if (t.Count > 0) UpdateLanguage_90DI(t);
         }
 
@@ -87,12 +87,12 @@ namespace UI_90DI
             if (traducciones.TryGetValue("users_rdb_activos",    out v))     rdbActive.Text        = v;
             if (traducciones.TryGetValue("users_rdb_todos",      out v))     rdbTodos.Text         = v;
             if (traducciones.TryGetValue("users_lbl_cant",       out v))     lblCantUsers.Text     = v + (usersList?.Count ?? 0);
-            txtActiveMode.Text = LanguageManager_90DI.T(_modoKey);
+            txtActiveMode.Text = LanguageManager_90DI.T_90DI(_modoKey);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current.Unsubscribe_90DI(this);
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this);
             base.OnFormClosed(e);
         }
 
@@ -122,7 +122,7 @@ namespace UI_90DI
             SetActionButtons(true);
             rdbActive.Checked = true;
             _modoKey = "users_mode_consulta";
-            txtActiveMode.Text = LanguageManager_90DI.T(_modoKey);
+            txtActiveMode.Text = LanguageManager_90DI.T_90DI(_modoKey);
         }
 
         // ─── Modos de pantalla ───────────────────────────────────────────────
@@ -192,26 +192,26 @@ namespace UI_90DI
         {
             if (string.IsNullOrWhiteSpace(txtLogin.Text))
             {
-                MessageBox.Show(LanguageManager_90DI.T("users_msg_val_login_empty"), LanguageManager_90DI.T("users_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_val_login_empty"), LanguageManager_90DI.T_90DI("users_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtLogin.Focus();
                 return false;
             }
             if (!Regex.IsMatch(txtDni.Text.Trim(), @"^\d+$"))
             {
-                MessageBox.Show(LanguageManager_90DI.T("users_msg_val_dni_numbers"), LanguageManager_90DI.T("users_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_val_dni_numbers"), LanguageManager_90DI.T_90DI("users_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDni.Focus();
                 return false;
             }
             bool dniDuplicado = usersList.Any(u => u.DNI_90DI == txtDni.Text.Trim() && u.IdUsuario_90DI != excluirId);
             if (dniDuplicado)
             {
-                MessageBox.Show(LanguageManager_90DI.T("users_msg_val_dni_dup"), LanguageManager_90DI.T("users_msg_dni_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_val_dni_dup"), LanguageManager_90DI.T_90DI("users_msg_dni_dup_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDni.Focus();
                 return false;
             }
             if (!Regex.IsMatch(txtEmail.Text.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-                MessageBox.Show(LanguageManager_90DI.T("users_msg_val_email"), LanguageManager_90DI.T("users_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_val_email"), LanguageManager_90DI.T_90DI("users_msg_val_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtEmail.Focus();
                 return false;
             }
@@ -336,38 +336,38 @@ namespace UI_90DI
             SetActionButtons(false);
             btnCrear.Enabled = false;
             _modoKey = "users_mode_crear";
-            txtActiveMode.Text = LanguageManager_90DI.T(_modoKey);
+            txtActiveMode.Text = LanguageManager_90DI.T_90DI(_modoKey);
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            if (temp == null) { MessageBox.Show(LanguageManager_90DI.T("users_msg_select_first"), LanguageManager_90DI.T("users_msg_aviso_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (temp == null) { MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_select_first"), LanguageManager_90DI.T_90DI("users_msg_aviso_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             SetMode(edit: true);
             UnblockForm();
             btnCancelar.Enabled = true;
             SetActionButtons(false);
             _modoKey = "users_mode_editar";
-            txtActiveMode.Text = LanguageManager_90DI.T(_modoKey);
+            txtActiveMode.Text = LanguageManager_90DI.T_90DI(_modoKey);
         }
 
         private void btnDesbloquear_Click(object sender, EventArgs e)
         {
-            if (temp == null) { MessageBox.Show(LanguageManager_90DI.T("users_msg_select_first"), LanguageManager_90DI.T("users_msg_aviso_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (temp == null) { MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_select_first"), LanguageManager_90DI.T_90DI("users_msg_aviso_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             SetMode(unblock: true);
             btnCancelar.Enabled = true;
             SetActionButtons(false);
             _modoKey = "users_mode_desbloquear";
-            txtActiveMode.Text = LanguageManager_90DI.T(_modoKey);
+            txtActiveMode.Text = LanguageManager_90DI.T_90DI(_modoKey);
         }
 
         private void btnActive_Click(object sender, EventArgs e)
         {
-            if (temp == null) { MessageBox.Show(LanguageManager_90DI.T("users_msg_select_first"), LanguageManager_90DI.T("users_msg_aviso_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (temp == null) { MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_select_first"), LanguageManager_90DI.T_90DI("users_msg_aviso_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             SetMode(activate: true);
             btnCancelar.Enabled = true;
             SetActionButtons(false);
             _modoKey = "users_mode_activar";
-            txtActiveMode.Text = LanguageManager_90DI.T(_modoKey);
+            txtActiveMode.Text = LanguageManager_90DI.T_90DI(_modoKey);
         }
 
         // ─── Aplicar ─────────────────────────────────────────────────────────
@@ -440,8 +440,8 @@ namespace UI_90DI
                 else if (unblockMode)
                 {
                     var confirm = MessageBox.Show(
-                        string.Format(LanguageManager_90DI.T("users_msg_confirm_desbloquear"), temp.NombreUsuario_90DI),
-                        LanguageManager_90DI.T("users_msg_confirm_desbloquear_title"),
+                        string.Format(LanguageManager_90DI.T_90DI("users_msg_confirm_desbloquear"), temp.NombreUsuario_90DI),
+                        LanguageManager_90DI.T_90DI("users_msg_confirm_desbloquear_title"),
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question);
                     if (confirm != DialogResult.Yes) return;
@@ -451,11 +451,11 @@ namespace UI_90DI
                 else if (activateMode)
                 {
                     var accion = temp.Activo_90DI
-                        ? LanguageManager_90DI.T("users_msg_desactivar")
-                        : LanguageManager_90DI.T("users_msg_activar");
+                        ? LanguageManager_90DI.T_90DI("users_msg_desactivar")
+                        : LanguageManager_90DI.T_90DI("users_msg_activar");
                     var confirm = MessageBox.Show(
-                        string.Format(LanguageManager_90DI.T("users_msg_confirm_activar"), accion, temp.NombreUsuario_90DI),
-                        LanguageManager_90DI.T("users_msg_confirm_activar_title"),
+                        string.Format(LanguageManager_90DI.T_90DI("users_msg_confirm_activar"), accion, temp.NombreUsuario_90DI),
+                        LanguageManager_90DI.T_90DI("users_msg_confirm_activar_title"),
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question);
                     if (confirm != DialogResult.Yes) return;
@@ -465,7 +465,7 @@ namespace UI_90DI
 
                 if (response)
                 {
-                    MessageBox.Show(LanguageManager_90DI.T("users_msg_success"), LanguageManager_90DI.T("users_msg_success_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_success"), LanguageManager_90DI.T_90DI("users_msg_success_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     GoToConsultaMode();
                 }
             }
