@@ -86,6 +86,8 @@
   "users_mode_activar": "Activar/Desactivar Usuario",
   "users_msg_success": "Operacion realizada con exito",
   "users_msg_success_title": "Exito",
+  "users_msg_fail": "No se pudo completar la operacion. Verifique los datos e intente nuevamente.",
+  "users_msg_fail_title": "Operacion no realizada",
   "users_msg_confirm_desbloquear": "¿Desea desbloquear al usuario '{0}'?",
   "users_msg_confirm_desbloquear_title": "Confirmar desbloqueo",
   "users_msg_confirm_activar": "¿Desea {0} al usuario '{1}'?",

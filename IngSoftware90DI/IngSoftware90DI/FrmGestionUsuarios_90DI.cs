@@ -468,6 +468,10 @@ namespace UI_90DI
                     MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_success"), LanguageManager_90DI.T_90DI("users_msg_success_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     GoToConsultaMode();
                 }
+                else
+                {
+                    MessageBox.Show(LanguageManager_90DI.T_90DI("users_msg_fail"), LanguageManager_90DI.T_90DI("users_msg_fail_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             catch (InvalidOperationException ex)
             {

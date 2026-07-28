@@ -149,6 +149,10 @@ namespace BLL_90DI
                 if (dniDuplicado)
                     throw new InvalidOperationException($"El DNI '{user.DNI_90DI}' ya pertenece a otro usuario registrado.");
 
+                bool loginDuplicado = todosLosUsuarios.Any(u => u.NombreUsuario_90DI.Trim().Equals(user.NombreUsuario_90DI.Trim(), StringComparison.OrdinalIgnoreCase));
+                if (loginDuplicado)
+                    throw new InvalidOperationException($"El nombre de usuario '{user.NombreUsuario_90DI}' ya está en uso.");
+
                 user.Password_90DI = getHashPassword_90DI(user.Password_90DI);
 
                 var response = _dal.CreateUser_90DI(user);

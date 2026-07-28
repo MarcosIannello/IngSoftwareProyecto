@@ -86,6 +86,8 @@
   "users_mode_activar": "Enable/Disable User",
   "users_msg_success": "Operation completed successfully",
   "users_msg_success_title": "Success",
+  "users_msg_fail": "The operation could not be completed. Check the data and try again.",
+  "users_msg_fail_title": "Operation failed",
   "users_msg_confirm_desbloquear": "Do you want to unblock user '{0}'?",
   "users_msg_confirm_desbloquear_title": "Confirm unblock",
   "users_msg_confirm_activar": "Do you want to {0} user '{1}'?",

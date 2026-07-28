@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.google.com)",
+      "mcp__claude-in-chrome__tabs_create_mcp",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__navigate",
+      "mcp__claude-in-chrome__get_page_text",
+      "mcp__08ecacaf-0064-45f1-b81b-fa66912ac95f__read_file_content",
+      "Bash(echo \"=== last commit \\(dv\\) ===\"; git show --stat HEAD *)",
+      "mcp__08ecacaf-0064-45f1-b81b-fa66912ac95f__get_file_metadata",
+      "Bash(git ls-remote *)",
+      "Bash(git reset *)",
+      "Bash(cd /Users/marcosiannello/Documents/Facultad/Ing_software/Repos/IngSoftwareProyecto/IngSoftware90DI *)",
+      "Bash(python3 -)"
+    ]
+  }
+}
