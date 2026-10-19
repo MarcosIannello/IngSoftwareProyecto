@@ -11,11 +11,11 @@ namespace BLL_90DI
 
         public BackupBLL_90DI() { }
 
-        // Nombre de archivo por defecto del backup (la carpeta la resuelve el servidor SQL).
+        // Nombre por defecto del .bak. La carpeta la decide el SQL Server, no nosotros.
         public static string ArchivoBackupPorDefecto => BackupConfig_90DI.NombreArchivoBackup_90DI;
 
-        // Genera un backup del estado actual de la base. Lo dispara el Admin desde el menú.
-        // Registra el evento en bitácora si el backup fue exitoso.
+        // Hace un backup de la base tal como está ahora (lo usa el admin desde el menú).
+        // Si sale bien queda registrado en la bitácora.
         public bool GenerarBackup_90DI(string? nombreArchivo = null)
         {
             var archivo = nombreArchivo ?? ArchivoBackupPorDefecto;
@@ -27,17 +27,17 @@ namespace BLL_90DI
             return ok;
         }
 
-        // Restaura la base desde el último backup. Se usa ante una falla de integridad.
-        // No se registra en bitácora acá: la base queda en el estado del backup y un log
-        // posterior recalcularía el DV de EVENTOS_90DI sobre datos ya restaurados.
+        // Restaura el último backup, se usa cuando falla la integridad.
+        // Ojo: acá no se registra en bitácora, porque eso recalcularía el DV de EVENTOS_90DI
+        // sobre la base recién restaurada.
         public bool RestaurarBackup_90DI(string? nombreArchivo = null) 
         {
             var archivo = nombreArchivo ?? ArchivoBackupPorDefecto;
             return _dal.Restore_90DI(archivo);
         }
 
-        // Fecha/hora de creación del último backup disponible, o null si nunca se generó uno.
-        // Sirve para mostrarle al Admin a qué estado volvería la base al restaurar.
+        // Fecha del último backup (null si nunca se hizo ninguno). La mostramos para que
+        // el admin sepa a qué punto vuelve la base si restaura.
         public DateTime? ObtenerFechaUltimoBackup_90DI()
         {
             return _dal.ObtenerFechaUltimoBackup_90DI();

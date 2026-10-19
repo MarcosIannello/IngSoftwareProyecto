@@ -5,8 +5,8 @@ namespace DAL
 {
     public class ConexionSql_90DI
     {
-        // Fallback para desarrollo: si NO hay appsettings.json junto al .exe, se usa esta.
-        // En producción/instalador, la cadena real viene de appsettings.json (por máquina).
+        // Cadena por defecto para desarrollo, se usa si no hay config al lado del .exe.
+        // Con la app instalada, la cadena real la deja el instalador en dal.settings.json.
         private const string ConexionPorDefecto =
             "Server=.\\SQLEXPRESS;Database=IngSoftware90DI;Trusted_Connection=True;TrustServerCertificate=True;";
 
@@ -17,10 +17,10 @@ namespace DAL
             _connectionString = LeerConexionDesdeConfig() ?? ConexionPorDefecto;
         }
 
-        // Lee ConnectionStrings:IngSoftware90DI de dal.settings.json, el archivo de config
-        // PROPIO de la capa DAL (se copia junto al ejecutable, pero lo declara/posee la DAL).
-        // Si el archivo no existe, la clave falta o el JSON es inválido, devuelve null → se usa
-        // el fallback. Esto permite que el instalador escriba la cadena por máquina sin recompilar.
+        // Lee ConnectionStrings:IngSoftware90DI de dal.settings.json (el config propio de la DAL,
+        // que se copia junto al ejecutable). Si el archivo no está, le falta la clave o el JSON
+        // está roto, devuelve null y se usa la cadena por defecto. Así el instalador configura
+        // la conexión de cada máquina sin tener que recompilar.
         private static string? LeerConexionDesdeConfig()
         {
             try
@@ -38,7 +38,7 @@ namespace DAL
             }
             catch
             {
-                // Config inválida → no romper el arranque, caer al default.
+                // Si la config está mal no queremos que explote al arrancar, usamos la de defecto.
             }
             return null;
         }
@@ -48,13 +48,12 @@ namespace DAL
             return new SqlConnection(_connectionString);
         }
 
-        // Nombre de la base configurada (Initial Catalog / Database del connection string).
+        // Nombre de la base que figura en la cadena de conexión.
         public string NombreBaseDatos =>
             new SqlConnectionStringBuilder(_connectionString).InitialCatalog;
 
-        // Conexión apuntando a OTRA base (típicamente "master") reutilizando el mismo
-        // servidor y credenciales. Necesaria para BACKUP/RESTORE: esas sentencias no
-        // pueden ejecutarse estando conectado a la propia base que se quiere restaurar.
+        // Misma conexión (servidor y credenciales) pero a otra base, normalmente master.
+        // Hace falta para BACKUP/RESTORE, que no se pueden correr estando conectado a la base que se restaura.
         public SqlConnection GetConnection(string database)
         {
             var builder = new SqlConnectionStringBuilder(_connectionString)

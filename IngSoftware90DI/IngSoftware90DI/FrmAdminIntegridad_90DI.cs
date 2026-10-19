@@ -16,7 +16,7 @@ namespace Capital_
             InitializeComponent();
             _resultados = resultados;
 
-            // Suscribirse a los cambios de idioma y aplicar el idioma actual.
+            // Nos suscribimos al cambio de idioma y aplicamos el actual.
             LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
             AplicarTraducciones();
         }
@@ -26,7 +26,7 @@ namespace Capital_
             MostrarResultados(_resultados);
         }
 
-        // Aplica los textos estáticos (título y botones) en el idioma activo.
+        // Textos fijos (título y botones) en el idioma actual.
         private void AplicarTraducciones()
         {
             Text                          = LanguageManager_90DI.T_90DI("integridad_form_titulo");
@@ -35,23 +35,23 @@ namespace Capital_
             btnSalir.Text                 = LanguageManager_90DI.T_90DI("integridad_btn_cancelar");
         }
 
-        // Observer: al cambiar el idioma reaplica textos y vuelve a renderizar el detalle.
+        // Cuando cambia el idioma se reaplican los textos y se vuelve a armar el detalle.
         public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
         {
             AplicarTraducciones();
             MostrarResultados(_resultados);
         }
 
-        // ─── Mostrar SOLO la data corrupta en richTextBox1 ─────────────────────
+        // Detalle: solo mostramos lo que está corrupto
         private void MostrarResultados(List<ResultadoIntegridad_90DI> resultados)
         {
             richTextBox1.Clear();
             richTextBox1.Font = new Font("Consolas", 9.5f);
 
-            // Solo lo que NO está íntegro: corruptos + errores
+            // Nos quedamos con lo que no está íntegro (corruptos y errores)
             var problemas = resultados.Where(r => !r.EsIntegro).ToList();
 
-            // Sin problemas → sistema íntegro → no mostrar nada
+            // Si no hay nada, está todo bien y no hay que mostrar nada
             if (!problemas.Any())
                 return;
 
@@ -60,7 +60,7 @@ namespace Capital_
             richTextBox1.SelectionColor = Color.Silver;
             richTextBox1.AppendText(new string('═', 65) + "\n\n");
 
-            // Una entrada por tabla corrupta (no se listan las OK)
+            // Una línea por cada tabla con problemas
             foreach (var r in problemas)
             {
                 if (r.EsError)
@@ -92,9 +92,8 @@ namespace Capital_
             richTextBox1.AppendText(LanguageManager_90DI.T_90DI("integridad_msg_acciones"));
         }
 
-        // ─── Recuperar último backup ───────────────────────────────────────────
-        // Restaura la base desde el último backup y vuelve a verificar la integridad.
-        // Si el sistema queda íntegro → cierra con OK y el login continúa al menú.
+        // Restaura el último backup y vuelve a verificar. Si queda todo bien cierra con OK
+        // y el login sigue al menú.
         private void BtnBackup_Click(object sender, EventArgs e)
         {
             var confirmar = MessageBox.Show(
@@ -124,7 +123,7 @@ namespace Capital_
                     return;
                 }
 
-                // Re-verificar sobre la base ya restaurada.
+                // Verificamos de nuevo sobre la base ya restaurada.
                 var nuevos          = _integridad.Verificar_90DI();
                 var nuevosCorruptos = nuevos.Where(r => r.EsCorrupto).ToList();
                 MostrarResultados(nuevos);
@@ -164,9 +163,8 @@ namespace Capital_
             }
         }
 
-        // ─── Forzar recálculo total ────────────────────────────────────────────
-        // Si el sistema queda íntegro → cierra con OK y FrmLogin abre el menú.
-        // Si siguen habiendo corruptos → actualiza la vista y permanece abierto.
+        // Forzar recálculo de todo. Si después queda íntegro cierra con OK y FrmLogin abre
+        // el menú; si siguen habiendo corruptos, actualiza el detalle y se queda abierto.
         private void BtnForzarIntegridadAdmin_Click(object sender, EventArgs e)
         {
             btnForzarIntegridadAdmin.Enabled = false;
@@ -192,7 +190,7 @@ namespace Capital_
 
                 if (!nuevosCorruptos.Any())
                 {
-                    // Sistema limpio → continuar al menú
+                    // Quedó todo bien, seguimos al menú
                     MessageBox.Show(
                         LanguageManager_90DI.T_90DI("integridad_msg_recalc_ok"),
                         LanguageManager_90DI.T_90DI("integridad_msg_recalc_ok_title"),
@@ -226,7 +224,7 @@ namespace Capital_
             }
         }
 
-        // ─── Salir / cerrar sesión (siempre vuelve al login) ──────────────────
+        // Salir: cierra la sesión y vuelve al login
         private void button2_Click(object sender, EventArgs e)
         {
             SessionManager_90DI.Instancia_90DI.CerrarSesion_90DI();

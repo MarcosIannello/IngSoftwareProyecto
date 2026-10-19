@@ -11,10 +11,10 @@ namespace UI_90DI
 
         public FrmCambiarIdioma_90DI()
         {
-            // Layout estatico definido en el Designer (vista previa).
+            // El layout está armado en el Designer para tener la vista previa.
             InitializeComponent();
 
-            // Aplicar traducciones e items dinamicamente en runtime.
+            // Los textos y los items se cargan en tiempo de ejecución.
             AplicarTraducciones();
             CargarIdiomas();
 
@@ -36,7 +36,7 @@ namespace UI_90DI
             cmbIdioma.Items.Add(new Idioma_90DI { IdIdioma_90DI = 1, NombreIdioma_90DI = "Español", CodigoIdioma_90DI = "es" });
             cmbIdioma.Items.Add(new Idioma_90DI { IdIdioma_90DI = 2, NombreIdioma_90DI = "English", CodigoIdioma_90DI = "en" });
 
-            // Pre-seleccionar el idioma activo
+            // Dejamos seleccionado el idioma actual
             var codigoActual = Service_90DI.SessionManager_90DI.Instancia_90DI.IdiomaActual_90DI.CodigoIdioma_90DI;
             cmbIdioma.SelectedIndex = codigoActual == "en" ? 1 : 0;
         }
@@ -45,10 +45,10 @@ namespace UI_90DI
         {
             if (cmbIdioma.SelectedItem is Idioma_90DI idioma)
             {
-                // Notifica a los observers y actualiza el idioma de la sesión.
+                // Avisa a los observers y cambia el idioma de la sesión.
                 LanguageManager_90DI.Current_90DI.NotifyAllObservers_90DI(idioma);
 
-                // Persiste en BD solo si el idioma cambió (evita eventos duplicados en bitácora).
+                // Solo se guarda en la base si de verdad cambió, si no se llena la bitácora de eventos repetidos.
                 var session = SessionManager_90DI.Instancia_90DI;
                 if (session.SesionActiva_90DI && session.userActual_90DI.IdUsuario_90DI > 0 &&
                     !string.Equals(idioma.CodigoIdioma_90DI, session.userActual_90DI.Idioma_90DI, StringComparison.OrdinalIgnoreCase))

@@ -16,7 +16,7 @@ namespace BLL_90DI
         private const int MAX_INTENTOS = 3;
 
         private int _intentos = 0;
-        // Último usuario que se intentó loguear: si cambia, se reinicia el contador.
+        // Guardamos el último usuario que intentó entrar para saber cuándo reiniciar el contador.
         private string? _lastUsername;
 
         public UsersBLL_90DI() { }
@@ -28,8 +28,7 @@ namespace BLL_90DI
 
         public User_90DI? Login_90DI(string username, string password)
         {
-            // Los intentos fallidos son POR USUARIO: si cambia el usuario que se intenta
-            // loguear, el contador se reinicia
+            // Los intentos se cuentan por usuario: si prueba con otro nombre, arranca de cero.
             if (!string.Equals(username, _lastUsername, StringComparison.OrdinalIgnoreCase))
             {
                 _intentos = 0;
@@ -47,9 +46,9 @@ namespace BLL_90DI
             {
                 if (SecurityService_90DI.Verify_90DI(password, user.Password_90DI))
                 {
-                    _intentos = 0; // login exitoso: resetea el contador de intentos fallidos
+                    _intentos = 0; // entró bien, reseteamos los intentos
 
-                    //LogEvent login exitoso
+                    // Registramos el login en la bitácora
                     _bitacora.CreateLogEvent_90DI(new Event_90DI
                     {
                         Login_90DI = user.NombreUsuario_90DI,
@@ -64,7 +63,7 @@ namespace BLL_90DI
                 }
                 else
                 {
-                    //ValidateBlock
+                    // Clave incorrecta: sumamos un intento y vemos si hay que bloquearlo
                     _intentos++;
 
                     if (_intentos >= MAX_INTENTOS)
@@ -97,7 +96,7 @@ namespace BLL_90DI
             }
             catch { /* el registro es best-effort; no debe abortar el logout */ }
 
-            // Cerrar la sesión SIEMPRE: es lo crítico del logout.
+            // Pase lo que pase con la bitácora, la sesión se cierra igual.
             SessionManager_90DI.Instancia_90DI.CerrarSesion_90DI();
         }
 
@@ -165,7 +164,7 @@ namespace BLL_90DI
             }
             catch (InvalidOperationException)
             {
-                throw; // Se propaga hacia la UI para mostrar el mensaje al usuario
+                throw; // lo tiramos para arriba así la UI muestra el mensaje
             }
             catch (Exception ex)
             {
@@ -178,7 +177,7 @@ namespace BLL_90DI
             var response = _dal.UnblockUser_90DI(user.IdUsuario_90DI);
             if (response)
             {
-                // Al desbloquear, la contraseña vuelve a su valor inicial (DNI + Apellido)
+                // Al desbloquear se le vuelve a poner la clave inicial (DNI + Apellido)
                 _dal.UpdatePassword_90DI(user.IdUsuario_90DI, getHashPassword_90DI(user.DNI_90DI + user.Apellidos_90DI));
                 CreateLogEvent_90DI("Usuario desbloqueado y contraseña reseteada: " + user.NombreUsuario_90DI, 3);
                 _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
@@ -206,7 +205,7 @@ namespace BLL_90DI
             }
             catch (InvalidOperationException)
             {
-                throw; // Se propaga hacia la UI para mostrar el mensaje al usuario
+                throw; // lo tiramos para arriba así la UI muestra el mensaje
             }
             catch (Exception ex)
             {

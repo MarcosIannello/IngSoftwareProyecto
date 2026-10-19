@@ -18,7 +18,7 @@ namespace DAL
             Console.WriteLine($"[DAL][{method}] ERROR: {ex.Message}");
         }
 
-        // ── Gets ────────────────────────────────────────────────────────────
+        // Consultas
 
         public List<Rol_90DI> GetAllRoles_90DI()
         {
@@ -156,7 +156,7 @@ namespace DAL
             catch (Exception ex) { LogError(nameof(HasPatente_90DI), ex); return false; }
         }
 
-        // ── Inserts / Updates / Deletes ────────────────────────────────────────
+        // Altas, bajas y modificaciones
 
         public bool InsertRol_90DI(Rol_90DI rol)
         {
@@ -166,7 +166,7 @@ namespace DAL
                 con.Open();
                 using var cmd = con.CreateCommand();
 
-                // 1 — insertar rol y obtener ID generado
+                // 1. insertamos el rol y nos quedamos con el id
                 cmd.CommandText =
                     """
                     INSERT INTO Rol_90DI (Nombre_90DI, Descripcion_90DI, FechaAlta_90DI)
@@ -180,7 +180,7 @@ namespace DAL
                 if (scalar == null) return false;
                 int idRol = Convert.ToInt32(scalar);
 
-                // 2 — insertar patentes sueltas
+                // 2. las patentes sueltas
                 foreach (var p in rol.Patentes_90DI)
                 {
                     cmd.Parameters.Clear();
@@ -194,7 +194,7 @@ namespace DAL
                     cmd.ExecuteNonQuery();
                 }
 
-                // 3 — insertar familias
+                // 3. las familias
                 foreach (var f in rol.Familias_90DI)
                 {
                     cmd.Parameters.Clear();
@@ -548,7 +548,7 @@ namespace DAL
             catch (Exception ex) { LogError(nameof(RemoverFamiliaDeRol_90DI), ex); return false; }
         }
 
-        // ── Mappers privados ───────────────────────────────────────────────────
+        // Mappers
 
         private static Rol_90DI MapRol(SqlDataReader r) => new()
         {

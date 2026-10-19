@@ -1,7 +1,7 @@
 namespace Services_90DI.constantes
 {
-    // Nombres de los módulos del sistema para la bitácora. Única fuente de verdad:
-    // se usan al REGISTRAR eventos (BLL) y para poblar el combo de filtro (FrmBitacora)
+    // Módulos del sistema para la bitácora. Se usan tanto al registrar eventos (BLL)
+    // como para llenar el combo de filtro en FrmBitacora, así no hay dos listas distintas.
     public static class Modulos_90DI
     {
         public const string Login      = "Login";
@@ -11,7 +11,7 @@ namespace Services_90DI.constantes
         public const string Backup     = "Backup";
         public const string Integridad = "Integridad";
 
-        // Lista (en orden) para poblar el combo de filtro de módulo en la Bitácora.
+        // En orden, para el combo de módulos de la bitácora.
         public static readonly string[] Todos =
             { Login, Usuarios, Roles, Familias, Backup, Integridad };
     }

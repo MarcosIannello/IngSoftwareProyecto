@@ -7,7 +7,7 @@ namespace UI_90DI
        
         public static bool CerrandoPorLogout { get; private set; }
 
-        // Cierra la sesión y TODO lo que esté abierto, dejando SOLO el login.
+        // Cierra la sesión y todos los forms abiertos, dejando solo el login.
       
         public static void Logout_90DI(UsersBLL_90DI userBll)
         {

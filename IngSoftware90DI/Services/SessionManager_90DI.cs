@@ -12,16 +12,16 @@ namespace Service_90DI
 
         public bool SesionActiva_90DI { get; private set; }
 
-        // Patentes efectivas del usuario logueado (nombres). Se cargan en el Login
-        // y se usan para mostrar/ocultar opciones del menú. Case-insensitive.
+        // Nombres de las patentes efectivas del usuario logueado. Se cargan en el login
+        // y se usan para mostrar u ocultar opciones del menú (sin distinguir mayúsculas).
         public HashSet<string> PatentesActivas_90DI { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 
-        // True si el usuario tiene la patente indicada en su sesión.
+        // true si el usuario de la sesión tiene esa patente.
         public bool TienePatente_90DI(string nombrePatente) =>
             PatentesActivas_90DI.Contains(nombrePatente);
 
-        // Idioma activo de la sesión. Se elige en el Login (antes de autenticar)
-        // y persiste para las pantallas posteriores. Default: Español.
+        // Idioma de la sesión. Se elige en el login (antes de autenticar) y se mantiene
+        // en el resto de las pantallas. Por defecto, español.
         public Idioma_90DI IdiomaActual_90DI { get; set; } = new Idioma_90DI
         {
             IdIdioma_90DI = 1,

@@ -10,17 +10,16 @@ namespace DAL
 
         public BackupDAL_90DI() { }
 
-        // T-SQL que resuelve la carpeta de backups del propio SQL Server y arma la ruta
-        // completa (@ruta) a partir del nombre de archivo (@archivo). Se calcula en el
-        // SERVIDOR, así no depende del SO ni de la máquina: siempre apunta a una carpeta
-        // que existe y donde la cuenta de servicio de SQL puede escribir.
+        // Le pregunta al SQL Server cuál es su carpeta de backups y arma la ruta completa (@ruta)
+        // con el nombre del archivo (@archivo). Se resuelve del lado del servidor porque así no
+        // importa en qué máquina corra la app: es una carpeta que existe y donde SQL puede escribir.
         private const string ResolverRuta = @"
             DECLARE @dir NVARCHAR(512) = CONVERT(NVARCHAR(512), SERVERPROPERTY('InstanceDefaultBackupPath'));
             IF @dir IS NULL OR @dir = N'' SET @dir = CONVERT(NVARCHAR(512), SERVERPROPERTY('InstanceDefaultDataPath'));
             IF RIGHT(@dir, 1) NOT IN (N'\', N'/') SET @dir = @dir + N'\';
             DECLARE @ruta NVARCHAR(600) = @dir + @archivo;";
 
-        // Genera un backup completo (.bak) en la carpeta de backups del servidor SQL.
+        // Backup completo (.bak) en la carpeta de backups del servidor.
         public bool Backup_90DI(string nombreArchivo)
         {
             try
@@ -30,12 +29,12 @@ namespace DAL
                     con.Open();
                     using (var cmd = con.CreateCommand())
                     {
-                        // El nombre de la base es un identificador: no puede ir como parámetro
-                        // (proviene de config, no de input del usuario). El archivo sí va parametrizado.
+                        // El nombre de la base no se puede pasar como parámetro (es un identificador), pero sale
+                        // de la config, no de algo que escriba el usuario. El archivo sí va como parámetro.
                         cmd.CommandText = ResolverRuta +
                             $"BACKUP DATABASE [{_conexion.NombreBaseDatos}] " +
                             "TO DISK = @ruta WITH FORMAT, INIT, NAME = N'Backup IngSoftware_90DI (full)';";
-                        cmd.CommandTimeout = 0; // un backup puede tardar más que el timeout default
+                        cmd.CommandTimeout = 0; // sin timeout, un backup puede tardar bastante
                         cmd.Parameters.AddWithValue("@archivo", nombreArchivo);
                         cmd.ExecuteNonQuery();
                     }
@@ -49,7 +48,7 @@ namespace DAL
             }
         }
 
-        // Restaura la base desde el .bak. El RESTORE necesita acceso EXCLUSIVO
+        // Restaura desde el .bak. Para el RESTORE no puede haber nadie más conectado a la base.
         public bool Restore_90DI(string nombreArchivo)
         {
             var db = _conexion.NombreBaseDatos;
@@ -73,8 +72,8 @@ namespace DAL
                     }
                     finally
                     {
-                        // Siempre reabrir la base, aunque el RESTORE haya fallado, para no
-                        // dejarla en SINGLE_USER e inaccesible para el resto de la app.
+                        // Esto va siempre, aunque el RESTORE falle: si la base queda en SINGLE_USER
+                        // la app no se puede volver a conectar.
                         Ejecutar(con, $"ALTER DATABASE [{db}] SET MULTI_USER;");
                     }
                 }
@@ -87,7 +86,7 @@ namespace DAL
             }
         }
 
-        // Devuelve la fecha/hora de creación del último backup full de la base, o null si todavía no se generó ninguno.
+        // Fecha del último backup full de la base, o null si todavía no se hizo ninguno.
         public DateTime? ObtenerFechaUltimoBackup_90DI()
         {
             try

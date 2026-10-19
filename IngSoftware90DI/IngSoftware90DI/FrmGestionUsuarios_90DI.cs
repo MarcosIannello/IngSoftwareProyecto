@@ -41,13 +41,13 @@ namespace UI_90DI
             _menu = menu;
             InitializeComponent();
 
-            // Grilla de solo lectura
+            // La grilla es solo lectura
             dataGridUsers.ReadOnly              = true;
             dataGridUsers.AllowUserToAddRows    = false;
             dataGridUsers.AllowUserToDeleteRows = false;
             dataGridUsers.SelectionMode         = DataGridViewSelectionMode.CellSelect;
             dataGridUsers.MultiSelect           = false;
-            // Para copiar la celda con Ctrl+C
+            // Para poder copiar una celda con Ctrl+C
             dataGridUsers.ClipboardCopyMode     = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 
             GetUsers();
@@ -103,7 +103,7 @@ namespace UI_90DI
         private void radioButton1_CheckedChanged(object sender, EventArgs e) { }
         private void textBox4_TextChanged(object sender, EventArgs e) { }
 
-        // ─── Helpers de estado de botones ───────────────────────────────────
+        // Estado de los botones
 
         private void SetActionButtons(bool enabled)
         {
@@ -125,7 +125,7 @@ namespace UI_90DI
             txtActiveMode.Text = LanguageManager_90DI.T_90DI(_modoKey);
         }
 
-        // ─── Modos de pantalla ───────────────────────────────────────────────
+        // Modos de pantalla
 
         private void SetMode(bool create = false, bool edit = false, bool unblock = false, bool activate = false)
         {
@@ -136,7 +136,7 @@ namespace UI_90DI
             viewMode     = !create && !edit && !unblock && !activate;
         }
 
-        // ─── Habilitación de campos ──────────────────────────────────────────
+        // Qué campos se pueden editar
 
         public void BlockForm()
         {
@@ -157,7 +157,7 @@ namespace UI_90DI
             txtEmail.Enabled      = true;
             txtLogin.Enabled      = true;
             txtNombre.Enabled     = true;
-            cmbRolActual.Enabled  = false; // en consulta el rol no se toca
+            cmbRolActual.Enabled  = false; // en consulta no se cambia el rol
             chkActiveUSer.Enabled = false;
             chkBlock.Enabled      = false;
         }
@@ -186,7 +186,7 @@ namespace UI_90DI
             chkBlock.Checked      = false;
         }
 
-        // ─── Validación ──────────────────────────────────────────────────────
+        // Validaciones
 
         private bool ValidateForm(int excluirId = 0)
         {
@@ -224,7 +224,7 @@ namespace UI_90DI
                 e.Handled = true;
         }
 
-        // Arma el login como nombre+apellido (solo al crear)
+        // El login se arma con nombre + apellido (solo al crear)
         private void AutoFillLogin()
         {
             if (!createMode) return;
@@ -236,7 +236,7 @@ namespace UI_90DI
         private void txtNombre_TextChanged(object sender, EventArgs e)   => AutoFillLogin();
         private void txtApellido_TextChanged(object sender, EventArgs e) => AutoFillLogin();
 
-        // ─── Grilla ──────────────────────────────────────────────────────────
+        // Grilla
 
         public void GetUsers()
         {
@@ -244,8 +244,8 @@ namespace UI_90DI
             AplicarFiltroGrid();
         }
 
-        // Filtra la grilla según el radio. Lo llamamos a mano: si rdbActive ya
-        // estaba tildado, re-tildarlo no dispara el evento y quedarían todos.
+        // Filtra la grilla según el radio. Lo llamamos a mano porque si rdbActive ya
+        // estaba marcado, volver a marcarlo no dispara el evento y se verían todos.
         private void AplicarFiltroGrid()
         {
             if (rdbTodos.Checked)
@@ -254,10 +254,10 @@ namespace UI_90DI
                 RefreshGrid(usersList.Where(u => u.Activo_90DI).ToList());
         }
 
-        // Carga los roles en el combo (el value es el IdRol)
+        // Llena el combo de roles (el value es el IdRol)
         private void LoadRoles()
         {   
-            cmbRolActual.DropDownStyle = ComboBoxStyle.DropDownList; // Combo de rol: solo selección
+            cmbRolActual.DropDownStyle = ComboBoxStyle.DropDownList; // solo selección, no se puede escribir
             rolesList = _rolesBLL.GetAllRoles_90DI();
             cmbRolActual.DisplayMember = "Nombre_90DI";
             cmbRolActual.ValueMember   = "IdRol_90DI";
@@ -265,7 +265,7 @@ namespace UI_90DI
             cmbRolActual.SelectedIndex = rolesList.Count > 0 ? 0 : -1;
         }
 
-        // IdRol elegido en el combo, como string
+        // Devuelve el IdRol seleccionado en el combo, como string
         private string GetSelectedRolId()
         {
             return cmbRolActual.SelectedValue?.ToString() ?? "0";
@@ -276,7 +276,7 @@ namespace UI_90DI
             dataGridUsers.DataSource = list;
             lblCantUsers.Text = "Numero Usuarios: " + list.Count;
 
-            // Pintar inactivos de rojo
+            // Los inactivos en rojo
             foreach (DataGridViewRow row in dataGridUsers.Rows)
             {
                 var user = row.DataBoundItem as User_90DI;
@@ -300,7 +300,7 @@ namespace UI_90DI
             txtDni.Text           = user.DNI_90DI;
             txtLogin.Text         = user.NombreUsuario_90DI;
             txtNombre.Text        = user.Nombre_90DI;
-            // Pone el combo en el rol del usuario
+            // Seleccionamos en el combo el rol del usuario
             if (int.TryParse(user.Rol_90DI, out var idRolUser))
                 cmbRolActual.SelectedValue = idRolUser;
             else
@@ -311,7 +311,7 @@ namespace UI_90DI
             btnDesbloquear.Enabled = user.Bloqueo_90DI;
         }
 
-        // ─── Radio buttons ───────────────────────────────────────────────────
+        // Radio buttons
 
         private void rdbActive_CheckedChanged(object sender, EventArgs e)
         {
@@ -325,7 +325,7 @@ namespace UI_90DI
             AplicarFiltroGrid();
         }
 
-        // ─── Botones de acción ───────────────────────────────────────────────
+        // Botones
 
         private void btnCrear_Click(object sender, EventArgs e)
         {
@@ -370,7 +370,7 @@ namespace UI_90DI
             txtActiveMode.Text = LanguageManager_90DI.T_90DI(_modoKey);
         }
 
-        // ─── Aplicar ─────────────────────────────────────────────────────────
+        // Aplicar
 
         public bool createUser()
         {
@@ -385,9 +385,9 @@ namespace UI_90DI
                 Nombre_90DI        = txtNombre.Text,
                 Activo_90DI        = chkActiveUSer.Checked,
                 FechaAlta_90DI     = DateTime.Now,
-                Rol_90DI           = GetSelectedRolId(), // rol elegido en el combo
+                Rol_90DI           = GetSelectedRolId(),
                 Bloqueo_90DI       = chkBlock.Checked,
-                Password_90DI      = txtDni.Text + txtApellido.Text,  // DNI + Apellido
+                Password_90DI      = txtDni.Text + txtApellido.Text,  // la clave inicial es DNI + Apellido
                 Email_90DI         = txtEmail.Text
             };
 
@@ -407,7 +407,7 @@ namespace UI_90DI
             {
                 if (viewMode)
                 {
-                    // En consulta solo filtra, no toca la BD
+                    // En consulta solo se filtra, no se toca la base
                     rdbActive.Checked = false;
                     rdbTodos.Checked  = false;
                     searchByQuery();
@@ -432,7 +432,7 @@ namespace UI_90DI
                     temp.Activo_90DI        = chkActiveUSer.Checked;
                     temp.Bloqueo_90DI       = chkBlock.Checked;
                     temp.Email_90DI         = txtEmail.Text;
-                    temp.Rol_90DI           = GetSelectedRolId(); // rol elegido en el combo
+                    temp.Rol_90DI           = GetSelectedRolId();
                     response = _users.UpdateUser_90DI(temp);
                     
                     GetUsers();
@@ -475,7 +475,7 @@ namespace UI_90DI
             }
             catch (InvalidOperationException ex)
             {
-                // Errores de negocio (ej: DNI repetido)
+                // Errores de negocio (por ej. DNI repetido)
                 MessageBox.Show(ex.Message, "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
@@ -484,7 +484,7 @@ namespace UI_90DI
             }
         }
 
-        // ─── Cancelar / Salir ────────────────────────────────────────────────
+        // Cancelar / Salir
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -502,7 +502,7 @@ namespace UI_90DI
             _menu.Show();
         }
 
-        // ─── Búsqueda LINQ ───────────────────────────────────────────────────
+        // Búsqueda (LINQ)
 
         public void searchByQuery()
         {

@@ -50,9 +50,9 @@ namespace BLL
         public List<Rol_90DI> GetAllRoles_90DI()         => _dal.GetAllRoles_90DI();
         public Rol_90DI? GetRolCompleto_90DI(int idRol)  => _dal.GetRolCompleto_90DI(idRol);
 
-        // Devuelve el conjunto de NOMBRES de patente efectivos de un rol: las patentes
-        // directas del rol + las heredadas de sus familias y subfamilias (recursivo).
-        // Comparación case-insensitive para que matchee con los Tag del menú.
+        // Devuelve los nombres de todas las patentes del rol: las que tiene asignadas directo
+        // más las que hereda de sus familias (y subfamilias). Ignora mayúsculas porque después
+        // se compara contra los Tag del menú.
         public HashSet<string> GetPatentesEfectivas_90DI(int idRol)
         {
             var patentes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -60,11 +60,11 @@ namespace BLL
             var rol = _dal.GetRolCompleto_90DI(idRol);
             if (rol == null) return patentes;
 
-            // Patentes asignadas directamente al rol
+            // Las que tiene asignadas directo
             foreach (var p in rol.Patentes_90DI)
                 patentes.Add(p.Nombre_90DI.Trim());
 
-            // Patentes heredadas de cada familia (con recursión sobre subfamilias)
+            // Las que vienen de cada familia
             var visitadas = new HashSet<int>();
             foreach (var f in rol.Familias_90DI)
                 AgregarPatentesFamilia_90DI(f.IdFamilia_90DI, patentes, visitadas);
@@ -72,8 +72,8 @@ namespace BLL
             return patentes;
         }
 
-        // Suma las patentes de una familia y baja recursivamente a sus subfamilias.
-        // 'visitadas' evita reprocesar / loops si hubiera familias cíclicas.
+        // Agrega las patentes de la familia y sigue bajando por las subfamilias.
+        // 'visitadas' está por si alguna vez quedan familias en ciclo, para no entrar en loop.
         private void AgregarPatentesFamilia_90DI(int idFamilia, HashSet<string> patentes, HashSet<int> visitadas)
         {
             if (!visitadas.Add(idFamilia)) return;

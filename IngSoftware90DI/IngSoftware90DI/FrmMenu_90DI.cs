@@ -15,58 +15,57 @@ namespace UI_90DI
         {
             InitializeComponent();
 
-            //match de menu y patentes
+            // Asocia cada opción del menú con su patente
             AsignarTagsMenu();
 
-            // Mostrar/ocultar opciones del menú según las patentes del usuario logueado.
+            // Muestra u oculta las opciones según las patentes del usuario.
             AplicarPermisos();
 
             LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
 
-            // Aplicar el idioma actual al abrir
+            // Idioma actual
             var traducciones = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
             if (traducciones.Count > 0)
                 UpdateLanguage_90DI(traducciones);
         }
         
-        // El valor del Tag debe coincidir con el Nombre_90DI de la patente en la BD.
-        // Solo se taguean las pantallas que SE GATEAN por permiso. Las que quedan
-        // sin Tag (Login, Logout, Idioma y los placeholders de Maestro/Reportes
-        // sin patente) se consideran siempre visibles.
+        // El Tag tiene que ser igual al Nombre_90DI de la patente en la base. Solo llevan Tag
+        // las opciones que dependen de un permiso; las que no tienen (Login, Logout, Idioma
+        // y los placeholders de Maestro/Reportes) se muestran siempre.
         private void AsignarTagsMenu()
         {
-            // ─── Usuarios ───
+            // Usuarios
             passwordToolStripMenuItem.Tag         = Patentes_90DI.CambiarPassword;
 
-            // ─── Admin ───
+            // Admin
             aBMUsuariosToolStripMenuItem.Tag      = Patentes_90DI.AbmUsuarios;
             bitacoraToolStripMenuItem.Tag         = Patentes_90DI.Bitacora;
             adminFamiliaToolStripMenuItem.Tag     = Patentes_90DI.AdminFamilia;
             adminRolesToolStripMenuItem.Tag       = Patentes_90DI.AdminRoles;
             backupToolStripMenuItem.Tag           = Patentes_90DI.BackupBD;
 
-            // ─── Maestro ───
+            // Maestro
             clientesToolStripMenuItem.Tag         = Patentes_90DI.Clientes;
             prestamosToolStripMenuItem.Tag        = Patentes_90DI.Prestamos;
             medicosToolStripMenuItem.Tag          = Patentes_90DI.Medicos;
             pacientesToolStripMenuItem.Tag        = Patentes_90DI.Pacientes;
 
-            // ─── Reportes ───
+            // Reportes
             historialClienteToolStripMenuItem.Tag   = Patentes_90DI.HistorialCliente;
             simulacionPrestamoToolStripMenuItem.Tag = Patentes_90DI.SimulacionPrestamo;
         }
 
-        // Muestra u oculta cada opción del menú según las patentes del usuario en sesión.
+        // Muestra u oculta cada opción según las patentes del usuario logueado.
         private void AplicarPermisos()
         {
             foreach (ToolStripItem item in menuStrip1.Items)
                 AplicarPermisosItem(item);
         }
 
-        // Regla de visibilidad por item:
-        // - Contenedor (tiene hijos): visible si al menos un hijo quedó visible.
-        // - Hoja con Tag: visible solo si el usuario tiene esa patente.
-        // - Hoja sin Tag: siempre visible (Login, Logout, Idioma, placeholders).
+        // Cómo se decide si un item se ve:
+        // - Si tiene hijos, se ve si al menos uno de los hijos quedó visible.
+        // - Si no tiene hijos y tiene Tag, se ve solo si el usuario tiene esa patente.
+        // - Si no tiene hijos ni Tag, se ve siempre (Login, Logout, Idioma, placeholders).
         private bool AplicarPermisosItem(ToolStripItem item)
         {
             if (item is not ToolStripMenuItem mi)
@@ -121,7 +120,7 @@ namespace UI_90DI
 
         private void FrmMenu_90DI_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // En un logout cerramos el menú a propósito: no hay que cerrar la app.
+            // Si es un logout, el menú se cierra a propósito y no hay que cerrar la app.
             if (SesionUI_90DI.CerrandoPorLogout) return;
             Application.Exit();
         }
@@ -182,24 +181,24 @@ namespace UI_90DI
             Bitacora.Show();
         }
 
-        // Instancias reutilizables: evitan crear un form nuevo cada vez que el usuario
-        // abre el mismo módulo desde el menú
+        // Guardamos las instancias para no crear un form nuevo cada vez que se abre
+        // el mismo módulo desde el menú.
         private FrmAdminFamilias? _frmFamilias;
         private FrmAdminROLES_90DI? _frmRoles;
 
-        // Si ambos forms están abiertos y visibles al mismo tiempo, los posiciona
-        // automáticamente: Familias a la izquierda y Roles a la derecha,
-        // cada uno ocupando la mitad del área de trabajo (respeta la barra de tareas)
+        // Si Familias y Roles están abiertos a la vez, los acomoda uno al lado del otro:
+        // Familias a la izquierda y Roles a la derecha, cada uno con la mitad de la
+        // pantalla (sin tapar la barra de tareas).
         private void TileFormsHalfScreen()
         {
             var screen = Screen.PrimaryScreen!.WorkingArea;
             int halfW = screen.Width / 2;
 
-            // Solo aplica el tile si los dos forms están activos simultáneamente
+            // Solo si están los dos abiertos
             if (_frmFamilias != null && !_frmFamilias.IsDisposed && _frmFamilias.Visible &&
                 _frmRoles != null && !_frmRoles.IsDisposed && _frmRoles.Visible)
             {
-                // Forzar Normal para que Bounds tenga efecto (Maximized lo ignora)
+                // Hay que pasarlo a Normal, si está maximizado ignora Bounds
                 _frmFamilias.WindowState = FormWindowState.Normal;
                 _frmFamilias.StartPosition = FormStartPosition.Manual;
                 _frmFamilias.Bounds = new Rectangle(screen.Left, screen.Top, halfW, screen.Height);
@@ -210,8 +209,7 @@ namespace UI_90DI
             }
         }
 
-        // Abre el ABM de Familias. Si ya fue abierto antes y no fue cerrado,
-        // reutiliza la instancia existente en lugar de crear una nueva
+        // Abre el ABM de Familias. Si ya estaba abierto, reusa esa instancia.
         private void adminFamiliaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_frmFamilias == null || _frmFamilias.IsDisposed)
@@ -222,8 +220,7 @@ namespace UI_90DI
             TileFormsHalfScreen();
         }
 
-        // Abre el ABM de Roles. Si ya fue abierto antes y no fue cerrado,
-        // reutiliza la instancia existente en lugar de crear una nueva
+        // Abre el ABM de Roles. Si ya estaba abierto, reusa esa instancia.
         private void adminRolesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_frmRoles == null || _frmRoles.IsDisposed)
@@ -234,7 +231,7 @@ namespace UI_90DI
             TileFormsHalfScreen();
         }
 
-        // Abre el diálogo de gestión de backup (generar / aplicar último). Solo visible para Admin.
+        // Abre la pantalla de backup (hacer uno nuevo o restaurar el último). Solo la ve el admin.
         private void backupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var frm = new FrmBackup_90DI())

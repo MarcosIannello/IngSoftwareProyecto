@@ -92,7 +92,7 @@ namespace UI_90DI
             if (resultado)
             {
                 MessageBox.Show(LanguageManager_90DI.T_90DI("pass_msg_actualizada"), LanguageManager_90DI.T_90DI("pass_msg_exito_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close(); // vuelve al menú que quedó abierto detrás
+                this.Close(); // volvemos al menú, que sigue abierto atrás
             }
             else
             {
@@ -108,7 +108,7 @@ namespace UI_90DI
 
         private void FrmCambiarPassword_90DI_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // El menú quedó abierto detrás (ShowDialog), no hay que volver a mostrarlo.
+            // El menú sigue abierto atrás (se abrió con ShowDialog), no hace falta mostrarlo de nuevo.
         }
 
         private void FrmCambiarPassword_90DI_Load(object sender, EventArgs e)

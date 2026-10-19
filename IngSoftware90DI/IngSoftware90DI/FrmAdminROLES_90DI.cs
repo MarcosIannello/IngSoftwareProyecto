@@ -21,7 +21,7 @@ namespace Capital_
         {
             InitializeComponent();
 
-            // El Designer no suscribe estos eventos — los conectamos aquí igual que FrmAdminFamilias
+            // Igual que en Familias, el Designer no tiene estos eventos así que los enganchamos acá
             rdbModoConsulta.CheckedChanged    += rdbModoConsulta_CheckedChanged;
             rdbCrearFamilia.CheckedChanged    += rdbCrearRol_CheckedChanged;
             rdbModificarFamilia.CheckedChanged += rdbModificarRol_CheckedChanged;
@@ -36,7 +36,7 @@ namespace Capital_
             btnQuitarFamilia.Click  += btnQuitarFamilia_Click;
             btnEliminarRol.Click    += btnEliminarRol_Click;
 
-            rdbModoConsulta.Checked = true; // ahora sí dispara LoadModoConsulta → CargarCmbRoles
+            rdbModoConsulta.Checked = true; // recién ahora dispara LoadModoConsulta y carga el combo de roles
 
             LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
             var t = LanguageManager_90DI.Current_90DI.TraduccionesActuales_90DI;
@@ -65,7 +65,7 @@ namespace Capital_
             base.OnFormClosed(e);
         }
 
-        // ── Modos ─────────────────────────────────────────────────────────────
+        // Modos
 
         private void LoadModoConsulta()
         {
@@ -105,7 +105,7 @@ namespace Capital_
             CargarCmbRoles();
         }
 
-        // ── Helpers de carga ──────────────────────────────────────────────────
+        // Carga de controles
 
         private void CargarCmbRoles()
         {
@@ -168,13 +168,13 @@ namespace Capital_
             cmbRolActual.Enabled = true;
         }
 
-        // ── Eventos radio buttons ─────────────────────────────────────────────
+        // Radio buttons
 
         private void rdbModoConsulta_CheckedChanged(object sender, EventArgs e) { if (rdbModoConsulta.Checked) LoadModoConsulta(); }
         private void rdbCrearRol_CheckedChanged(object sender, EventArgs e) { if (rdbCrearFamilia.Checked) LoadModoCreacion(); }
         private void rdbModificarRol_CheckedChanged(object sender, EventArgs e) { if (rdbModificarFamilia.Checked) LoadModoEdicion(); }
 
-        // ── Selección de rol ──────────────────────────────────────────────────
+        // Selección de rol
 
         private void cmbRolActual_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -198,7 +198,7 @@ namespace Capital_
             CargarCmbFamilias();
         }
 
-        // ── Selección en combos disponibles ──────────────────────────────────
+        // Selección en los combos
 
         private void cmbPatentesDisponibles_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -210,7 +210,7 @@ namespace Capital_
             if (cmbFamiliasDisponibles.SelectedItem is Familia_90DI f) tempFamilia = f;
         }
 
-        // Devuelve todos los IdPatente de una familia: directas + las de cada subfamilia.
+        // Todos los IdPatente de una familia, contando los de sus subfamilias.
         private HashSet<int> GetIdsPatentesCompletos(Familia_90DI familiaCompleta)
         {
             var ids = familiaCompleta.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
@@ -224,14 +224,14 @@ namespace Capital_
             return ids;
         }
 
-        // ── Agregar / Quitar patentes ─────────────────────────────────────────
+        // Agregar / quitar patentes
 
         private void btnAgregarPatente_Click(object sender, EventArgs e)
         {
             if (tempPatente.IdPatente_90DI == 0) return;
             if (tempRol.Patentes_90DI.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI)) return;
 
-            // Bloquear si la patente ya está cubierta por alguna familia (o subfamilia) asignada al rol
+            // No dejar si ya la trae alguna familia (o subfamilia) del rol
             foreach (var familia in tempRol.Familias_90DI)
             {
                 var completa = _rolBLL.GetFamiliaCompleta_90DI(familia.IdFamilia_90DI);
@@ -258,7 +258,7 @@ namespace Capital_
             RefrescarListasAsignadas();
         }
 
-        // ── Agregar / Quitar familias ─────────────────────────────────────────
+        // Agregar / quitar familias
 
         private void btnAgregarFamilia_Click(object sender, EventArgs e)
         {
@@ -268,10 +268,10 @@ namespace Capital_
             var familiaCompleta = _rolBLL.GetFamiliaCompleta_90DI(tempFamilia.IdFamilia_90DI);
             if (familiaCompleta == null) return;
 
-            // Todas las patentes (directas + subfamilias) de la familia a agregar
+            // Todas las patentes de la familia nueva, incluidas las de sus subfamilias
             var idsNueva = GetIdsPatentesCompletos(familiaCompleta);
 
-            // Bloquear si alguna patente de la nueva familia ya está asignada directamente al rol
+            // No dejar si alguna ya está asignada directo al rol
             foreach (var p in familiaCompleta.Patentes_90DI.Concat(
                 familiaCompleta.SubFamilias_90DI
                     .SelectMany(s => _rolBLL.GetFamiliaCompleta_90DI(s.IdFamilia_90DI)?.Patentes_90DI ?? Enumerable.Empty<Patente_90DI>())))
@@ -286,7 +286,7 @@ namespace Capital_
                 }
             }
 
-            // Bloquear si la nueva familia comparte patentes con otra familia ya asignada al rol
+            // Ni si comparte patentes con otra familia que ya tiene el rol
             foreach (var otraFamilia in tempRol.Familias_90DI)
             {
                 var otraCompleta = _rolBLL.GetFamiliaCompleta_90DI(otraFamilia.IdFamilia_90DI);
@@ -318,10 +318,9 @@ namespace Capital_
             RefrescarListasAsignadas();
         }
 
-        // ── Validación de redundancia ─────────────────────────────────────────
 
-        // Retorna mensaje de error si una patente directa del rol ya está cubierta
-        // por alguna familia, o si dos familias comparten una patente. Null = OK.
+        // Chequea que no haya patentes repetidas: una directa que ya venga en alguna familia,
+        // o dos familias con la misma patente. Devuelve el mensaje de error, o null si está bien.
         private string? ValidarRedundanciaRol()
         {
             var familiasCompletas = tempRol.Familias_90DI
@@ -353,7 +352,7 @@ namespace Capital_
             return null;
         }
 
-        // ── Aplicar ───────────────────────────────────────────────────────────
+        // Aplicar
 
         private void btnAplicarCambios_Click(object sender, EventArgs e)
         {
@@ -416,7 +415,7 @@ namespace Capital_
             rdbModoConsulta.Checked = true;
         }
 
-        // ── Salir ─────────────────────────────────────────────────────────────
+        // Salir
 
         private void button5_Click(object sender, EventArgs e) => this.Hide();
 

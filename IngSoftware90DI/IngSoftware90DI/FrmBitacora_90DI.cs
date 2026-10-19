@@ -60,28 +60,28 @@ namespace UI_90DI
             base.OnFormClosed(e);
         }
 
-        // ─── Configuración ────────────────────────────────────────────────────
+        // Configuración inicial
 
         private void ConfigurarCombos()
         {
-            // Combos no editables
+            // Combos de solo selección
             cmbLevel.DropDownStyle  = ComboBoxStyle.DropDownList;
             cmbModule.DropDownStyle = ComboBoxStyle.DropDownList;
             cmdEvent.DropDownStyle  = ComboBoxStyle.DropDownList;
 
-            // Criticidad 1 (más importante) a 5 (menos importante)
+            // Criticidad: 1 es lo más grave, 5 lo menos
             cmbLevel.Items.Clear();
             cmbLevel.Items.Add("");
             for (int i = 1; i <= 5; i++) cmbLevel.Items.Add(i.ToString());
             cmbLevel.SelectedIndex = 0;
 
-            // Módulos tipificados: única fuente de verdad (Modulos_90DI)
+            // Los módulos salen de Modulos_90DI, así no mantenemos dos listas
             cmbModule.Items.Clear();
             cmbModule.Items.Add("");
             cmbModule.Items.AddRange(Modulos_90DI.Todos);
             cmbModule.SelectedIndex = 0;
 
-            // Eventos tipificados
+            // Eventos
             cmdEvent.Items.Clear();
             cmdEvent.Items.AddRange(new[] { "", "Login", "Logout", "Crear Usuario", "Cambiar Clave",
                                             "Bloquear Usuario", "Activar Usuario", "Desactivar Usuario",
@@ -89,22 +89,22 @@ namespace UI_90DI
                                             "Imprimir Factura" });
             cmdEvent.SelectedIndex = 0;
 
-            // Fechas: últimos 3 días por defecto
+            // Por defecto, los últimos 3 días
             dtpInitialDate.Value = DateTime.Now.AddDays(-3);
             dtpEndDate.Value = DateTime.Now;
 
-            // Display fields: solo lectura
+            // Campos de detalle, solo lectura
             txtName.ReadOnly = true;
             txtLastName.ReadOnly = true;
         }
 
-        // ─── Carga y refresco ─────────────────────────────────────────────────
+        // Carga y refresco
 
         private void CargarEventos()
         {
             _eventosList = _bll.GetLogEvent_90DI();
 
-            // Por defecto: últimos 3 días
+            // Por defecto, los últimos 3 días
             var ultimos3dias = _eventosList
                 .Where(e => e.Fecha_90DI.Date >= DateTime.Now.AddDays(-3).Date)
                 .ToList();
@@ -118,30 +118,27 @@ namespace UI_90DI
             lblCantUsers.Text = LanguageManager_90DI.T_90DI("bitacora_lbl_header") + list.Count;
         }
 
-        // ─── Filtro ───────────────────────────────────────────────────────────
+        // Filtros
 
         private void btnAplicar_Click(object sender, EventArgs e)
         {
             var filtered = _eventosList.AsEnumerable();
 
-            // Rango de fechas (siempre activo)
+            // Las fechas filtran siempre
             filtered = filtered.Where(ev =>
                 ev.Fecha_90DI.Date >= dtpInitialDate.Value.Date &&
                 ev.Fecha_90DI.Date <= dtpEndDate.Value.Date);
 
-            // Login
+            // Usuario (el textbox se llama txtDni pero filtra por login)
             if (!string.IsNullOrWhiteSpace(txtDni.Text))
                 filtered = filtered.Where(ev => ev.Login_90DI.Contains(txtDni.Text.Trim(), StringComparison.OrdinalIgnoreCase));
 
-            // Modulo
             if (cmbModule.SelectedIndex > 0)
                 filtered = filtered.Where(ev => ev.Modulo_90DI.Equals(cmbModule.SelectedItem?.ToString(), StringComparison.OrdinalIgnoreCase));
 
-            // Evento
             if (cmdEvent.SelectedIndex > 0)
                 filtered = filtered.Where(ev => ev.Evento_90DI.Equals(cmdEvent.SelectedItem?.ToString(), StringComparison.OrdinalIgnoreCase));
 
-            // Criticidad
             if (cmbLevel.SelectedIndex > 0 && byte.TryParse(cmbLevel.SelectedItem?.ToString(), out byte crit))
                 filtered = filtered.Where(ev => ev.Criticidad_90DI == crit);
 
@@ -153,7 +150,7 @@ namespace UI_90DI
             ExportarPDF_90DI();
         }
 
-        // ─── Exportar PDF ─────────────────────────────────────────────────────
+        // Exportar a PDF
 
 
 
@@ -175,7 +172,7 @@ namespace UI_90DI
 
         public void LimpiarFiltros()
         {
-            // Limpiar filtros y recargar últimos 3 días
+            // Limpia los filtros y vuelve a los últimos 3 días
             txtDni.Text = "";
             cmbModule.SelectedIndex = 0;
             cmdEvent.SelectedIndex = 0;
@@ -213,7 +210,7 @@ namespace UI_90DI
 
         private void ExportarPDF_90DI()
         {
-            // Obtener datos actuales del grid
+            // Tomamos lo que se está mostrando en la grilla
             var eventos = dataGridEvents.DataSource as List<Event_90DI>;
             if (eventos == null || eventos.Count == 0)
             {
@@ -238,13 +235,13 @@ namespace UI_90DI
 
                 doc.SetMargins(20, 20, 20, 20);
 
-                // ── Título ──
+                // Título
                 doc.Add(new Paragraph("Bitacora de Eventos")
                     .SetFontSize(16)
                     .SetBold()
                     .SetTextAlignment(TextAlignment.CENTER));
 
-                // ── Subtítulo con filtros aplicados ──
+                // Subtítulo con los filtros aplicados
                 var filtros = $"Periodo: {dtpInitialDate.Value:dd/MM/yyyy} - {dtpEndDate.Value:dd/MM/yyyy}" +
                               $"   |   Registros: {eventos.Count}" +
                               $"   |   Generado: {DateTime.Now:dd/MM/yyyy HH:mm}";
@@ -254,13 +251,13 @@ namespace UI_90DI
 
                 doc.Add(new Paragraph("\n").SetFontSize(4));
 
-                // ── Tabla ──
+                // Tabla
                 string[] headers = { "ID", "Login", "Fecha", "Hora", "Modulo", "Evento", "Criticidad" };
                 float[] widths = { 1f, 2f, 2f, 1.5f, 2f, 4f, 1.5f };
 
                 var table = new Table(UnitValue.CreatePercentArray(widths)).UseAllAvailableWidth();
 
-                // Cabeceras
+                // Encabezados
                 var headerBg = new DeviceRgb(52, 73, 94);
                 foreach (var h in headers)
                 {
@@ -301,7 +298,7 @@ namespace UI_90DI
                 MessageBox.Show($"PDF exportado correctamente.", "Listo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Abrir el archivo automáticamente
+                // Lo abrimos directamente
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
                     FileName = dlg.FileName,

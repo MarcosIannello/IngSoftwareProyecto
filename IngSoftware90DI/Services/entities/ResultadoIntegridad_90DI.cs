@@ -1,8 +1,7 @@
 namespace Services_90DI.entities
 {
-    // Resultado de verificar la integridad de una tabla.
-    // Mapea la salida de sp_VerificarTodo_90DI:
-    //   NombreTabla | Estado | FilaAfectada | ColumnaAfectada
+    // Resultado de verificar una tabla. Es lo que devuelve sp_VerificarTodo_90DI:
+    // NombreTabla | Estado | FilaAfectada | ColumnaAfectada
     public class ResultadoIntegridad_90DI
     {
         public string  NombreTabla_90DI     { get; set; } = "";

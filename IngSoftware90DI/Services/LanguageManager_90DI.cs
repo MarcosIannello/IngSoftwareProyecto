@@ -12,7 +12,7 @@ namespace Services_90DI
 
         public Dictionary<string, string> TraduccionesActuales_90DI { get; private set; } = new();
 
-        // Atajo estático: los forms pueden seguir usando LanguageManager_90DI.T_90DI("key")
+        // Atajo estático para que los forms puedan seguir usando LanguageManager_90DI.T_90DI("key")
         public static string T_90DI(string key) =>
             Current_90DI.TraduccionesActuales_90DI.TryGetValue(key, out var v) ? v : $"[{key}]";
 

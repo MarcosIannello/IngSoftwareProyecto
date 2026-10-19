@@ -10,7 +10,7 @@ namespace Services_90DI.entities
     {
         public int IdIdioma_90DI { get; set; }
         public string NombreIdioma_90DI { get; set; } = "";
-        public string CodigoIdioma_90DI { get; set; } = ""; // "es", "en" — nombre del archivo JSON
+        public string CodigoIdioma_90DI { get; set; } = ""; // "es", "en": es el nombre del archivo JSON
         public override string ToString() => NombreIdioma_90DI;
     }
 }

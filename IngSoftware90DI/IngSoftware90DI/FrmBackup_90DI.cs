@@ -3,15 +3,14 @@ using Services_90DI;
 
 namespace UI_90DI
 {
-    // Diálogo de gestión de backup para el Admin. Ofrece dos acciones sobre el único
-    // archivo de backup: generar uno nuevo (pisa al anterior) o restaurar el último.
-    // Muestra la fecha/hora del último backup para que el Admin sepa a qué estado
-    // volvería la base si decide restaurar.
+    // Pantalla de backup para el admin. Hay un solo archivo de backup: se puede hacer
+    // uno nuevo (pisa el anterior) o restaurar el último. Mostramos la fecha del último
+    // para que se sepa a qué momento vuelve la base si restaura.
     public partial class FrmBackup_90DI : Form, IObserver_90DI
     {
         private readonly BackupBLL_90DI _backup = new BackupBLL_90DI();
 
-        // Formato mostrado al usuario para la fecha del último backup.
+        // Formato de la fecha del último backup en pantalla.
         private const string FormatoFecha = "dd/MM/yyyy HH:mm:ss";
 
         public FrmBackup_90DI()
@@ -36,8 +35,8 @@ namespace UI_90DI
             btnCerrar.Text = LanguageManager_90DI.T_90DI("backup_btn_cerrar");
         }
 
-        // Consulta la fecha del último backup y actualiza el label. Si no hay ninguno,
-        // muestra el texto correspondiente y deshabilita la opción de restaurar.
+        // Busca la fecha del último backup y la muestra. Si no hay ninguno lo avisa
+        // y deshabilita restaurar.
         private void RefrescarUltimoBackup()
         {
             DateTime? fecha = _backup.ObtenerFechaUltimoBackup_90DI();
@@ -54,7 +53,7 @@ namespace UI_90DI
             }
         }
 
-        // Opción 1: generar un nuevo backup del estado actual.
+        // Opción 1: hacer un backup nuevo.
         private void BtnGenerar_Click(object sender, EventArgs e)
         {
             var confirmar = MessageBox.Show(
@@ -80,8 +79,8 @@ namespace UI_90DI
             });
         }
 
-        // Opción 2: restaurar la base desde el último backup. Se confirma incluyendo la
-        // fecha del backup para dejar claro a qué estado volvería la base.
+        // Opción 2: restaurar el último backup. En la confirmación mostramos la fecha
+        // así queda claro a qué momento vuelve la base.
         private void BtnAplicar_Click(object sender, EventArgs e)
         {
             DateTime? fecha = _backup.ObtenerFechaUltimoBackup_90DI();
@@ -127,8 +126,8 @@ namespace UI_90DI
             Close();
         }
 
-        // Corre una acción (backup/restore) con cursor de espera y los botones deshabilitados
-        // para evitar disparos en paralelo mientras SQL trabaja.
+        // Corre el backup/restore con el cursor de espera y los botones deshabilitados,
+        // para que no se pueda disparar otro mientras SQL está trabajando.
         private void EjecutarConEspera(Action accion)
         {
             btnGenerar.Enabled = false;
@@ -148,7 +147,7 @@ namespace UI_90DI
             {
                 Cursor.Current = cursorAnterior;
                 btnGenerar.Enabled = true;
-                // btnAplicar lo re-habilita RefrescarUltimoBackup según haya backup o no.
+                // btnAplicar lo vuelve a habilitar RefrescarUltimoBackup, si hay backup.
                 RefrescarUltimoBackup();
             }
         }
@@ -162,7 +161,7 @@ namespace UI_90DI
             if (traducciones.TryGetValue("backup_btn_aplicar", out v)) btnAplicar.Text = v;
             if (traducciones.TryGetValue("backup_btn_cerrar", out v)) btnCerrar.Text = v;
 
-            // El label de fecha puede estar mostrando "sin backup" traducido: refrescar.
+            // La fecha puede estar mostrando "sin backup" en el idioma anterior, así que la refrescamos.
             RefrescarUltimoBackup();
         }
 

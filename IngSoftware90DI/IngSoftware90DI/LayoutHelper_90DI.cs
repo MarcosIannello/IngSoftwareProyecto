@@ -1,14 +1,13 @@
 namespace UI_90DI
 {
-    // Helper de layout para pantallas completas. Garantiza que el
-    // contenido del form se vea en cualquier resolución/DPI: lo centra en la pantalla,
+    // Para que los forms de pantalla completa se vean bien en cualquier resolución o DPI:
+    // los achica si no entran, los centra y agrega scroll si hace falta.
     
     public static class LayoutHelper_90DI
     {
         public static void AjustarAPantalla_90DI(Form form)
         {
-            // Si el contenido no entra en el área visible, aparecen scrollbars
-            // (nada queda inaccesible) en vez de recortarse.
+            // Si el contenido no entra, que aparezcan scrollbars en vez de que se corte.
             form.AutoScroll = true;
 
             var area = Screen.FromControl(form).WorkingArea;
@@ -20,7 +19,7 @@ namespace UI_90DI
                     Math.Min(form.Width, area.Width),
                     Math.Min(form.Height, area.Height));
 
-            // Evita el maximizado (que corta contenido en pantallas chicas) y centra.
+            // Nada de maximizar (en pantallas chicas corta contenido), lo centramos y listo.
             form.WindowState = FormWindowState.Normal;
             form.StartPosition = FormStartPosition.CenterScreen;
         }

@@ -1,15 +1,14 @@
 namespace Services_90DI.constantes
 {
-    // Configuración del servicio de backup/restore.
+    // Configuración del backup/restore.
     public static class BackupConfig_90DI
     {
-        // Solo el NOMBRE del archivo .bak (no la ruta completa). La carpeta se resuelve
-        // en tiempo de ejecución preguntándole al propio SQL Server su directorio de
-        // backups por defecto (InstanceDefaultBackupPath), así funciona en CUALQUIER
-        // máquina/servidor sin hardcodear una ruta que rompa en otro dispositivo.
+        // Acá va solo el nombre del .bak, no la ruta. La carpeta se le pregunta al SQL Server
+        // en tiempo de ejecución (InstanceDefaultBackupPath), así funciona en cualquier máquina
+        // sin hardcodear una ruta que en otra PC no existe.
         //
-        // Archivo único: cada backup pisa al anterior (WITH INIT) y la restauración por
-        // falla de integridad siempre usa este mismo archivo.
+        // Es un único archivo: cada backup pisa al anterior (WITH INIT) y cuando falla la
+        // integridad se restaura siempre desde este mismo.
         public const string NombreArchivoBackup_90DI = "IngSoftware90DI_backup.bak";
     }
 }

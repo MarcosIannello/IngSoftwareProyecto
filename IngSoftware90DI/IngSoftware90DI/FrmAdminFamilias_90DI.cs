@@ -31,9 +31,9 @@ namespace Capital_
         {
             InitializeComponent();
 
-            // Wiring de eventos (el Designer de Familias no los suscribe, a diferencia
-            // del de Roles). Debe ir antes de marcar el modo inicial para que la
-            // selección inicial dispare las cargas correspondientes.
+            // Los eventos se enganchan a mano porque el Designer de Familias no los tiene
+            // (el de Roles sí). Tiene que ir antes de setear el modo inicial, si no la primera
+            // selección no carga nada.
             rdbModoConsulta.CheckedChanged     += rdbModoConsulta_CheckedChanged;
             rdbModificarFamilia.CheckedChanged += rdbModificarFamilia_CheckedChanged;
             rdbCrearFamilia.CheckedChanged     += rdbCrearFamilia_CheckedChanged;
@@ -42,8 +42,8 @@ namespace Capital_
             btnQuitarPatente.Click   += btnQuitarPatente_Click;
             btnAplicarCambios.Click  += btnAplicarCambios_Click;
             btnEliminarFamilia.Click += btnEliminarFamilia_Click;
-            button2.Click            += button2_Click; // Agregar Familia
-            button1.Click            += button1_Click; // Quitar Familia
+            button2.Click            += button2_Click; // agregar familia
+            button1.Click            += button1_Click; // quitar familia
 
             lstFamilias.SelectedValueChanged         += lstFamilias_SelectedValueChanged;
             lstPatentes.SelectedIndexChanged         += lstPatentes_SelectedIndexChanged;
@@ -88,7 +88,7 @@ namespace Capital_
             UI_90DI.LayoutHelper_90DI.AjustarAPantalla_90DI(this);
         }
 
-        //Carga lst con patentes de bd (creacion / edicion)
+        // Carga la lista con las patentes de la base (para crear o editar)
         private void LoadPatentesLst()
         {
             lstPatentes.DataSource = null;
@@ -113,10 +113,10 @@ namespace Capital_
             btnAplicarCambios.Enabled = false;
             btnEliminarFamilia.Visible = false;
             lstFamilias.Visible = true;
-            // seleccionar la primera familia y mostrar sus patentes
+            // Arrancamos con la primera familia seleccionada
             if (lstFamilias.Items.Count > 0)
             {
-                lstFamilias.SelectedIndex = 0;  // dispara SelectedValueChanged → carga patentes
+                lstFamilias.SelectedIndex = 0;  // esto dispara SelectedValueChanged y carga sus patentes
                 txtNombreFamilia.Text = tempFamilia.Nombre_90DI;
             }
 
@@ -156,7 +156,7 @@ namespace Capital_
             pnlAgregarQuitarFamilias.Visible = true;
 
             if (lstFamilias.Items.Count > 0)
-                lstFamilias.SelectedIndex = 0; // dispara SelectedValueChanged → carga patentes y filtra lstPatentes
+                lstFamilias.SelectedIndex = 0; // dispara SelectedValueChanged: carga las patentes y filtra lstPatentes
         }
 
         public void EnableComponents()
@@ -199,7 +199,7 @@ namespace Capital_
             if (tempPatente == null || tempPatente.IdPatente_90DI == 0) return;
             if (tempFamilia.Patentes_90DI.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI)) return;
 
-            // Bloquear si la patente ya está cubierta por alguna subfamilia asignada
+            // No dejar agregarla si ya la trae alguna subfamilia
             var hijaConflicto = FamiliasHijas.FirstOrDefault(f => f.Patentes_90DI.Any(p => p.IdPatente_90DI == tempPatente.IdPatente_90DI));
             if (hijaConflicto != null)
             {
@@ -218,9 +218,9 @@ namespace Capital_
             lstPatentes.DisplayMember = displayMember;
             if (lstPatentes.Items.Count > 0) lstPatentes.SelectedIndex = 0;
 
-            // Sincronizar tempPatente con el ítem mostrado: al re-bindear el combo
-            // ya auto-selecciona el índice 0, por lo que SelectedIndex = 0 no dispara
-            // SelectedIndexChanged y tempPatente quedaría con la patente anterior.
+            // Hay que actualizar tempPatente a mano: al re-bindear, el combo ya queda en el índice 0,
+            // entonces SelectedIndex = 0 no dispara SelectedIndexChanged y tempPatente
+            // se quedaría con la patente anterior.
             tempPatente = lstPatentes.SelectedItem as Patente_90DI ?? new Patente_90DI();
 
             LstFamiliasPatentes.DataSource = null;
@@ -228,11 +228,11 @@ namespace Capital_
             LstFamiliasPatentes.DisplayMember = displayMember;
         }
 
-        // Retorna mensaje de error si hay patentes redundantes entre directas y subfamilias,
-        // o entre subfamilias entre sí. Null = sin conflicto.
+        // Devuelve un mensaje si hay patentes repetidas entre las directas y las subfamilias,
+        // o entre dos subfamilias. Si está todo bien devuelve null.
         private string? ValidarRedundanciaFamilia()
         {
-            // Patente directa vs subfamilia
+            // Directa repetida en alguna subfamilia
             foreach (var hija in FamiliasHijas)
             {
                 foreach (var p in hija.Patentes_90DI)
@@ -241,7 +241,7 @@ namespace Capital_
                         return string.Format(LanguageManager_90DI.T_90DI("familias_msg_patente_dup"), p.Nombre_90DI, hija.Nombre_90DI);
                 }
             }
-            // Patente compartida entre dos subfamilias
+            // Misma patente en dos subfamilias
             for (int i = 0; i < FamiliasHijas.Count; i++)
             {
                 var idsI = FamiliasHijas[i].Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
@@ -346,7 +346,7 @@ namespace Capital_
             tempPatente = new Patente_90DI();
             ComboFamilia = new Familia_90DI();
             FamiliaHijaSeleccionada = new Familia_90DI();
-            FamiliasHijas = new List<Familia_90DI>();  // reset familias hijas
+            FamiliasHijas = new List<Familia_90DI>();
             txtNombreFamilia.Text = "";
         }
 
@@ -360,12 +360,12 @@ namespace Capital_
 
             tempFamilia = familiaCompleta;
 
-            // mostrar patentes de la familia
+            // Patentes de la familia
             LstFamiliasPatentes.DataSource = null;
             LstFamiliasPatentes.DataSource = tempFamilia.Patentes_90DI;
             LstFamiliasPatentes.DisplayMember = displayMember;
 
-            // mostrar sub-familias — cargar cada una completa para tener sus Patentes disponibles
+            // Subfamilias: las cargamos completas para tener sus patentes a mano
             FamiliasHijas = tempFamilia.SubFamilias_90DI
                 .Select(f => _rolBLL.GetFamiliaCompleta_90DI(f.IdFamilia_90DI) ?? f)
                 .ToList();
@@ -373,11 +373,11 @@ namespace Capital_
             lstFamiliasFamilia.DataSource = FamiliasHijas;
             lstFamiliasFamilia.DisplayMember = displayMember;
 
-            // modo edicion: cargar en lstPatentes las patentes de la familia
-            // y quitar del combo la familia actual
+            // Si está editando: cargamos sus patentes en lstPatentes y sacamos
+            // del combo la propia familia (no puede ser hija de sí misma)
             if (rdbModificarFamilia.Checked)
             {
-                // filtrar patentes que ya pertenecen a la familia
+                // sacamos las que ya tiene
                 var idsEnFamilia = tempFamilia.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
                 PatentesBd = _rolBLL.GetAllPatentes_90DI()
                     .Where(p => !idsEnFamilia.Contains(p.IdPatente_90DI))
@@ -397,7 +397,7 @@ namespace Capital_
             }
         }
 
-        //Agregar / Quitar Familias Hijas En moficacion y creacion
+        // Agregar / quitar familias hijas (alta y modificación)
         private void button2_Click(object sender, EventArgs e)
         {
             if (ComboFamilia == null || ComboFamilia.IdFamilia_90DI == 0) return;
@@ -406,7 +406,7 @@ namespace Capital_
             var familiaCompleta = _rolBLL.GetFamiliaCompleta_90DI(ComboFamilia.IdFamilia_90DI);
             if (familiaCompleta == null) return;
 
-            // Bloquear si la subfamilia contiene una patente ya asignada directamente
+            // No dejar si la subfamilia trae una patente que ya está asignada directo
             foreach (var p in familiaCompleta.Patentes_90DI)
             {
                 if (tempFamilia.Patentes_90DI.Any(dp => dp.IdPatente_90DI == p.IdPatente_90DI))
@@ -419,7 +419,7 @@ namespace Capital_
                 }
             }
 
-            // Bloquear si la subfamilia comparte una patente con otra subfamilia ya agregada
+            // Ni si comparte alguna patente con otra subfamilia ya agregada
             foreach (var hija in FamiliasHijas)
             {
                 var idsHija = hija.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
@@ -444,8 +444,8 @@ namespace Capital_
             RefrescarPatentesDisponibles();
         }
 
-        // Muestra todas las patentes excepto las ya asignadas directamente a la familia.
-        // Las patentes de subfamilias siguen visibles: el warning se dispara al intentar agregarlas.
+        // Muestra todas las patentes menos las que la familia ya tiene directo. Las de las
+        // subfamilias se siguen viendo; si intenta agregarlas salta el aviso.
         private void RefrescarPatentesDisponibles()
         {
             var idsDirectos = tempFamilia.Patentes_90DI.Select(p => p.IdPatente_90DI).ToHashSet();
@@ -468,7 +468,7 @@ namespace Capital_
             lstFamiliasFamilia.DataSource = FamiliasHijas;
             lstFamiliasFamilia.DisplayMember = displayMember;
 
-            RefrescarPatentesDisponibles(); // devuelve patentes de la familia hija quitada
+            RefrescarPatentesDisponibles(); // vuelven las patentes de la subfamilia que se quitó
         }
 
         private void btnQuitarPatente_Click(object sender, EventArgs e)
@@ -476,7 +476,7 @@ namespace Capital_
             if (tempPatente == null || tempPatente.IdPatente_90DI == 0) return;
 
             tempFamilia.Patentes_90DI.Remove(tempPatente);
-            PatentesBd.Add(tempPatente);  // devuelve la patente al listado disponible
+            PatentesBd.Add(tempPatente);  // vuelve a la lista de disponibles
 
             lstPatentes.DataSource = null;
             lstPatentes.DataSource = PatentesBd;
@@ -486,8 +486,8 @@ namespace Capital_
             LstFamiliasPatentes.DataSource = tempFamilia.Patentes_90DI;
             LstFamiliasPatentes.DisplayMember = displayMember;
 
-            // Sincronizar tempPatente con la selección actual de la lista de asignadas,
-            // para poder quitar varias seguidas sin tener que re-clickear.
+            // Actualizamos tempPatente con lo que quedó seleccionado, así se pueden quitar
+            // varias seguidas sin volver a hacer click.
             tempPatente = LstFamiliasPatentes.SelectedItem as Patente_90DI ?? new Patente_90DI();
         }
 

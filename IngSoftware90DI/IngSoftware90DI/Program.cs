@@ -10,7 +10,8 @@ namespace UI_90DI
         [STAThread]
         static void Main()
         {
-            // Clave AES-256 (32 bytes en Base64) para encriptación reversible del campo Email
+            // Clave AES-256 (32 bytes en Base64) para el cifrado reversible. Por ahora no la usa
+            // ninguna entidad, queda para las de negocio.
             SecurityService_90DI.Initialize_90DI("K2bD5gH8jL1nP4rT7vY0zA3cF6iM9qS+uWxEeGhJoQr=");
 
             // To customize application configuration such as set high DPI settings or default font,

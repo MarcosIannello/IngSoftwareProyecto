@@ -13,7 +13,7 @@ namespace BLL_90DI
 
         public BitacoraBLL_90DI() { }
 
-        // Registra un evento ya armado y recalcula la integridad de EVENTOS_90DI.
+        // Guarda el evento y después recalcula el DV de EVENTOS_90DI.
         public bool CreateLogEvent_90DI(Event_90DI logEvent_90DI)
         {
             var result = _dal.CreateLogEvent_90DI(logEvent_90DI);

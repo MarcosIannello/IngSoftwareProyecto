@@ -216,9 +216,9 @@ namespace DAL
             }
             catch (SqlException ex) when (ex.Number == 2601 || ex.Number == 2627)
             {
-                // Violación de índice/constraint único (usuario duplicado). Se relanza como
-                // InvalidOperationException para que la UI muestre un mensaje claro, en vez
-                // de tragarse el error en un booleano indistinguible de cualquier otra falla.
+                // Saltó el índice único (usuario repetido). Lo relanzamos como InvalidOperationException
+                // para que la UI muestre un mensaje claro; si devolvíamos false no había forma de
+                // distinguirlo de cualquier otro error.
                 throw new InvalidOperationException($"El nombre de usuario '{usuario.NombreUsuario_90DI}' ya existe.", ex);
             }
             catch (Exception ex)

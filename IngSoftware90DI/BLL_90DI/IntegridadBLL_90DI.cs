@@ -12,11 +12,11 @@ namespace BLL_90DI
 
         public IntegridadBLL_90DI() { }
 
-        //Metodo para recalcular tabla especifica, se llama desde cada operación que modifica datos (Create, Update, Delete).
+        // Recalcula el DV de una sola tabla. Se llama después de cada alta, baja o modificación.
         public bool RecalcularTabla_90DI(string nombreTabla) =>
             _dal.RecalcularTabla_90DI(nombreTabla);
 
-        // Recalcula la integridad de múltiples tablas a la vez.
+        // Igual que el anterior pero para varias tablas juntas.
         public bool RecalcularTablas_90DI(params string[] tablas)
         {
             foreach (var tabla in tablas)
@@ -27,8 +27,8 @@ namespace BLL_90DI
             return true;
         }
 
-        // Recalcula todas las tablas del registro DV (RegistroDV_90DI es la fuente).
-        // Solo Admin forzar. Registra el evento en bitácora cuando el recálculo fue exitoso.
+        // Recalcula todas las tablas cargadas en RegistroDV_90DI. Solo lo usa el admin,
+        // y si sale bien queda registrado en la bitácora.
         public bool RecalcularTodo_90DI()
         {
             var response = _dal.RecalcularTodo_90DI();
@@ -39,11 +39,11 @@ namespace BLL_90DI
             return response;
         }
 
-        // Verifica la integridad de todo el sistema sin persistir. Devuelve estado
+        // Verifica todo sin guardar nada y devuelve el resultado de cada tabla.
         public List<ResultadoIntegridad_90DI> Verificar_90DI() =>
             _dal.Verificar_90DI();
 
-        // Retorna true si no hay ninguna corrupción detectada.
+        // true si no encontró ninguna tabla corrupta.
         public bool SistemaIntegro_90DI() =>
             !_dal.Verificar_90DI().Any(r => r.EsCorrupto);
     }

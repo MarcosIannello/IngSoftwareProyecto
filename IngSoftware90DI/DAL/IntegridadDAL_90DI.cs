@@ -11,8 +11,8 @@ namespace DAL
 
         public IntegridadDAL_90DI() { }
 
-        // Recalcula y persiste el dígito verificador (TOTAL + FILA + COLUMNA) de una tabla.
-        // Se llama desde BLL después de cada operación de escritura exitosa.
+        // Recalcula y guarda el DV de una tabla (TOTAL, FILA y COLUMNA).
+        // La BLL lo llama después de cada escritura que salió bien.
         public bool RecalcularTabla_90DI(string nombreTabla)
         {
             try
@@ -37,9 +37,9 @@ namespace DAL
             }
         }
 
-        // Recalcula el dígito verificador de TODAS las tablas registradas en RegistroDV_90DI.
-        // Solo debe ser llamado por un administrador (setup inicial, migración, corrección autorizada).
-        // La BD (RegistroDV_90DI) es la fuente autoritativa de qué tablas están bajo DV.
+        // Recalcula el DV de todas las tablas cargadas en RegistroDV_90DI.
+        // Es cosa del admin (setup inicial, migración o reparar a mano). Qué tablas
+        // entran en el DV lo define esa tabla en la base, no el código.
         public bool RecalcularTodo_90DI()
         {
             try
@@ -63,9 +63,8 @@ namespace DAL
             }
         }
 
-        // Verifica la integridad de todas las tablas del catálogo de integridad sin persistir.
-        // Retorna TODOS los resultados (INTEGRO + CORRUPTO + ERROR) con drill-down
-        // a fila y columna afectada cuando hay corrupción.
+        // Verifica todas las tablas del catálogo sin guardar nada. Devuelve todos los resultados
+        // (íntegros, corruptos y errores) y, si algo está corrupto, en qué fila y columna.
         // Se llama al iniciar sesión.
         public List<ResultadoIntegridad_90DI> Verificar_90DI()
         {

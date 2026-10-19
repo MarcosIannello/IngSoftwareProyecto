@@ -12,10 +12,9 @@ namespace UI_90DI
 {
     public partial class FrmLogin_90DI : Form, IObserver_90DI
     {
-        // Patente que habilita a ver/reparar el form de integridad (admin del sistema).
-        // Se reutiliza la patente de administración de roles: el admin de roles es el
-        // admin del sistema. Si en el futuro la integridad necesita un permiso propio,
-        // agregar una patente nueva en Patentes_90DI y referenciarla acá.
+        // Patente que habilita a ver y reparar la integridad. Por ahora usamos la de
+        // administración de roles, porque el que administra roles es el admin del sistema.
+        // Si más adelante hace falta un permiso propio, se agrega en Patentes_90DI y se cambia acá.
         private const string PATENTE_ADMIN_INTEGRIDAD = Patentes_90DI.AdminRoles;
         private readonly UsersBLL_90DI      _usuariosBLL = new UsersBLL_90DI();
         private readonly IntegridadBLL_90DI _integridad  = new IntegridadBLL_90DI();
@@ -27,11 +26,11 @@ namespace UI_90DI
 
             LanguageManager_90DI.Current_90DI.AddObserver_90DI(this);
 
-            // Aplicar el idioma actual (Español por defecto, o el que haya en sesión).
+            // Idioma actual (español por defecto, o el que ya esté en la sesión).
             LanguageManager_90DI.Current_90DI.NotifyAllObservers_90DI(SessionManager_90DI.Instancia_90DI.IdiomaActual_90DI);
         }
 
-        // Observer: recibe el diccionario de traducciones y actualiza los controles.
+        // Observer: llegan las traducciones nuevas y actualizamos los textos.
         public void UpdateLanguage_90DI(Dictionary<string, string> traducciones)
         {
             if (traducciones.TryGetValue("login_titulo", out var titulo))    label1.Text    = titulo;
@@ -49,7 +48,7 @@ namespace UI_90DI
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this); // remueve solo este form, no todos los observers
+            LanguageManager_90DI.Current_90DI.Unsubscribe_90DI(this); // solo este form, no todos los observers
             base.OnFormClosed(e);
         }
 
@@ -70,7 +69,7 @@ namespace UI_90DI
                 else
                     user = _usuariosBLL.Login_90DI(txt_LoginName.Text, txt_loginPass.Text);
 #else
-                // autenticacion usuario
+                // Autenticación
                 user = _usuariosBLL.Login_90DI(txt_LoginName.Text, txt_loginPass.Text);
 #endif
 
@@ -89,23 +88,23 @@ namespace UI_90DI
                     return;
                 }
 
-                // Cargar las patentes efectivas del usuario en la sesión 
+                // Cargamos en la sesión las patentes efectivas del usuario
                 int idRol = int.TryParse(user!.Rol_90DI, out var r) ? r : 0;
                 SessionManager_90DI.Instancia_90DI.PatentesActivas_90DI = _rolesBLL.GetPatentesEfectivas_90DI(idRol);
 
-                // Verificacion de integridad del sistema ANTES de cualquier escritura
+                // Verificamos la integridad antes de escribir cualquier cosa en la base
                 var resultados = _integridad.Verificar_90DI();
                 var corruptos  = resultados.Where(r => r.EsCorrupto).ToList();
 
                 if (corruptos.Any())
                 {
-                    // Solo un administrador (tiene la patente correspondiente) puede ver
-                    // y reparar la integridad. El usuario común queda sin acceso.
+                    // Solo el admin (el que tiene la patente) puede ver y reparar la integridad.
+                    // Un usuario común no puede entrar.
                     bool esAdmin = SessionManager_90DI.Instancia_90DI.TienePatente_90DI(PATENTE_ADMIN_INTEGRIDAD);
 
                     if (esAdmin)
                     {
-                        //mostrar form con todos los resultados
+                        // Le mostramos el form con todos los resultados
                         var frmIntegridad = new FrmAdminIntegridad_90DI(resultados);
                         var resultado = frmIntegridad.ShowDialog();
 
@@ -114,9 +113,9 @@ namespace UI_90DI
                     }
                     else
                     {
-                        // Usuario común: no permitir acceso, cerrar sesión.
-                        // No se revela la causa (problema de integridad) para no exponer
-                        // información sensible del estado del sistema a un usuario no admin.
+                        // Usuario común: cerramos la sesión y no lo dejamos entrar. No le decimos que
+                        // es un problema de integridad, esa info del estado del sistema no tiene
+                        // por qué verla alguien que no es admin.
                         SessionManager_90DI.Instancia_90DI.CerrarSesion_90DI();
                         MessageBox.Show(
                             "No es posible iniciar sesión en este momento.\n\nPor favor, comuníquese con un administrador.",
@@ -127,8 +126,8 @@ namespace UI_90DI
                     }
                 }
 
-                // Aplicar el idioma guardado del usuario: notifica a todos los observers
-                // (incluye este form) antes de abrir el menú.
+                // Aplicamos el idioma guardado del usuario antes de abrir el menú
+                // (se avisa a todos los observers, este form incluido).
                 if (!string.IsNullOrEmpty(user!.Idioma_90DI))
                 {
                     var idiomaUsuario = new Idioma_90DI
@@ -154,7 +153,7 @@ namespace UI_90DI
             this.Close();
         }
 
-        // Limpia los campos para una nueva sesión (al volver desde el logout).
+        // Limpia los campos para el próximo login (cuando vuelve del logout).
         public void ResetCampos_90DI()
         {
             txt_LoginName.Text = "";
