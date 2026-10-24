@@ -1,3 +1,4 @@
+using System.Globalization;
 using DAL;
 using Services_90DI.entities;
 using Services_90DI.constantes;
@@ -12,20 +13,11 @@ namespace BLL_90DI
 
         public IntegridadBLL_90DI() { }
 
-        // Recalcula el DV de una sola tabla. Se llama después de cada alta, baja o modificación.
-        public bool RecalcularTabla_90DI(string nombreTabla) =>
-            _dal.RecalcularTabla_90DI(nombreTabla);
-
-        // Igual que el anterior pero para varias tablas juntas.
-        public bool RecalcularTablas_90DI(params string[] tablas)
-        {
-            foreach (var tabla in tablas)
-            {
-                if (!_dal.RecalcularTabla_90DI(tabla))
-                    return false;
-            }
-            return true;
-        }
+        // Recalcula el DV solo de las filas donde [columna] = valor. Se llama después de cada
+        // alta, baja o modificación con lo que tocó ese ABM, nunca con la tabla entera:
+        // recalcular todo daría por buena cualquier modificación manual que hubiera.
+        public bool RecalcularFilas_90DI(string tabla, string columna, object valor) =>
+            _dal.RecalcularFilas_90DI(tabla, columna, Convert.ToString(valor, CultureInfo.InvariantCulture) ?? "");
 
         // Recalcula todas las tablas cargadas en RegistroDV_90DI. Solo lo usa el admin,
         // y si sale bien queda registrado en la bitácora.
@@ -40,11 +32,23 @@ namespace BLL_90DI
         }
 
         // Verifica todo sin guardar nada y devuelve el resultado de cada tabla.
-        public List<ResultadoIntegridad_90DI> Verificar_90DI() =>
-            _dal.Verificar_90DI();
+        // Las tablas que el código da por protegidas tienen que aparecer sí o sí: si falta alguna
+        // (la verificación falló o la sacaron de RegistroDV_90DI) se agrega como ERROR.
+        public List<ResultadoIntegridad_90DI> Verificar_90DI()
+        {
+            var resultados = _dal.Verificar_90DI();
 
-        // true si no encontró ninguna tabla corrupta.
+            foreach (var tabla in TablasDV_90DI.Todas)
+            {
+                if (!resultados.Any(r => string.Equals(r.NombreTabla_90DI, tabla, StringComparison.OrdinalIgnoreCase)))
+                    resultados.Add(new ResultadoIntegridad_90DI { NombreTabla_90DI = tabla, Estado_90DI = "ERROR" });
+            }
+
+            return resultados;
+        }
+
+        // true solo si todas las tablas dieron INTEGRO (un ERROR también cuenta como problema).
         public bool SistemaIntegro_90DI() =>
-            !_dal.Verificar_90DI().Any(r => r.EsCorrupto);
+            Verificar_90DI().All(r => r.EsIntegro);
     }
 }

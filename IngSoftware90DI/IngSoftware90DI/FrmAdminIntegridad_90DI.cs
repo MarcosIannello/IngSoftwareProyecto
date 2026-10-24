@@ -125,7 +125,7 @@ namespace Capital_
 
                 // Verificamos de nuevo sobre la base ya restaurada.
                 var nuevos          = _integridad.Verificar_90DI();
-                var nuevosCorruptos = nuevos.Where(r => r.EsCorrupto).ToList();
+                var nuevosCorruptos = nuevos.Where(r => !r.EsIntegro).ToList();
                 MostrarResultados(nuevos);
 
                 if (!nuevosCorruptos.Any())
@@ -185,7 +185,7 @@ namespace Capital_
                 }
 
                 var nuevos         = _integridad.Verificar_90DI();
-                var nuevosCorruptos = nuevos.Where(r => r.EsCorrupto).ToList();
+                var nuevosCorruptos = nuevos.Where(r => !r.EsIntegro).ToList();
                 MostrarResultados(nuevos);
 
                 if (!nuevosCorruptos.Any())

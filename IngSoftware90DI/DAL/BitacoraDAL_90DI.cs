@@ -23,7 +23,8 @@ namespace DAL
                         cmd.CommandText =
                             """
                             INSERT INTO EVENTOS_90DI (Login, Fecha, Hora, Modulo, Evento, Criticidad)
-                            VALUES (@Login, @Fecha, @Hora, @Modulo, @Evento, @Criticidad)
+                            VALUES (@Login, @Fecha, @Hora, @Modulo, @Evento, @Criticidad);
+                            SELECT CAST(SCOPE_IDENTITY() AS INT);
                             """;
                         cmd.Parameters.AddWithValue("@Login", logEvent_90DI.Login_90DI);
                         cmd.Parameters.AddWithValue("@Fecha", logEvent_90DI.Fecha_90DI.Date);
@@ -32,9 +33,12 @@ namespace DAL
                         cmd.Parameters.AddWithValue("@Evento", logEvent_90DI.Evento_90DI);
                         cmd.Parameters.AddWithValue("@Criticidad", logEvent_90DI.Criticidad_90DI);
 
-                        var rows = cmd.ExecuteNonQuery();
+                        // Nos quedamos con el id nuevo: la BLL lo usa para recalcular el DV solo de esta fila
+                        var scalar = cmd.ExecuteScalar();
+                        if (scalar == null || scalar == DBNull.Value) return false;
+                        logEvent_90DI.IdEvento_90DI = Convert.ToInt32(scalar);
 
-                        return rows > 0;
+                        return true;
                     }
                 }
             }

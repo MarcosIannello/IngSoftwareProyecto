@@ -11,9 +11,10 @@ namespace DAL
 
         public IntegridadDAL_90DI() { }
 
-        // Recalcula y guarda el DV de una tabla (TOTAL, FILA y COLUMNA).
-        // La BLL lo llama después de cada escritura que salió bien.
-        public bool RecalcularTabla_90DI(string nombreTabla)
+        // Recalcula el DV solo de las filas donde [columna] = valor (lo que tocó el ABM) y ajusta
+        // COLUMNA y TOTAL con la diferencia. El resto de la tabla no se toca: si alguien modificó
+        // otra fila a mano, sigue sin coincidir y la verificación la detecta.
+        public bool RecalcularFilas_90DI(string nombreTabla, string columna, string valor)
         {
             try
             {
@@ -25,6 +26,8 @@ namespace DAL
                         cmd.CommandText = "sp_RecalcularDV_90DI";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@NombreTabla", nombreTabla);
+                        cmd.Parameters.AddWithValue("@Columna", columna);
+                        cmd.Parameters.AddWithValue("@Valor", valor);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -32,7 +35,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"[IntegridadDAL] RecalcularTabla_90DI - Tabla: {nombreTabla}");
+                _logger.Error(ex, $"[IntegridadDAL] RecalcularFilas_90DI - Tabla: {nombreTabla}, {columna} = {valor}");
                 return false;
             }
         }
@@ -65,7 +68,8 @@ namespace DAL
 
         // Verifica todas las tablas del catálogo sin guardar nada. Devuelve todos los resultados
         // (íntegros, corruptos y errores) y, si algo está corrupto, en qué fila y columna.
-        // Se llama al iniciar sesión.
+        // Se llama al iniciar sesión. Si falla devuelve la lista vacía; la BLL la completa con
+        // ERROR para que no quede como íntegro.
         public List<ResultadoIntegridad_90DI> Verificar_90DI()
         {
             var resultados = new List<ResultadoIntegridad_90DI>();
