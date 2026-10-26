@@ -13,12 +13,12 @@ namespace BLL_90DI
 
         public BitacoraBLL_90DI() { }
 
-        // Guarda el evento y después recalcula el DV de EVENTOS_90DI.
+        // Guarda el evento y después recalcula el DV solo de esa fila de EVENTOS_90DI.
         public bool CreateLogEvent_90DI(Event_90DI logEvent_90DI)
         {
             var result = _dal.CreateLogEvent_90DI(logEvent_90DI);
             if (result)
-                Integridad.RecalcularTabla_90DI(TablasDV_90DI.Eventos);
+                Integridad.RecalcularFilas_90DI(TablasDV_90DI.Eventos, TablasDV_90DI.ColIdEvento, logEvent_90DI.IdEvento_90DI);
             return result;
         }
 

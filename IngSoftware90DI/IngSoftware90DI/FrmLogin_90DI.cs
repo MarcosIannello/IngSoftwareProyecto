@@ -92,9 +92,10 @@ namespace UI_90DI
                 int idRol = int.TryParse(user!.Rol_90DI, out var r) ? r : 0;
                 SessionManager_90DI.Instancia_90DI.PatentesActivas_90DI = _rolesBLL.GetPatentesEfectivas_90DI(idRol);
 
-                // Verificamos la integridad antes de escribir cualquier cosa en la base
+                // Verificamos la integridad. Cualquier tabla que no dé INTEGRO bloquea el acceso,
+                // también si la verificación dio ERROR: si no se pudo verificar, no se da por buena.
                 var resultados = _integridad.Verificar_90DI();
-                var corruptos  = resultados.Where(r => r.EsCorrupto).ToList();
+                var corruptos  = resultados.Where(r => !r.EsIntegro).ToList();
 
                 if (corruptos.Any())
                 {
@@ -119,9 +120,9 @@ namespace UI_90DI
                         SessionManager_90DI.Instancia_90DI.CerrarSesion_90DI();
                         MessageBox.Show(
                             "No es posible iniciar sesión en este momento.\n\nPor favor, comuníquese con un administrador.",
-                            "Error",
+                            "Atención",
                             MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                            MessageBoxIcon.Warning);
                         return;
                     }
                 }

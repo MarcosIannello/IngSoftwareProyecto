@@ -42,7 +42,7 @@ namespace BLL
                     Evento_90DI     = $"Alta familia: {familia.Nombre_90DI}",
                     Criticidad_90DI = 1
                 });
-                _integridad.RecalcularTablas_90DI(TablasDV_90DI.Familias);
+                RecalcularDVFamilia_90DI(familia.IdFamilia_90DI);
             }
             return result;
         }
@@ -102,7 +102,7 @@ namespace BLL
                     Evento_90DI     = $"Alta rol: {rol.Nombre_90DI}",
                     Criticidad_90DI = 1
                 });
-                _integridad.RecalcularTablas_90DI(TablasDV_90DI.Roles);
+                RecalcularDVRol_90DI(rol.IdRol_90DI);
             }
             return result;
         }
@@ -121,7 +121,7 @@ namespace BLL
                     Evento_90DI     = $"Modificación rol ID {rol.IdRol_90DI}: {rol.Nombre_90DI}",
                     Criticidad_90DI = 1
                 });
-                _integridad.RecalcularTablas_90DI(TablasDV_90DI.Roles);
+                RecalcularDVRol_90DI(rol.IdRol_90DI);
             }
             return result;
         }
@@ -148,7 +148,7 @@ namespace BLL
                     Evento_90DI     = $"Baja familia ID {idFamilia}: {nombreFamilia}",
                     Criticidad_90DI = 2
                 });
-                _integridad.RecalcularTablas_90DI(TablasDV_90DI.FamiliasConRol);
+                RecalcularDVFamilia_90DI(idFamilia, esBaja: true);
             }
             return result;
         }
@@ -167,7 +167,7 @@ namespace BLL
                     Evento_90DI     = $"Baja rol ID {idRol}: {nombreRol}",
                     Criticidad_90DI = 2
                 });
-                _integridad.RecalcularTablas_90DI(TablasDV_90DI.Roles);
+                RecalcularDVRol_90DI(idRol);
             }
             return result;
         }
@@ -186,9 +186,32 @@ namespace BLL
                     Evento_90DI     = $"Modificación familia ID {familia.IdFamilia_90DI}: {familia.Nombre_90DI}",
                     Criticidad_90DI = 1
                 });
-                _integridad.RecalcularTablas_90DI(TablasDV_90DI.Familias);
+                RecalcularDVFamilia_90DI(familia.IdFamilia_90DI);
             }
             return result;
+        }
+
+        // DV de un rol y sus relaciones (alta, modificación o baja del rol).
+        private void RecalcularDVRol_90DI(int idRol)
+        {
+            _integridad.RecalcularFilas_90DI(TablasDV_90DI.Rol,        TablasDV_90DI.ColIdRol, idRol);
+            _integridad.RecalcularFilas_90DI(TablasDV_90DI.RolPatente, TablasDV_90DI.ColIdRol, idRol);
+            _integridad.RecalcularFilas_90DI(TablasDV_90DI.RolFamilia, TablasDV_90DI.ColIdRol, idRol);
+        }
+
+        // DV de una familia y sus relaciones. En la baja también se borran las filas donde
+        // la familia era subfamilia de otra o estaba asignada a un rol.
+        private void RecalcularDVFamilia_90DI(int idFamilia, bool esBaja = false)
+        {
+            _integridad.RecalcularFilas_90DI(TablasDV_90DI.Familia,        TablasDV_90DI.ColIdFamilia,      idFamilia);
+            _integridad.RecalcularFilas_90DI(TablasDV_90DI.FamiliaPatente, TablasDV_90DI.ColIdFamilia,      idFamilia);
+            _integridad.RecalcularFilas_90DI(TablasDV_90DI.FamiliaFamilia, TablasDV_90DI.ColIdFamiliaPadre, idFamilia);
+
+            if (esBaja)
+            {
+                _integridad.RecalcularFilas_90DI(TablasDV_90DI.FamiliaFamilia, TablasDV_90DI.ColIdFamiliaHija, idFamilia);
+                _integridad.RecalcularFilas_90DI(TablasDV_90DI.RolFamilia,     TablasDV_90DI.ColIdFamilia,     idFamilia);
+            }
         }
     }
 }

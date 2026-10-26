@@ -69,7 +69,7 @@ namespace BLL_90DI
                     if (_intentos >= MAX_INTENTOS)
                     {
                         _dal.BlockUser_90DI(user.IdUsuario_90DI);
-                        _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                        _integridad.RecalcularFilas_90DI(TablasDV_90DI.User, TablasDV_90DI.ColIdUsuario, user.IdUsuario_90DI);
                         return new User_90DI { Bloqueo_90DI = true };
                     }
                     return null;
@@ -107,7 +107,7 @@ namespace BLL_90DI
             if (result)
             {
                 CreateLogEvent_90DI("Contraseña actualizada para el usuario ID: " + idUsuario, 2);
-                _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                _integridad.RecalcularFilas_90DI(TablasDV_90DI.User, TablasDV_90DI.ColIdUsuario, idUsuario);
             }
             return result;
         }
@@ -117,7 +117,7 @@ namespace BLL_90DI
             var result = _dal.UpdateIdioma_90DI(idUsuario, idioma);
             if (result)
             {
-                _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                _integridad.RecalcularFilas_90DI(TablasDV_90DI.User, TablasDV_90DI.ColIdUsuario, idUsuario);
                 if (registrarBitacora)
                     CreateLogEvent_90DI($"Cambio de idioma a '{idioma}' para usuario ID: {idUsuario}", 3);
             }
@@ -158,7 +158,8 @@ namespace BLL_90DI
                 if (response)
                 {
                     CreateLogEvent_90DI("Usuario creado exitosamente: " + user.NombreUsuario_90DI, 2);
-                    _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                    // Todavía no tenemos el id nuevo; el nombre de usuario es único
+                    _integridad.RecalcularFilas_90DI(TablasDV_90DI.User, TablasDV_90DI.ColNombreUsuario, user.NombreUsuario_90DI);
                 }
                 return response;
             }
@@ -180,7 +181,7 @@ namespace BLL_90DI
                 // Al desbloquear se le vuelve a poner la clave inicial (DNI + Apellido)
                 _dal.UpdatePassword_90DI(user.IdUsuario_90DI, getHashPassword_90DI(user.DNI_90DI + user.Apellidos_90DI));
                 CreateLogEvent_90DI("Usuario desbloqueado y contraseña reseteada: " + user.NombreUsuario_90DI, 3);
-                _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                _integridad.RecalcularFilas_90DI(TablasDV_90DI.User, TablasDV_90DI.ColIdUsuario, user.IdUsuario_90DI);
             }
             return response;
         }
@@ -199,7 +200,7 @@ namespace BLL_90DI
                 if (response)
                 {
                     CreateLogEvent_90DI("Usuario actualizado exitosamente: " + user.NombreUsuario_90DI, 2);
-                    _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                    _integridad.RecalcularFilas_90DI(TablasDV_90DI.User, TablasDV_90DI.ColIdUsuario, user.IdUsuario_90DI);
                 }
                 return response;
             }
@@ -227,7 +228,7 @@ namespace BLL_90DI
                 if (response) CreateLogEvent_90DI("Usuario activado: " + user.NombreUsuario_90DI, 1);
             }
             if (response)
-                _integridad.RecalcularTabla_90DI(TablasDV_90DI.User);
+                _integridad.RecalcularFilas_90DI(TablasDV_90DI.User, TablasDV_90DI.ColIdUsuario, user.IdUsuario_90DI);
             return response;
         }
 

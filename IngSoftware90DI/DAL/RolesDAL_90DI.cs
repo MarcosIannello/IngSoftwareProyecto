@@ -179,6 +179,7 @@ namespace DAL
                 var scalar = cmd.ExecuteScalar();
                 if (scalar == null) return false;
                 int idRol = Convert.ToInt32(scalar);
+                rol.IdRol_90DI = idRol; // la BLL lo necesita para recalcular el DV del rol nuevo
 
                 // 2. las patentes sueltas
                 foreach (var p in rol.Patentes_90DI)
@@ -252,6 +253,7 @@ namespace DAL
                 var scalar = cmd.ExecuteScalar();
                 if (scalar == null) return false;
                 int idFamilia = Convert.ToInt32(scalar);
+                familia.IdFamilia_90DI = idFamilia; // la BLL lo necesita para recalcular el DV de la familia nueva
 
                 foreach (var patente in familia.Patentes_90DI)
                 {

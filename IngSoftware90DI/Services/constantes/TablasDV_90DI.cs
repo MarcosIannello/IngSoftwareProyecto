@@ -15,18 +15,18 @@ namespace Services_90DI.constantes
         public const string FamiliaPatente = "Familia_Patente_90DI";
         public const string FamiliaFamilia = "Familia_Familia_90DI";
 
-        
+        // Columnas por las que se acota el recálculo después de un ABM
+        public const string ColIdUsuario      = "IdUsuario_90DI";
+        public const string ColNombreUsuario  = "NombreUsuario_90DI";
+        public const string ColIdEvento       = "Id_Evento";
+        public const string ColIdRol          = "IdRol_90DI";
+        public const string ColIdFamilia      = "IdFamilia_90DI";
+        public const string ColIdFamiliaPadre = "IdFamiliaPadre_90DI";
+        public const string ColIdFamiliaHija  = "IdFamiliaHija_90DI";
 
-        // Un ABM de Rol toca el rol y sus relaciones.
-        public static readonly string[] Roles =
-            { Rol, RolPatente, RolFamilia };
-
-        // Un ABM de Familia toca la familia y sus relaciones.
-        public static readonly string[] Familias =
-            { Familia, FamiliaPatente, FamiliaFamilia };
-
-        // Borrar una familia además afecta a Rol_Familia.
-        public static readonly string[] FamiliasConRol =
-            { Familia, FamiliaPatente, FamiliaFamilia, RolFamilia };
+        // Las tablas que el código da por protegidas. Si alguna falta en el resultado de la
+        // verificación (por ejemplo, la sacaron de RegistroDV_90DI) se trata como ERROR.
+        public static readonly string[] Todas =
+            { Patente, User, Rol, Familia, Eventos, RolPatente, RolFamilia, FamiliaPatente, FamiliaFamilia };
     }
 }
